@@ -3,34 +3,34 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 
-const Statistics = ({feedback}) => {
+const Statistic = ({text, value}) => <div>{text}: {value}</div>
 
+const Statistics = ({feedback}) => {
   const all = feedback.good + feedback.bad + feedback.neutral
   const average = ((1 * feedback.good) - (1 * feedback.bad))/all || 0
   const positive = `${feedback.good / all || 0}%`
 
-  if (all === 0) {
-    return(
-      <p>No feedback given</p>
-    )
-  }
+  if (all === 0) return <p>No feedback given</p>
 
   return(
     <>
       <h2>Statistics</h2>
-      <p>Good: {feedback.good}</p>
-      <p>Neutral: {feedback.neutral}</p>
-      <p>Bad: {feedback.bad}</p>
-      <p>All: {all}</p>
-      <p>Average: {average}</p>
-      <p>Positive: {positive}</p>
+      <Statistic text="Good" value={feedback.good}/>
+      <Statistic text="Neutral" value={feedback.neutral}/>
+      <Statistic text="Bad" value={feedback.bad}/>
+      <Statistic text="All" value={all}/>
+      <Statistic text="Average" value={average}/>
+      <Statistic text="Positive" value={positive}/>
     </>
   )
 }
 
 
-
-
+const Button = ({onclick, type}) => {
+  return (
+    <button onClick={onclick(type)}>{type}</button>
+  )
+}
 
 
 const App = () => {
@@ -41,17 +41,16 @@ const App = () => {
     neutral: 0
   })
 
-  const handleFeedback = (type) => {
-    setFeedback( {...feedback, [type]: feedback[type] + 1})
-  }
-
+  const handleFeedback = type => () => setFeedback({
+    ...feedback, [type]: feedback[type] + 1
+  })
 
   return (
     <div>
       <h1>Give feedback</h1>
-      <button onClick={() => handleFeedback("good")}>Good</button>
-      <button onClick={() => handleFeedback("neutral")}>Neutral</button>
-      <button onClick={() => handleFeedback("bad")}>Bad</button>
+      <Button onclick={handleFeedback} type="good"/>
+      <Button onclick={handleFeedback} type="neutral"/>
+      <Button onclick={handleFeedback} type="bad"/>
       <Statistics feedback={feedback}/>
     </div>
   )
