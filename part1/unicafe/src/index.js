@@ -23,12 +23,14 @@ const Statistics = ({feedback}) => {
     <>
       <h2>Statistics</h2>
       <table>
-        <Statistic text="Good" value={feedback.good}/>
-        <Statistic text="Neutral" value={feedback.neutral}/>
-        <Statistic text="Bad" value={feedback.bad}/>
-        <Statistic text="All" value={all}/>
-        <Statistic text="Average" value={average}/>
-        <Statistic text="Positive" value={positive}/>
+        <tbody>
+          <Statistic text="Good" value={feedback.good}/>
+          <Statistic text="Neutral" value={feedback.neutral}/>
+          <Statistic text="Bad" value={feedback.bad}/>
+          <Statistic text="All" value={all}/>
+          <Statistic text="Average" value={average}/>
+          <Statistic text="Positive" value={positive}/>
+        </tbody>
       </table>
     </>
   )
