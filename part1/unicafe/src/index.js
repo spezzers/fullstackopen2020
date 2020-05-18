@@ -3,7 +3,14 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 
-const Statistic = ({text, value}) => <div>{text}: {value}</div>
+const Statistic = ({text, value}) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 
 const Statistics = ({feedback}) => {
   const all = feedback.good + feedback.bad + feedback.neutral
@@ -15,12 +22,14 @@ const Statistics = ({feedback}) => {
   return(
     <>
       <h2>Statistics</h2>
-      <Statistic text="Good" value={feedback.good}/>
-      <Statistic text="Neutral" value={feedback.neutral}/>
-      <Statistic text="Bad" value={feedback.bad}/>
-      <Statistic text="All" value={all}/>
-      <Statistic text="Average" value={average}/>
-      <Statistic text="Positive" value={positive}/>
+      <table>
+        <Statistic text="Good" value={feedback.good}/>
+        <Statistic text="Neutral" value={feedback.neutral}/>
+        <Statistic text="Bad" value={feedback.bad}/>
+        <Statistic text="All" value={all}/>
+        <Statistic text="Average" value={average}/>
+        <Statistic text="Positive" value={positive}/>
+      </table>
     </>
   )
 }
