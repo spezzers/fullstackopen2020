@@ -2,12 +2,9 @@ import React from 'react';
 import Part from './Part'
 
 const Content = (props) => {
+    const partArray = props.parts.map(part => <Part part={part}/>)
     return (
-        <>
-            <Part part={props.part1}/>
-            <Part part={props.part2}/>
-            <Part part={props.part3}/>
-        </>
+        partArray
     )
 }
 
