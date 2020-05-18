@@ -9,6 +9,11 @@ const Statistics = ({feedback}) => {
   const average = ((1 * feedback.good) - (1 * feedback.bad))/all || 0
   const positive = `${feedback.good / all || 0}%`
 
+  if (all === 0) {
+    return(
+      <p>No feedback given</p>
+    )
+  }
 
   return(
     <>
