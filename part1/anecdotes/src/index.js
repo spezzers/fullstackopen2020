@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import './index.css'
 
 const anecdotes = [
   'If it hurts, do it more often',
@@ -12,32 +13,47 @@ const anecdotes = [
 
 
 const App = () => {
+
   const [ state, setState] = useState({
     selected: 0,
     votes: Array(anecdotes.length).fill(0)
   })
-  const newAnecdote = () => {
-    setState({...state, selected: Math.floor(Math.random()*(anecdotes.length - 1))})
-  }
+  
+  const newAnecdote = () => setState({
+    ...state,
+    selected: Math.floor(Math.random()*(anecdotes.length - 1))
+  })
+  
+  const voteArray = state.votes
+
   const vote = () => {
-    const newVote = state.votes
-    newVote[state.selected] += 1
-    setState({...state, votes: newVote})
+    voteArray[state.selected] += 1
+    setState({
+      ...state,
+      votes: voteArray
+    })
   }
+
+  const mostVotes = voteArray.indexOf(Math.max(...voteArray))
+
   return (
     <>
       <div>
-        <p>{anecdotes[state.selected]}</p>
-        <p><em>Has {state.votes[state.selected]} votes</em></p>
+        <p>"<em>{anecdotes[state.selected]}</em>"</p>
+        <p>Has {state.votes[state.selected]} votes</p>
       </div>
       <div>
         <button onClick={vote}>Vote</button>
         <button onClick={newAnecdote}>Next anecdote</button>
       </div>
+      <div>
+        <h3>Anecdote with the most votes</h3>
+        <p>"{anecdotes[mostVotes]}"</p>
+        <p>Has {state.votes[mostVotes]} votes</p>
+      </div>
     </>
   )
 }
-
 
 
 ReactDOM.render(
