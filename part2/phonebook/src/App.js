@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './App.css';
 
 
 const Persons = ({peeps}) => {
@@ -14,25 +13,22 @@ const App = () => {
 
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas' }
-  ]) 
+  ])
   const [ newName, setNewName ] = useState('')
 
 
   const handleInput = event => setNewName(event.target.value)
-  
+
   const addPerson = event => {
     event.preventDefault()
-    const names = persons.map(person => person.name)
-
-    console.log(`${names} includes ${newName}? ${names.includes(newName)}`)
-    if(names.includes(newName)) {
+    if(persons.map(person => person.name).includes(newName)) {
       alert(`'${newName}' is already in the phonebook`)
     }
     else {
       setPersons(persons.concat({name: newName}))
       setNewName('')}
   }
-
+  
 
   return (
     <div>
