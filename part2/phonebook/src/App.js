@@ -1,13 +1,49 @@
 import React, { useState } from 'react'
 
 
+const Filter = (props) => {
+  return (
+    <div>
+        filter: <input value={props.value} onChange={props.onChange}/>
+    </div>
+  )
+}
+
 const Persons = ({peeps, filter}) => {
   const filteredPeeps = peeps.filter(person => person.name.toUpperCase().includes(filter.toUpperCase()))
   const listPeeps = filteredPeeps.map(
     person => <div key={person.name}>{`${person.name} ${person.number}`}</div>
   )
-  return <>{listPeeps}</>
+  return (
+    <>
+      <h2>Numbers</h2>
+      {listPeeps}
+    </>
+  )
 }
+
+
+const Form = (props) => {
+
+  return (
+    <>
+      <h2>Add new</h2>
+      <form onSubmit={props.onSubmit}>
+        <div>
+          name: <input value={props.nameValue} onChange={props.nameInput}/>
+        </div>
+        <div>
+          number: <input value={props.numberValue} onChange={props.numberInput}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </>
+  )
+}
+
+
 
 
 const App = () => {
@@ -45,22 +81,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        filter: <input value={filter} onChange={handleFilterInput}/>
-      </div>
-      <h2>Add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameInput}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInput}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Filter value={filter} onChange={handleFilterInput}/>
+      <Form nameValue={newName} nameInput={handleNameInput} numberValue={newNumber} numberInput={handleNumberInput} onSubmit={addPerson} />
       <Persons peeps={persons} filter={filter}/>
     </div>
   )
