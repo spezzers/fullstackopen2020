@@ -31,7 +31,7 @@ const Display = ({data, search}) => {
                 <div>population: {country.population}</div>
                 <h3>Languages</h3>
                 <ul>{lang}</ul>
-                <img src={country.flag} width="200px"/>
+                <img src={country.flag} alt="flag" width="200px"/>
             </div>
         )
     }
