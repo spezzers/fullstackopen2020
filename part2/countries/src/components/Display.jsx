@@ -1,13 +1,21 @@
 import React from "react"
 
 
-const Display = ({data, search}) => {
+const Display = ({data, search, onClick}) => {
 
     const filteredData = data.filter(
         country => country.name.toUpperCase().includes(search.toUpperCase()))
 
-    const listData = filteredData.map(
-      country => <div key={country.alpha3Code}>{`${country.name}`}</div>)
+    const searchResults = filteredData.map(
+        country => {
+            return (
+                <div key={country.alpha3Code}>
+                    {`${country.name}`}
+                    <button value={country.name} onClick={onClick}>Show</button>
+                </div>
+            )
+        }
+    )
 
     if (search.length === 0) {
         return <div>Start a search to display countries</div>
@@ -38,7 +46,7 @@ const Display = ({data, search}) => {
 
     return (
         <div>
-            {listData}
+            {searchResults}
         </div>
     )
 }

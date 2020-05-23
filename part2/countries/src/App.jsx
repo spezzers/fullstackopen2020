@@ -20,11 +20,13 @@ const App = () => {
   const searchInput = (event) => {
     setSearch(event.target.value)
   }
+  const show = event => setSearch(event.target.value)
+  
   
   return (
     <div>
       <Search value={search} onChange={searchInput}/>
-      <Display data={countries} search={search}/>
+      <Display data={countries} search={search} onClick={show}/>
     </div>
   )
 }
