@@ -11,8 +11,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    contactService.getAll().then(response => {
-      setPersons(response)
+    contactService.getAll().then(initial => {
+      setPersons(initial)
     })
   }, [])
 
