@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Form from './components/Form.jsx'
 import Filter from './components/Filter.jsx'
 import Persons from './components/Persons.jsx'
+import contactService from './services/contacts.js'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,8 +11,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then(response => {
-      setPersons(response.data)
+    contactService.getAll().then(response => {
+      setPersons(response)
     })
   }, [])
 
@@ -25,9 +25,13 @@ const App = () => {
     if (persons.map(person => person.name).includes(newName)) {
       alert(`'${newName}' is already in the phonebook`)
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
-      setNewName('')
-      setNewNumber('')
+      contactService
+        .add({ name: newName, number: newNumber })
+        .then(res => {
+          setPersons(persons.concat(res))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
