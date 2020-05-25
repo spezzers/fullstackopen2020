@@ -20,8 +20,7 @@ const App = () => {
   const handleNumberInput = event => setNewNumber(event.target.value)
   const handleFilterInput = event => setFilter(event.target.value)
 
-  const addPerson = event => {
-    event.preventDefault()
+  const addPerson = () => {
     if (persons.map(person => person.name).includes(newName)) {
       alert(`'${newName}' is already in the phonebook`)
     } else {
@@ -33,6 +32,19 @@ const App = () => {
           setNewNumber('')
         })
     }
+  }
+  const removePerson = (event) => {
+    const id = parseInt(event.target.id)
+    const deleteMe = persons.filter(p => p.id === id)[0]
+    
+    if (window.confirm(`Do you really want to delete ${deleteMe.name}`)) {
+      contactService
+        .remove(id)
+        .then(setPersons(
+          persons.filter(p => p.id !== id)
+        ))
+    }
+      
   }
 
   return (
@@ -46,7 +58,7 @@ const App = () => {
         numberInput={handleNumberInput}
         onSubmit={addPerson}
       />
-      <Persons peeps={persons} filter={filter} />
+      <Persons peeps={persons} filter={filter} remove={removePerson}/>
     </div>
   )
 }
