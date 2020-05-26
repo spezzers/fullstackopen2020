@@ -63,6 +63,10 @@ const App = () => {
 					setPersons(persons.filter(p => p.id !== id))
 					showMessage('notify', `Deleted ${deleteMe.name}`)
 				})
+				.catch(error => {
+					setPersons( persons.filter(p => p.id !== id))
+					showMessage('error', `${deleteMe.name} already deleted from the server`)
+				})
 		}
 	}
 
