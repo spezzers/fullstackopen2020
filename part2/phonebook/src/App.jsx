@@ -11,7 +11,7 @@ const App = () => {
 	const [newName, setNewName] = useState('')
 	const [newNumber, setNewNumber] = useState('')
 	const [filter, setFilter] = useState('')
-	const [message, setMessage] = useState({type: 'success', content:'This is a notification'})
+	const [message, setMessage] = useState({type: '', content:''})
 
 	useEffect(() => {
 		contactService.getAll().then(initial => {
