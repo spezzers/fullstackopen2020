@@ -2,3 +2,4 @@ part2/countries/.env
 lessons/
 node_modules/
 *.code-workspace
+.env
