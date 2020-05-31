@@ -1,3 +1,9 @@
+## Looking for the Full Stack Phonebook (Heroku app)?
+This is the frontend folder. The repo for the full production build (deployed via Heroku) can be found here:  [fullstackopen2020_part3](https://github.com/spezzers/fullstackopen2020_part3)
+
+---------
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
