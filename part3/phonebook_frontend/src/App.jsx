@@ -53,7 +53,7 @@ const App = () => {
 	}
 
 	const removePerson = event => {
-		const id = parseInt(event.target.id)
+		const id = event.target.id
 		const deleteMe = persons.filter(p => p.id === id)[0]
 
 		if (window.confirm(`Do you really want to delete ${deleteMe.name}`)) {
