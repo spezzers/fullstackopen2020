@@ -37,18 +37,24 @@ const App = () => {
 		if (duplicate.length > 0) {
 			if (window.confirm(`'${newName}' is already in the phonebook, update number?`)) {
 				const updatedContact = { ...chosenOne, number: newNumber }
-				contactService.update(chosenOne.id, updatedContact).then(res => {
-					setPersons(persons.map(p => (p.id !== chosenOne.id ? p : res)))
-					showMessage('success', `Updated ${res.name}`)
-					clearForm()
-				})
+				contactService.update(chosenOne.id, updatedContact)
+					.then(res => {
+						setPersons(persons.map(p => (p.id !== chosenOne.id ? p : res)))
+						showMessage('success', `Updated ${res.name}`)
+						clearForm()
+					})
+					.catch(error => showMessage('error', error.response.data)
+				)
 			}
 		} else {
-			contactService.add({ name: newName, number: newNumber }).then(res => {
-				setPersons(persons.concat(res))
-				showMessage('success', `Added ${res.name}`)
-				clearForm()
-			})
+			contactService.add({ name: newName, number: newNumber })
+				.then(res => {
+					setPersons(persons.concat(res))
+					showMessage('success', `Added ${res.name}`)
+					clearForm()
+				})
+				
+
 		}
 	}
 
