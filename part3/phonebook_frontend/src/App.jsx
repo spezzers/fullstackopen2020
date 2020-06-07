@@ -43,16 +43,16 @@ const App = () => {
 						showMessage('success', `Updated ${res.name}`)
 						clearForm()
 					})
-					.catch(error => showMessage('error', error.response.data)
-				)
-			}
-		} else {
-			contactService.add({ name: newName, number: newNumber })
+					.catch(error => showMessage('error', error.response.data))
+				}
+			} else {
+				contactService.add({ name: newName, number: newNumber })
 				.then(res => {
 					setPersons(persons.concat(res))
 					showMessage('success', `Added ${res.name}`)
 					clearForm()
 				})
+				.catch(error => showMessage('error', error.response.data))
 				
 
 		}
