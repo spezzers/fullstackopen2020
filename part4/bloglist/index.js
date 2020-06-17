@@ -7,38 +7,21 @@ app.use(express.json())
 const cors = require('cors')
 app.use(cors())
 const mongoose = require('mongoose')
+const blogListRouter = require('./controllers/blogs')
 
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
+logger.info('connecting to', config.mongoUrl)
 
-const Blog = mongoose.model('Blog', blogSchema)
+
 
 mongoose.connect(config.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-
-app.get('/', (request, response) => {
-    response.send(`<h1>Bloglist</h1><a href='/api/blogs'>Blogs api</a>`)
+.then(() => {
+  logger.info('connected to MongoDB')
 })
-app.get('/api/blogs', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
+.catch((error) => {
+  logger.error('error connection to MongoDB:', error.message)
 })
 
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+app.use('/api/blogs', blogListRouter)
 
 
 app.listen(config.PORT, () => {
