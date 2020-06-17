@@ -22,5 +22,5 @@ app.use(cors())
 app.use('/api/blogs', blogListRouter)
 
 app.listen(config.PORT, () => {
-	logger.info(`Server running on port ${config.PORT}/`)
+	logger.info(`Server running on port ${config.PORT}`)
 })
