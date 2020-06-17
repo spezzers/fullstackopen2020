@@ -11,7 +11,7 @@ const App = () => {
 	const [newName, setNewName] = useState('')
 	const [newNumber, setNewNumber] = useState('')
 	const [filter, setFilter] = useState('')
-	const [message, setMessage] = useState({type: '', content:''})
+	const [message, setMessage] = useState({ type: '', content: '' })
 
 	useEffect(() => {
 		contactService.getAll().then(initial => {
@@ -35,26 +35,30 @@ const App = () => {
 		const chosenOne = duplicate[0]
 
 		if (duplicate.length > 0) {
-			if (window.confirm(`'${newName}' is already in the phonebook, update number?`)) {
+			if (
+				window.confirm(
+					`'${newName}' is already in the phonebook, update number?`
+				)
+			) {
 				const updatedContact = { ...chosenOne, number: newNumber }
-				contactService.update(chosenOne.id, updatedContact)
+				contactService
+					.update(chosenOne.id, updatedContact)
 					.then(res => {
 						setPersons(persons.map(p => (p.id !== chosenOne.id ? p : res)))
 						showMessage('success', `Updated ${res.name}`)
 						clearForm()
 					})
 					.catch(error => showMessage('error', error.response.data))
-				}
-			} else {
-				contactService.add({ name: newName, number: newNumber })
+			}
+		} else {
+			contactService
+				.add({ name: newName, number: newNumber })
 				.then(res => {
 					setPersons(persons.concat(res))
 					showMessage('success', `Added ${res.name}`)
 					clearForm()
 				})
 				.catch(error => showMessage('error', error.response.data))
-				
-
 		}
 	}
 
@@ -70,22 +74,25 @@ const App = () => {
 					showMessage('notify', `Deleted ${deleteMe.name}`)
 				})
 				.catch(error => {
-					setPersons( persons.filter(p => p.id !== id))
-					showMessage('error', `${deleteMe.name} already deleted from the server`)
+					setPersons(persons.filter(p => p.id !== id))
+					showMessage(
+						'error',
+						`${deleteMe.name} already deleted from the server`
+					)
 				})
 		}
 	}
 
 	const showMessage = (type, message, duration) => {
 		const showTime = duration || 4000
-		setMessage({type: type, content: message})
-		setTimeout(() => setMessage({type:'', content: ''}), showTime)
+		setMessage({ type: type, content: message })
+		setTimeout(() => setMessage({ type: '', content: '' }), showTime)
 	}
 
 	return (
 		<div>
 			<h1>Phonebook</h1>
-			<Notification type={message.type} content={message.content}/>
+			<Notification type={message.type} content={message.content} />
 			<Filter value={filter} onChange={handleFilterInput} />
 			<Form
 				nameValue={newName}
