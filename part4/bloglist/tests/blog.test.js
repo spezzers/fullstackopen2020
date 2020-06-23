@@ -162,3 +162,9 @@ describe('4.6 - Author with the most blogs', () => {
 		expect(result).toStrictEqual(expected)
 	})
 })
+describe('4.7 - Author with the most likes', () => {
+	test('The most popular author', () => {
+		const result = listHelper.mostLikes(blogs)
+		expect(result).toStrictEqual(1)
+	})
+})

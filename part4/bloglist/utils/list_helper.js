@@ -1,8 +1,8 @@
 const _ = require('lodash')
 // const logger = require('./logger')
 
-const dummy = blogs => {
-	console.log('dummy:', blogs)
+const dummy = () => {
+	// console.log('dummy:', blogs)
 	return 1
 }
 
@@ -38,9 +38,22 @@ const mostBlogs = blogs => {
 	)
 }
 
+const mostLikes = blogs => {
+	const tally = _.map(blogs, (blog) =>{
+		const result = {
+			'author': blog.author,
+			'likes': blog.likes
+		}
+		return result
+	})
+	console.log(tally)
+	return 1
+}
+
 module.exports = {
 	dummy,
 	totalLikes,
 	favouriteBlog,
-	mostBlogs
+	mostBlogs,
+	mostLikes
 }
