@@ -53,7 +53,6 @@ const blogs = [
 		__v: 0
 	}
 ]
-
 const listWithOneBlog = [
 	{
 		_id: '5a422bc61b54a676234d17a9',
@@ -78,7 +77,7 @@ const listOfBlogs = [
 		title: 'Danish pasteries are the new cupcakes',
 		author: 'Trevor Stevens',
 		url:
-		'http://blog.cookoffanddine.com/opinion/danish-pastries-are-the-new-cupcakes',
+			'http://blog.cookoffanddine.com/opinion/danish-pastries-are-the-new-cupcakes',
 		likes: 140,
 		__v: 0
 	},
@@ -113,7 +112,7 @@ const tieForFave = [
 		title: 'Danish pasteries are the new cupcakes',
 		author: 'Trevor Stevens',
 		url:
-		'http://blog.cookoffanddine.com/opinion/danish-pastries-are-the-new-cupcakes',
+			'http://blog.cookoffanddine.com/opinion/danish-pastries-are-the-new-cupcakes',
 		likes: 140,
 		__v: 0
 	},
@@ -127,7 +126,16 @@ const tieForFave = [
 	}
 ]
 
-describe('Total Likes', () => {
+describe('4.3 Dummy test', () => {
+	test('dummy returns one', () => {
+		const blogs = []
+
+		const result = listHelper.dummy(blogs)
+		expect(result).toBe(1)
+	})
+})
+
+describe('4.4. - Total Likes', () => {
 	test('Total likes for all blog posts', () => {
 		const result = listHelper.totalLikes(blogs)
 		expect(result).toBe(36)
@@ -137,7 +145,7 @@ describe('Total Likes', () => {
 		expect(result).toBe(1)
 	})
 })
-describe('Favourite Blog', () => {
+describe('4.5 - Favourite Blog', () => {
 	test('Blog with most likes', () => {
 		const result = listHelper.favouriteBlog(listOfBlogs)
 		expect(result).toEqual(listOfBlogs[1])
@@ -145,5 +153,12 @@ describe('Favourite Blog', () => {
 	test('Scenario: Tie for favourite blog', () => {
 		const result = listHelper.favouriteBlog(tieForFave)
 		expect(result).toEqual(tieForFave[1])
+	})
+})
+describe('4.6 - Author with the most blogs', () => {
+	test('blogs the most', () => {
+		const result = listHelper.mostBlogs(blogs)
+		const expected = { author: 'Robert C. Martin', blogCount: 3 }
+		expect(result).toStrictEqual(expected)
 	})
 })
