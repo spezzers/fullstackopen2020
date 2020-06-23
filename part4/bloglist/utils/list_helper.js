@@ -7,7 +7,9 @@ const dummy = () => {
 }
 
 const totalLikes = blogs => {
-	const total = blogs.map(post => post.likes).reduce((sum, likes) => sum + likes)
+	const total = blogs
+		.map(post => post.likes)
+		.reduce((sum, likes) => sum + likes)
 	return total
 }
 
@@ -21,32 +23,34 @@ const mostBlogs = blogs => {
 	const tally = _.chain(blogs)
 		.countBy('author')
 		.map((value, key) => {
-			return (
-				{
-					author: key,
-					blogCount: value
-				}
-			)
+			return {
+				author: key,
+				blogCount: value
+			}
 		})
 		.value()
-	const top = _.chain(tally)
-		.maxBy('blogCount')
-		.value()
+	const top = _.chain(tally).maxBy('blogCount').value()
 	// logger.mostBlogs(tally, top)
-	return (
-		top
-	)
+	return top
 }
 
 const mostLikes = blogs => {
-	const tally = _.map(blogs, (blog) =>{
-		const result = {
-			'author': blog.author,
-			'likes': blog.likes
-		}
-		return result
-	})
-	console.log(tally)
+	const uniqueAuthors = _.chain(blogs)
+		.sortedUniqBy('author')
+		.map(x => x.author)
+		.value()
+	const tally = _.chain(blogs)
+		.map(blog => {
+			const result = {
+				author: blog.author,
+				likes: blog.likes
+			}
+			return result
+		})
+		.value()
+	
+	console.log(uniqueAuthors, tally)
+
 	return 1
 }
 
