@@ -35,23 +35,38 @@ const mostBlogs = blogs => {
 }
 
 const mostLikes = blogs => {
-	const uniqueAuthors = _.chain(blogs)
-		.sortedUniqBy('author')
-		.map(x => x.author)
-		.value()
 	const tally = _.chain(blogs)
 		.map(blog => {
-			const result = {
-				author: blog.author,
-				likes: blog.likes
-			}
+			const result = [
+				blog.author,
+				blog.likes
+			]
 			return result
 		})
-		.value()
-	
-	console.log(uniqueAuthors, tally)
+		//  [
+		// 		[ 'Michael Chan', 7 ],
+		// 		[ 'Edsger W. Dijkstra', 5 ],
+		// 		[ 'Edsger W. Dijkstra', 12 ],
+		// 		[ 'Robert C. Martin', 10 ],
+		// 		[ 'Robert C. Martin', 0 ],
+		// 		[ 'Robert C. Martin', 2 ]
+		//  ]
 
-	return 1
+		.reduce((blogs, blog) => {
+			blogs[blog[0]] = blogs[blog[0]] || 0
+			blogs[blog[0]] += blog[1]
+			return blogs
+		}, {})
+		.map((value, key) => {
+			const blogger = {
+				author: key,
+				likes: value
+			}
+			return blogger
+		})
+		.maxBy('likes')
+		.value()
+	return tally
 }
 
 module.exports = {
