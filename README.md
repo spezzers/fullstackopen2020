@@ -4,4 +4,4 @@
 
 ## Questions/further reading
 - Why do I need SuperTest, exactly?
-    - Can I not test (HTTP) API requests without it or something?
+    - It wraps up code so that it is more manageable that callback functions
