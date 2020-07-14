@@ -11,5 +11,5 @@ test('gets all blogs', async () => {
 		.expect('Content-Type', /application\/json/)
 })
 afterAll(() => {
-	mongoose.connection.close
+	mongoose.connection.close()
 })
