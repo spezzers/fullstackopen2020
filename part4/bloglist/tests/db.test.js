@@ -7,13 +7,10 @@ const api = supertest(app)
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
-	// console.log('Blogs Cleared')
 	const blogObjects = helper.initialBlogList.map(blog => new Blog(blog))
 	const promiseArray = blogObjects.map(blog => {
-		// console.log(blog.title, 'Blog saved')
 		blog.save()
 	})
-	// console.log(promiseArray)
 	await Promise.all(promiseArray)
 })
 describe('4.8: Get list of blogs', () => {
@@ -50,6 +47,20 @@ describe('4.10: HTTP POST', () => {
 		const contents = blogsAfter.map(x => x.title)
 
 		expect(contents).toContain('A new Blog is added')
+	})
+})
+describe('4.11: Verify if \'likes\' property is missing', () => {
+	test('\'likes\' default to 0 if not defined', async () => {
+		const newBlog = {
+			title: 'New Blog - No Likes',
+			author: 'Sir Blogsalittle',
+			url: 'www.blogmesideways.com',
+		}
+		const response = await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(201)
+		expect(response.body.likes).toEqual(0)
 	})
 })
 
