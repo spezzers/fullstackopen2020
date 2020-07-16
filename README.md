@@ -33,3 +33,20 @@ beforeEach(async () => {
   }
 })
 ```
+
+## Tidying up Schema
+MongoDB returns an auto generated `_id` property. To customise the schema (eg. remove the prefixed underscore), modify the `toJSON` method.
+```javascript
+blogSchema.set('toJSON', {
+	transform: (document, returnedObject) => {
+    // note that value of '_id' is an object
+    // convert this object to a string and assign 
+    // it to the new 'id' property
+    returnedObject.id = returnedObject._id.toString()
+    // Remove undesired '_id' property
+    delete returnedObject._id
+    // Remove MongoDB version number
+    delete returnedObject.__v
+	}
+})
+```
