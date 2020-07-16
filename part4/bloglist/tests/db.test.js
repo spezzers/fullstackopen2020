@@ -64,6 +64,21 @@ describe('4.11: Verify if \'likes\' property is missing', () => {
 	})
 })
 
+describe.only('4.12: Verify title/url properties', () => {
+	test('Missing properties returns status code \'400 Bad Request\'', async () => {
+		const newBlog = {
+			author: 'Captain Blogsnot',
+			likes: 666,
+			// title: 'how',
+			// url: 'webblog.com'
+		}
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(400)
+	})
+})
+
 afterAll(() => {
 	mongoose.connection.close()
 })

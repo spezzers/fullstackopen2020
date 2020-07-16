@@ -8,10 +8,13 @@ bloglistRouter.get('/', async (request, response) => {
 
 bloglistRouter.post('/', (request, response) => {
 	const blog = new Blog(request.body)
-
-	blog.save().then(result => {
-		response.status(201).json(result)
-	})
+	console.log(blog.author, blog.title)
+	if(blog.title !== undefined && blog.url !== undefined) {
+		blog.save().then(result => {
+			response.status(201).json(result)
+		})
+	}
+	else {response.status(400).end()}
 })
 
 module.exports = bloglistRouter
