@@ -7,10 +7,10 @@ const api = supertest(app)
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
-	const blogObjects = helper.initialBlogList.map(blog => new Blog(blog))
-	const promiseArray = blogObjects.map(blog => {
-		blog.save()
-	})
+	const blogObjects = helper.initialBlogList
+		.map(blog => new Blog(blog))
+	const promiseArray = blogObjects
+		.map(blog => blog.save())
 	await Promise.all(promiseArray)
 })
 describe('4.8: Get list of blogs', () => {
@@ -88,6 +88,22 @@ describe('4.13: Deleting stuff', () => {
 			.expect(204)
 		const blogsAfter = await helper.blogsInDb()
 		expect(blogsAfter).toHaveLength(helper.initialBlogList.length - 1)
+	})
+})
+describe('4.14: Updating blog info', () => {
+	test('updates successfully', async () => {
+		await api.get('/api/blogs').expect(200)
+		const blogs = await helper.blogsInDb()
+		const blogToUpdate = blogs[0].id
+
+		const newLikes = {likes: 999, url: 'bish-bash-bosh'}
+		await api
+			.put(`/api/blogs/${blogToUpdate}`)
+			.send(newLikes)
+			.expect(200)
+		const blogsAfter = await helper.blogsInDb()
+		// console.log(blogsAfter[0])
+		expect(blogsAfter[0].likes).toEqual(newLikes.likes)
 	})
 })
 
