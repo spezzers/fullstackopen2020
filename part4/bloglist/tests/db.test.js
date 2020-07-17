@@ -1,0 +1,84 @@
+const mongoose = require('mongoose')
+const supertest = require('supertest')
+const app = require('../app')
+const Blog = require('../models/Blog')
+const helper = require('./test_helper')
+const api = supertest(app)
+
+beforeEach(async () => {
+	await Blog.deleteMany({})
+	const blogObjects = helper.initialBlogList.map(blog => new Blog(blog))
+	const promiseArray = blogObjects.map(blog => {
+		blog.save()
+	})
+	await Promise.all(promiseArray)
+})
+describe('4.8: Get list of blogs', () => {
+	test('get all blogs in json format', async () => {
+		await api
+			.get('/api/blogs')
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+	})
+})
+describe('4.9: Verify unique property identifier', () => {
+	test('property name is \'id\'', async () => {
+		await api.get('/api/blogs').expect(200)
+		const blogs = await helper.blogsInDb()
+		expect(blogs[0].id).toBeDefined()
+	})
+})
+describe('4.10: HTTP POST', () => {
+	test('post a valid blog', async () => {
+		const newBlog = {
+			title: 'A new Blog is added',
+			author: 'Sir Blogsalot',
+			url: 'www.blogmesideways.com',
+			likes: 12
+		}
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(201)
+
+		const blogsAfter = await helper.blogsInDb()
+		expect(blogsAfter).toHaveLength(helper.initialBlogList.length + 1)
+
+		const contents = blogsAfter.map(x => x.title)
+
+		expect(contents).toContain('A new Blog is added')
+	})
+})
+describe('4.11: Verify if \'likes\' property is missing', () => {
+	test('\'likes\' default to 0 if not defined', async () => {
+		const newBlog = {
+			title: 'New Blog - No Likes',
+			author: 'Sir Blogsalittle',
+			url: 'www.blogmesideways.com',
+		}
+		const response = await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(201)
+		expect(response.body.likes).toEqual(0)
+	})
+})
+
+describe('4.12: Verify title/url properties', () => {
+	test('Missing properties returns status code \'400 Bad Request\'', async () => {
+		const newBlog = {
+			author: 'Captain Blogsnot',
+			likes: 666,
+			// title: 'how',
+			// url: 'webblog.com'
+		}
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(400)
+	})
+})
+
+afterAll(() => {
+	mongoose.connection.close()
+})
