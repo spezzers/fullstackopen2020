@@ -2,6 +2,7 @@ const Blog = require('../models/Blog')
 
 const initialBlogList = [
 	{
+		id: '5f113dc8cd737d08d839798e',
 		title: 'blogs_test',
 		author: 'Full Stack Open part 4',
 		url:
@@ -9,6 +10,7 @@ const initialBlogList = [
 		likes: 1
 	},
 	{
+		id: '5f113dc8cd737d08d839798f',
 		title: 'Bloggus Testus',
 		author: 'Full Stack Open part 4',
 		url:
@@ -16,6 +18,7 @@ const initialBlogList = [
 		likes: 17
 	},
 	{
+		id: '5f113dc8cd737d08d8397990',
 		title: 'Blogmon & Bobbin',
 		author: 'Full Stack Open part 4',
 		url:

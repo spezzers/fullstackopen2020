@@ -78,6 +78,18 @@ describe('4.12: Verify title/url properties', () => {
 			.expect(400)
 	})
 })
+describe('4.13: Deleting stuff', () => {
+	test('Delete a blog by id', async () => {
+		await api.get('/api/blogs').expect(200)
+		const blogs = await helper.blogsInDb()
+		const blogToDelete = blogs[0].id
+		await api
+			.delete(`/api/blogs/${blogToDelete}`)
+			.expect(204)
+		const blogsAfter = await helper.blogsInDb()
+		expect(blogsAfter).toHaveLength(helper.initialBlogList.length - 1)
+	})
+})
 
 afterAll(() => {
 	mongoose.connection.close()

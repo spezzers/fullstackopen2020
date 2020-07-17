@@ -17,4 +17,10 @@ bloglistRouter.post('/', (request, response) => {
 	else {response.status(400).end()}
 })
 
+bloglistRouter
+	.delete('/:id', async (request, response) => {
+		await Blog.findByIdAndRemove(request.params.id)
+		response.status(204).end()
+	})
+
 module.exports = bloglistRouter

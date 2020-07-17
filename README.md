@@ -3,8 +3,11 @@
 
 
 ## Questions/further reading
-- Why do I need SuperTest, exactly?
-    - It wraps up code so that it is more manageable that callback functions
+- Supertest
+  - [x] Why do I need SuperTest, exactly?
+    - It wraps up code so that it is more manageable than callback functions
+- Mongoose models
+  - [ ] Improve understanding of what's happening in the mongoose model when `const Blog = mongoose.model('Blog', blogSchema)` is referenced (ie. `Blog.find({})`)
     
 ## async/await
   - makes asynchronous code wait and behave like synchronous
