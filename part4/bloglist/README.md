@@ -1,2 +1,6 @@
 # Todo list
-- [ ] Implement error handling middleware
+- Middleware
+  - [x] Unknown endpoint
+  - [x] Request logger
+  - [ ] Error handler  
+        - Need a refresher on how to do this correctly. 

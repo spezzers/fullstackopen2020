@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 const blogListRouter = require('./controllers/blogs')
@@ -17,8 +18,11 @@ mongoose
 		logger.error('error connection to MongoDB:', error.message)
 	})
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
+app.use(middleware.requestLogger)
+app.use(middleware.errorHandler)
 app.use('/api/blogs', blogListRouter)
+app.use(middleware.unknownEndpoint)
 
 module.exports = app

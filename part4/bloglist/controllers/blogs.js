@@ -5,8 +5,16 @@ bloglistRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({})
 	response.json(blogs)
 })
+bloglistRouter.get('/:id', async (request, response) => {
+	try {
+		const blogs = await Blog.find(request.params.id)
+		response.json(blogs)
+	} catch {
+		response.status(404).end()
+	}
+})
 
-bloglistRouter.post('/', (request, response) => {
+bloglistRouter.post('/', async (request, response) => {
 	const blog = new Blog(request.body)
 	if (blog.title !== undefined && blog.url !== undefined) {
 		blog.save().then(result => {

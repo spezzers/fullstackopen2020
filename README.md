@@ -5,7 +5,7 @@ Course study notes
 # Part 2
 ---
 # Part 3
-# Notes
+## Notes
 ### REST
 **Re**presentational **S**tate **T**ransfer is an architectural style that improves ease of communication between independent systems.
 - Sometimes referred to as resource [orintated architecture](https://en.wikipedia.org/wiki/Resource-oriented_architecture)
@@ -77,7 +77,7 @@ blogSchema.set('toJSON', {
 ```
 ### Security
 #### Encrypting Passwords
-using **bcrypt** to generate a *password hash[^passwordHash]* `npm install bcrypt --save`
+using **bcrypt** to generate a *password hash*[^passwordHash] `npm install bcrypt --save`
 - [How to safely store a password](https://codahale.com/how-to-safely-store-a-password/)
 - [Notes on rounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds)
 
