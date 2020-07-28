@@ -6,19 +6,15 @@ bloglistRouter.get('/', async (request, response) => {
 	response.json(blogs)
 })
 
-bloglistRouter.get('/:id', async (request, response, next) => {
+bloglistRouter.get('/:id', async (request, response) => {
 	const id = request.params.id
 	const blog = await Blog.findById(id)
-	try {
-		if (blog) {
-			response.json(blog)
-		} else {
-			response
-				.status(404)
-				.send(`<h1>No blog entry found</h1><p>for id: ${id}</p>`)
-		}
-	} catch (ex) {
-		next(ex)
+	if (blog) {
+		response.json(blog)
+	} else {
+		response
+			.status(404)
+			.send(`<h1>No blog entry found</h1><p>for id: ${id}</p>`)
 	}
 })
 
