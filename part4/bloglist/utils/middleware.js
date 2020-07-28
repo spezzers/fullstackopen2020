@@ -14,7 +14,7 @@ const requestLogger = (request, response, next) => {
 
 const errorHandler = (error, request, response, next) => {
 	// This still needs work
-	logger.info('An error occured')
+	logger.info('An error occured', error.message)
 	next()
 }
 module.exports = {

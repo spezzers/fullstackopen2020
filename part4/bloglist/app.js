@@ -7,6 +7,8 @@ const blogListRouter = require('./controllers/blogs')
 const cors = require('cors')
 const config = require('./utils/config')
 
+app.use(express.json())
+
 logger.info('connecting to', config.mongoUrl)
 
 mongoose
@@ -19,10 +21,9 @@ mongoose
 	})
 
 app.use(cors())
-app.use(express.json())
-app.use(middleware.requestLogger)
-app.use(middleware.errorHandler)
 app.use('/api/blogs', blogListRouter)
 app.use(middleware.unknownEndpoint)
+app.use(middleware.requestLogger)
+app.use(middleware.errorHandler)
 
 module.exports = app

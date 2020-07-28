@@ -5,13 +5,20 @@ bloglistRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({})
 	response.json(blogs)
 })
-bloglistRouter.get('/:id', async (request, response) => {
-	try {
-		const blogs = await Blog.find(request.params.id)
-		response.json(blogs)
-	} catch {
-		response.status(404).end()
-	}
+bloglistRouter.get('/:id', (request, response) => {
+
+	Blog.find({_id: request.params.id.toString()}) // this works but something 
+	//                                                doesn't feel right?
+		.then(blog => {
+			if (blog[0] !== undefined) {
+				response.json(blog)
+			} 
+			else {response.status(404).end()}
+		})
+		.catch(error => {
+			console.log(error)
+			response.status(400).send({error: 'malformatted id'})
+		})
 })
 
 bloglistRouter.post('/', async (request, response) => {
@@ -31,9 +38,10 @@ bloglistRouter.delete('/:id', async (request, response) => {
 })
 
 bloglistRouter.put('/:id', async (request, response) => {
-	const result = await Blog.findByIdAndUpdate(request.params.id, request.body, {new: true})
+	const result = await Blog.findByIdAndUpdate(request.params.id, request.body, {
+		new: true
+	})
 	response.json(result)
-
 })
 
 module.exports = bloglistRouter
