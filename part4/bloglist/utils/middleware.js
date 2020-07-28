@@ -13,9 +13,10 @@ const requestLogger = (request, response, next) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-	// This still needs work
-	logger.info('An error occured', error.message)
-	next()
+	if(error.name === 'CastError') {
+		response.status(400).send({error: 'malformatted id'})
+	}
+	next(error)
 }
 module.exports = {
 	errorHandler,
