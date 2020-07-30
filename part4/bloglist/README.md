@@ -1,6 +1,9 @@
 # Todo list
+
 - Middleware
+
   - [x] Unknown endpoint
   - [x] Request logger
-  - [ ] Error handler  
-        - Need a refresher on how to do this correctly. 
+  - [x] Error handler
+
+- [ ] Exercise 4.16\* still needs password requirement validation before it is complete
