@@ -48,7 +48,7 @@ const initialUsers = [
 
 const usersInDb = async () => {
 	const users = await userRouter.find({})
-	return users.map(user => user.toJSON())
+	return users.map(user => user.toJSON)
 }
 
 const blogsInDb = async () => {
