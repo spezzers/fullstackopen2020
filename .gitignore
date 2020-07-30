@@ -1,5 +1,5 @@
 part2/countries/.env
-#lessons/
+lessons/
 node_modules/
 *.code-workspace
 .env

@@ -11,8 +11,9 @@ Course study notes
 - Sometimes referred to as resource [orintated architecture](https://en.wikipedia.org/wiki/Resource-oriented_architecture)
 - introduced in 2000 in Roy Fielding's [dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
 	- a large majority of the world's purported "REST" API's do not meet Fielding's original criteria outlined in his dissertation
-
-
+### Mongoose
+- Mongoose does not have a built-in uniqueness validator but the [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator) package can do this.  
+	`npm install --save mongoose-unique-validator`
 
 ---
 # Part 4
@@ -24,6 +25,8 @@ Course study notes
   - Wraps code in a way that it is more manageable than callback functions
 ### Mongoose models
 - [ ] Improve understanding of what's happening in the mongoose model when `const Blog = mongoose.model('Blog', blogSchema)` is referenced (ie. `Blog.find({})`)
+	- `Blog` is the model and `.find` is it's method
+	- If the collection is not already defined, mongoose automatically creates one with the plural name of the model ('Blogs', in this case)
 
 ### Useful References
 - Info and how to avoid [Callback Hell](http://callbackhell.com)
@@ -41,7 +44,7 @@ Course study notes
       next(exception)
     }
     ```
-    - the need for `try-catch` can be eliminated by using the [express-async-errors](https://github.com/davidbanham/express-async-errors): `npm install express-async-errors --save` 
+    - the need for `try-catch` can be [eliminated](https://fullstackopen.com/en/part4/testing_the_backend#eliminating-the-try-catch) by using the [express-async-errors](https://github.com/davidbanham/express-async-errors): `npm install express-async-errors --save` 
 
 ### Promises
 #### Promise.all
@@ -59,7 +62,11 @@ beforeEach(async () => {
 })
 ```
 
-### Tidying up Schema
+### Mongoose
+#### Joining Database data
+Mongoose has the [populate](https://fullstackopen.com/en/part4/user_administration#populate) method for joining information from  separate collections.
+- the populate method `.populate(...)` is chained after a find method makes the initial query
+#### Tidying up Schema
 MongoDB returns an auto generated `_id` property. To customise the schema (eg. remove the prefixed underscore), modify the `toJSON` method.
 ```javascript
 blogSchema.set('toJSON', {
@@ -82,3 +89,7 @@ using **bcrypt** to generate a *password hash*[^passwordHash] `npm install bcryp
 - [Notes on rounds](https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds)
 
 [^passwordHash]: A password hash is the output of a [one-way hash function](https://en.wikipedia.org/wiki/Cryptographic_hash_function) applied to the user's password
+
+#### Tokens
+The [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) library allows us to generate [JSON web tokens](https://jwt.io/).
+
