@@ -13,15 +13,15 @@ beforeEach(async () => {
 	const passwordHash = await bcrypt.hash('mysterious', saltRounds)
 	const user = new User({ username: 'root', name: 'Root User', passwordHash })
 	await user.save()
+	const userObjects = helper.initialUsers.map(user => new User(user))
+	const promiseArray = userObjects.map(user => user.save())
+	await Promise.all(promiseArray)
 })
 
 describe('Get All Users', () => {
-	beforeEach(async () => {
-		await User.deleteMany({})
-		const userObjects = helper.initialUsers.map(user => new User(user))
-		const promiseArray = userObjects.map(user => user.save())
-		await Promise.all(promiseArray)
-	})
+	// beforeEach(async () => {
+	// 	await User.deleteMany({})
+	// })
 	test('response is JSON', async () => {
 		await api
 			.get('/api/users')
@@ -30,12 +30,16 @@ describe('Get All Users', () => {
 	})
 	test('response has correct number of users', async () => {
 		const response = await api.get('/api/users')
-		expect(response.body.length).toBe(helper.initialUsers.length)
+		expect(response.body.length).toBe(helper.initialUsers.length + 1)
 	})
 })
 
 describe('4.15 - Create new user with HTTP Post', () => {
-	const newUser = helper.initialUsers[0]
+	const newUser = {
+		username: 'newgirrl',
+		name: 'Jeffney Dae',
+		password: 'iamnewhere'
+	}
 	test('successfully created a new user', async () => {
 		const response = await api.post('/api/users').send(newUser)
 		expect(response.body.name).toEqual(newUser.name)
@@ -57,7 +61,7 @@ describe('4.16* - New user validation', () => {
 		test('is not added to db', async () => {
 			await api.post('/api/users').send(invalidUser)
 			const db = await api.get('/api/users')
-			expect(db.body.length).toBe(1)
+			expect(db.body.length).toEqual(helper.initialUsers.length + 1)
 		})
 		test('returns error with code 400', async () => {
 			const response = await api
@@ -76,7 +80,7 @@ describe('4.16* - New user validation', () => {
 		test('is not added to db', async () => {
 			await api.post('/api/users').send(invalidUser)
 			const db = await api.get('/api/users')
-			expect(db.body.length).toBe(1)
+			expect(db.body.length).toEqual(helper.initialUsers.length + 1)
 		})
 		test('returns error with code 400', async () => {
 			const response = await api
