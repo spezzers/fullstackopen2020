@@ -47,6 +47,46 @@ describe('4.15 - Create new user with HTTP Post', () => {
 	})
 })
 
+describe('4.16* - New user validation', () => {
+	describe('invalid username', () => {
+		const invalidUser = {
+			username: 'da',
+			name: 'Daddy Dave',
+			password: '54321'
+		}
+		test('is not added to db', async () => {
+			await api.post('/api/users').send(invalidUser)
+			const db = await api.get('/api/users')
+			expect(db.body.length).toBe(1)
+		})
+		test('returns error with code 400', async () => {
+			const response = await api
+				.post('/api/users')
+				.send(invalidUser)
+				.expect(400)
+			expect(response.body.error).toBeDefined()
+		})
+	})
+	describe('invalid password', () => {
+		const invalidUser = {
+			username: 'daddieo',
+			name: 'Daddy Dave',
+			password: '5'
+		}
+		test('is not added to db', async () => {
+			await api.post('/api/users').send(invalidUser)
+			const db = await api.get('/api/users')
+			expect(db.body.length).toBe(1)
+		})
+		test('returns error with code 400', async () => {
+			const response = await api
+				.post('/api/users')
+				.send(invalidUser)
+				.expect(400)
+			expect(response.body.error).toBeDefined()
+		})
+	})
+})
 
 afterAll(() => {
 	mongoose.connection.close()

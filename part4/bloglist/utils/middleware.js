@@ -19,7 +19,7 @@ const errorHandler = (error, request, response, next) => {
 	if (error.name === 'ValidationError') {
 		response
 			.status(400)
-			.send({ error: 'user details do not meet minimum requirememnts' })
+			.send({ error: 'username must be at least 3 characters' })
 	}
 	next(error)
 }

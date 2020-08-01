@@ -1,9 +1,7 @@
 # Todo list
 
-- Middleware
-
-  - [x] Unknown endpoint
-  - [x] Request logger
-  - [x] Error handler
-
-- [ ] Exercise 4.16\* still needs password requirement validation before it is complete
+## 4.16*
+- [x] username validation
+- [x] password validation
+- [ ] Test: invalid users are not created
+- [ ] Test: invalid user operations return suitable status code
