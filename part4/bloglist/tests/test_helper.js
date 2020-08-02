@@ -1,5 +1,5 @@
 const Blog = require('../models/Blog')
-const userRouter = require('../controllers/users')
+const User = require('../models/User')
 
 const initialBlogList = [
 	{
@@ -30,25 +30,34 @@ const initialBlogList = [
 
 const initialUsers = [
 	{
+		username: 'root',
+		name: 'Superuser',
+		password: 'supersecret',
+		blogs: []
+	},
+	{
 		username: 'bobby90',
 		name: 'Bob Dodd',
-		password: 'totallyrealbob'
+		password: 'totallyrealbob',
+		blogs: []
 	},
 	{
 		username: 'nomoretinsel',
 		name: 'Silvia Giffords',
-		password: 'hashtaghound'
+		password: 'hashtaghound',
+		blogs: []
 	},
 	{
 		username: 'shinypurplebee',
 		name: 'Gideon Gallop',
-		password: 'ilikepeas'
+		password: 'ilikepeas',
+		blogs: []
 	}
 ]
 
 const usersInDb = async () => {
-	const users = await userRouter.find({})
-	return users.map(user => user.toJSON)
+	const users = await User.find({})
+	return users.map(user => user.toJSON())
 }
 
 const blogsInDb = async () => {

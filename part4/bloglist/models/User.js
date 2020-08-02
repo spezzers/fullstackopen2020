@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 	name: String,
-	passwordHash: String
+	passwordHash: String,
+	blogs: Array
 })
 
 userSchema.set('toJSON', {

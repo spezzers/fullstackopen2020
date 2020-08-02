@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const User = require('../models/User')
 const supertest = require('supertest')
@@ -6,22 +5,14 @@ const app = require('../app')
 const helper = require('./test_helper')
 const api = supertest(app)
 
-const saltRounds = 10
-
 beforeEach(async () => {
 	await User.deleteMany({})
-	const passwordHash = await bcrypt.hash('mysterious', saltRounds)
-	const user = new User({ username: 'root', name: 'Root User', passwordHash })
-	await user.save()
 	const userObjects = helper.initialUsers.map(user => new User(user))
 	const promiseArray = userObjects.map(user => user.save())
 	await Promise.all(promiseArray)
 })
 
 describe('Get All Users', () => {
-	// beforeEach(async () => {
-	// 	await User.deleteMany({})
-	// })
 	test('response is JSON', async () => {
 		await api
 			.get('/api/users')
@@ -30,7 +21,7 @@ describe('Get All Users', () => {
 	})
 	test('response has correct number of users', async () => {
 		const response = await api.get('/api/users')
-		expect(response.body.length).toBe(helper.initialUsers.length + 1)
+		expect(response.body.length).toBe(helper.initialUsers.length)
 	})
 })
 
@@ -61,7 +52,7 @@ describe('4.16* - New user validation', () => {
 		test('is not added to db', async () => {
 			await api.post('/api/users').send(invalidUser)
 			const db = await api.get('/api/users')
-			expect(db.body.length).toEqual(helper.initialUsers.length + 1)
+			expect(db.body.length).toEqual(helper.initialUsers.length)
 		})
 		test('returns error with code 400', async () => {
 			const response = await api
@@ -80,7 +71,7 @@ describe('4.16* - New user validation', () => {
 		test('is not added to db', async () => {
 			await api.post('/api/users').send(invalidUser)
 			const db = await api.get('/api/users')
-			expect(db.body.length).toEqual(helper.initialUsers.length + 1)
+			expect(db.body.length).toEqual(helper.initialUsers.length)
 		})
 		test('returns error with code 400', async () => {
 			const response = await api
@@ -88,6 +79,17 @@ describe('4.16* - New user validation', () => {
 				.send(invalidUser)
 				.expect(400)
 			expect(response.body.error).toBeDefined()
+		})
+	})
+})
+
+describe.only('4.17 - Blogs and their users', () => {
+	describe('Users', () => {
+		test('all users have `blogs` property with type: Array ', async () => {
+			const users = await helper.usersInDb()
+			const validUsers = users.filter(user => Array.isArray(user.blogs))
+			// console.log(users, validUsers)
+			expect(validUsers.length).toBe(helper.initialUsers.length)
 		})
 	})
 })
