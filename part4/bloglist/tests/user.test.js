@@ -83,17 +83,6 @@ describe('4.16* - New user validation', () => {
 	})
 })
 
-describe.only('4.17 - Blogs and their users', () => {
-	describe('Users', () => {
-		test('all users have `blogs` property with type: Array ', async () => {
-			const users = await helper.usersInDb()
-			const validUsers = users.filter(user => Array.isArray(user.blogs))
-			// console.log(users, validUsers)
-			expect(validUsers.length).toBe(helper.initialUsers.length)
-		})
-	})
-})
-
 afterAll(() => {
 	mongoose.connection.close()
 })
