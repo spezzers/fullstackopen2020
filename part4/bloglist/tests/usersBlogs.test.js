@@ -23,11 +23,11 @@ describe('4.17 - Blogs and their users', () => {
 		})
 	})
 	describe('Blogs', () => {
-		test('-- INCOMPLETE! -- designate a user to newly added blogs', async () => {
+		test.skip('designate a user to newly added blogs', async () => {
 			const test = 'not written'
 			expect(test).toBe('written')
 		})
-		test('-- INCOMPLETE! -- each blog item displays creators information', async () => {
+		test.skip('each blog item displays creators information', async () => {
 			const test = 'not written'
 			expect(test).toBe('written')
 		})

@@ -14,12 +14,10 @@ const requestLogger = (request, response, next) => {
 
 const errorHandler = (error, request, response, next) => {
 	if (error.name === 'CastError') {
-		response.status(400).send({ error: 'malformatted id' })
+		response.status(400).send(error.message)
 	}
 	if (error.name === 'ValidationError') {
-		response
-			.status(400)
-			.send({ error: 'username must be at least 3 characters' })
+		response.status(400).send(error.message)
 	}
 	next(error)
 }

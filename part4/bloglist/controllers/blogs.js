@@ -21,11 +21,10 @@ bloglistRouter.get('/:id', async (request, response) => {
 bloglistRouter.post('/', async (request, response) => {
 	const blog = new Blog(request.body)
 	if (blog.title !== undefined && blog.url !== undefined) {
-		blog.save().then(result => {
-			response.status(201).json(result)
-		})
+		const savedBlog = await blog.save()
+		response.status(201).json(savedBlog)
 	} else {
-		response.status(400).end()
+		return response.status(400).end()
 	}
 })
 

@@ -8,7 +8,8 @@ const initialBlogList = [
 		author: 'Full Stack Open part 4',
 		url:
 			'https://fullstackopen.com/en/part4/testing_the_backend#exercises-4-8-4-12',
-		likes: 1
+		likes: 1,
+		user: {}
 	},
 	{
 		id: '5f113dc8cd737d08d839798f',
@@ -16,7 +17,8 @@ const initialBlogList = [
 		author: 'Full Stack Open part 4',
 		url:
 			'https://fullstackopen.com/en/part4/testing_the_backend#exercises-4-8-4-12',
-		likes: 17
+		likes: 17,
+		user: {}
 	},
 	{
 		id: '5f113dc8cd737d08d8397990',
@@ -24,7 +26,8 @@ const initialBlogList = [
 		author: 'Full Stack Open part 4',
 		url:
 			'https://fullstackopen.com/en/part4/testing_the_backend#exercises-4-8-4-12',
-		likes: 56
+		likes: 56,
+		user: {}
 	}
 ]
 

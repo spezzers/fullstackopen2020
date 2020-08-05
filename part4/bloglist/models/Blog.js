@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
+const uniquieValidator = require('mongoose-unique-validator')
 
 const blogSchema = mongoose.Schema({
 	title: String,
 	author: String,
-	url: String,
+	url: {
+		type: String,
+		unique: true
+	},
 	likes: Number
 })
 
@@ -15,6 +19,7 @@ blogSchema.set('toJSON', {
 		delete returnedObject.__v
 	}
 })
+blogSchema.plugin(uniquieValidator)
 
 const Blog = mongoose.model('Blog', blogSchema)
 
