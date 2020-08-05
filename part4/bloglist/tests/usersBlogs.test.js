@@ -26,8 +26,22 @@ describe('4.17 - Blogs and their users', () => {
 		})
 	})
 	describe('Blogs', () => {
-		test.skip('designate a user to newly added blogs', async () => {})
-		test.skip('each blog item displays creators information', async () => {})
+		test('designate a user to newly added blogs', async () => {
+			const newBlog = {
+				title: 'A new Blog is added',
+				author: 'Sir Blogsalot',
+				url: 'www.blogmesideways.com'
+			}
+			const response = await api.post('/api/blogs').send(newBlog)
+			expect(response.body.user.id).toBe('ffffffffffffffffffffffff')
+		})
+		test('each blog item displays creators information', async () => {
+			const response = await api.get('/api/blogs')
+			const usersDeets = response.body
+				.map(b => b.user)
+				.filter(user => user.username && user.name && user.id)
+			expect(usersDeets.length).toBe(helper.initialBlogList.length)
+		})
 	})
 })
 
