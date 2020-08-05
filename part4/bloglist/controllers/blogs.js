@@ -24,7 +24,7 @@ bloglistRouter.post('/', async (request, response) => {
 		const savedBlog = await blog.save()
 		response.status(201).json(savedBlog)
 	} else {
-		return response.status(400).end()
+		response.status(400).end()
 	}
 })
 

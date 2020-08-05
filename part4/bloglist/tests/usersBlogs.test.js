@@ -11,7 +11,14 @@ beforeEach(async () => {
 	await User.deleteMany({})
 	const userObjects = helper.initialUsers.map(user => new User(user))
 	const promiseArray = userObjects.map(user => user.save())
-	await Promise.all(promiseArray)
+	await Promise.all(
+		promiseArray,
+		new User({
+			username: 'bobby',
+			name: 'Bobby',
+			password: 'bobby'
+		})
+	)
 })
 
 describe('4.17 - Blogs and their users', () => {

@@ -59,7 +59,7 @@ describe('4.16* - New user validation', () => {
 				.post('/api/users')
 				.send(invalidUser)
 				.expect(400)
-			expect(response.body.error).toBeDefined()
+			expect(response.error.text).toBeDefined()
 		})
 	})
 	describe('invalid password', () => {
@@ -78,7 +78,7 @@ describe('4.16* - New user validation', () => {
 				.post('/api/users')
 				.send(invalidUser)
 				.expect(400)
-			expect(response.body.error).toBeDefined()
+			expect(response.body.error).toBe('password must be at least 3 characters')
 		})
 	})
 })
