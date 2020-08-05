@@ -7,7 +7,7 @@
 - [x] Test: invalid user operations return suitable status code
 
 ## 4.17
-- [ ] GET - Each blog entry shows it's creator
-  - [ ] include creators user information
-- [ ] POST - Designate any user to newly added blogs
-- [ ] GET - Each user item shows a list of blogs they have added
+- [x] GET - Each blog entry shows it's creator
+  - [x] include creators user information
+- [x] POST - Designate any user to newly added blogs
+- [x] GET - Each user item shows a list of blogs they have added
