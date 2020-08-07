@@ -11,10 +11,12 @@ beforeEach(async () => {
 	await Blog.deleteMany({})
 	await User.deleteMany({})
 	const blogObjects = helper.initialBlogList.map(blog => new Blog(blog))
-	const userObjects = helper.initialUsers.map(user => new User(user))
-	const allObjects = blogObjects.concat(userObjects)
-	const promiseArray = allObjects.map(prom => prom.save())
-	await Promise.all(promiseArray)
+	const blogPromises = blogObjects.map(blog => blog.save())
+	const userObjects = helper.initialUsers.map(user => helper.addUser(user))
+	const hashPromise = await Promise.all(userObjects)
+	const userPromises = hashPromise.map(user => user.save())
+	const allPromises = userPromises.concat(blogPromises)
+	await Promise.all(allPromises)
 })
 
 describe('4.17 - Blogs and their users', () => {
