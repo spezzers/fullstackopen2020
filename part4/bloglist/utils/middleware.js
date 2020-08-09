@@ -27,6 +27,9 @@ const errorHandler = (error, request, response, next) => {
 	if (error.name === 'ValidationError') {
 		response.status(400).send(error.message)
 	}
+	if (error.name === 'TypeError' && request.method === 'DELETE') {
+		response.status(404).send({error: 'Nothing to delete, the item does not exist'})
+	}
 	next(error)
 }
 module.exports = {
