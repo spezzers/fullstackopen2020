@@ -1,6 +1,9 @@
 const Blog = require('../models/Blog')
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const app = require('../app')
+const supertest = require('supertest')
+const api = supertest(app)
 
 const initialBlogList = [
 	{
@@ -60,6 +63,24 @@ const initialUsers = [
 	}
 ]
 
+const superUser = {
+	...initialUsers[0],
+	token: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6ImZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZiIsImlhdCI6MTU5Njk2NjQ0OX0.sFjrlTuuVQcuZyERaCAWODhYOm9xdGkfdpsOCH528DI'
+}
+
+const getUserToken = async (userid) => {
+	const user = initialUsers.filter(user => user._id === userid)[0]
+	const loginDeets = {
+		username: user.username,
+		password: user.password
+	}
+	const response = await api
+		.post('/api/login')
+		.send(loginDeets)
+	return `bearer ${response.body.token}`
+
+}
+
 const usersInDb = async () => {
 	const users = await User.find({})
 	return users.map(user => user.toJSON())
@@ -87,5 +108,7 @@ module.exports = {
 	initialUsers,
 	blogsInDb,
 	usersInDb,
-	addUser
+	addUser, 
+	superUser,
+	getUserToken
 }

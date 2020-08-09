@@ -7,9 +7,10 @@ const api = supertest(app)
 
 beforeEach(async () => {
 	await User.deleteMany({})
-	const userObjects = helper.initialUsers.map(user => new User(user))
-	const promiseArray = userObjects.map(user => user.save())
-	await Promise.all(promiseArray)
+	const userObjects = helper.initialUsers.map(user => helper.addUser(user))
+	const hashPromise = await Promise.all(userObjects)
+	const userPromises = hashPromise.map(user => user.save())
+	await Promise.all(userPromises)
 })
 
 describe('Get All Users', () => {

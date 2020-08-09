@@ -5,7 +5,6 @@ const helper = require('./test_helper')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-api
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
@@ -34,7 +33,11 @@ describe('4.17 - Blogs and their users', () => {
 				author: 'Sir Blogsalot',
 				url: 'www.blogmesideways.com'
 			}
-			const response = await api.post('/api/blogs').send(newBlog)
+			const token = await helper.getUserToken('ffffffffffffffffffffffff')
+			const response = await api
+				.post('/api/blogs')
+				.set('Authorization', token)
+				.send(newBlog)
 			expect(response.body.user.id).toBe('ffffffffffffffffffffffff')
 		})
 		test('each blog item displays creators information', async () => {
