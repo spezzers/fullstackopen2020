@@ -49,6 +49,19 @@ describe('4.17 - Blogs and their users', () => {
 		})
 	})
 })
+describe('4.22* - Check for authentication token', () => {
+	test('Fails with status *401 Unauthorized* if no token is provided on blog post', async () => {
+		const newBlog = {
+			title: 'A new Blog is added',
+			author: 'Sir Blogsalot',
+			url: 'www.blogmesideways.com'
+		}
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(401)
+	})
+})
 
 afterAll(() => {
 	mongoose.connection.close()
