@@ -19,22 +19,15 @@ bloglistRouter.get('/:id', async (request, response) => {
 			.send(`<h1>No blog entry found</h1><p>for id: ${id}</p>`)
 	}
 })
-const getTokenFrom = request => {
-	const authorization = request.get('authorization')
-	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-		return authorization.substring(7)
-	}
-	return null
-}
 
 bloglistRouter.post('/', async (request, response) => {
 	const body = request.body
-	const token = getTokenFrom(request)
+	const token = request.token
 	const decodedToken = token
 		? jwt.verify(token, process.env.SECRET)
 		: null
 	if (!token || !decodedToken.id) {
-		return response.status(401).json({error: 'token missing or invalid'})
+		return response.status(401).json({ error: 'token missing or invalid' })
 	}
 	const user = await User.findById(decodedToken.id)
 	const blog = new Blog({
