@@ -15,16 +15,17 @@ const App = () => {
   
   const handleLogin = async event => {
     event.preventDefault()
-    console.log('logging in with ', username, password)
     try {
         const user = await loginService.login({
             username, password
         })
+        window.localStorage.setItem('logginInUser', JSON.stringify(user))
+        setUser(user)
         setUser(user)
         setUsername('')
         setPassword('')
     } catch (exception) {
-        console.log('wrong credentials')
+        alert('wrong credentials')
     }
   }
 
@@ -55,13 +56,21 @@ const App = () => {
 		</div>
   )
 
+  const bloglist = () => {
+    const list = () =>  blogs.map(blog => (<Blog key={blog.id} blog={blog} />))
+    return (
+      <div>
+        Hello {user.name}
+        <h2>Blogs</h2>
+        {list()}
+      </div>
+    )
+  }
+
 	return (
 		<div>
-			{loginForm()}
-			<h2>blogs</h2>
-			{blogs.map(blog => (
-				<Blog key={blog.id} blog={blog} />
-			))}
+			{user === null ? loginForm() : bloglist()}
+			
 		</div>
 	)
 }
