@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
+import BlogList from './components/BlogList'
 
 import Login from './components/Login'
 
 const App = () => {
-	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
-
-	useEffect(() => {
-		blogService.getAll().then(blogs => setBlogs(blogs))
-	}, [])
 
 	useEffect(() => {
 		const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
@@ -20,21 +14,10 @@ const App = () => {
 		}
 	}, [])
 
-	const bloglist = () => {
-		const list = () => blogs.map(blog => <Blog key={blog.id} blog={blog} />)
-		return (
-			<div>
-				Hello {user.name}
-				<Login user={user} setUser={setUser} />
-				<h2>Blogs</h2>
-				{list()}
-			</div>
-		)
-	}
-
 	return (
 		<div>
-			{user === null ? <Login user={user} setUser={setUser} /> : bloglist()}
+			<Login user={user} setUser={setUser} />
+			<BlogList user={user} />
 		</div>
 	)
 }

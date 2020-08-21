@@ -57,6 +57,7 @@ const Login = ({ user, setUser }) => {
 	}
 	return (
 		<div>
+            <div>Hello {user.name}</div>
 			<button onClick={handleLogout}>logout</button>
 		</div>
 	)

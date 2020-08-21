@@ -1,9 +1,9 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/blogs'
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+const getAll = () => axios.get(baseUrl).then(response => response.data)
 
-export default { getAll }
+const postBlog = (newBlog, config) => axios.post(baseUrl, newBlog, config).then(res => res.data)
+  
+
+export default { getAll, postBlog }
