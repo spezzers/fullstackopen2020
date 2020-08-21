@@ -16,7 +16,15 @@ const BlogList = ({ user }) => {
 		<div>
 			<BlogForm user={user} onSubmit={setBlogs} list={blogs} />
 			<h2>Blogs</h2>
-			{blogList}
+			<table>
+				<tbody>
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+					</tr>
+					{blogList}
+				</tbody>
+			</table>
 		</div>
 	)
 }
