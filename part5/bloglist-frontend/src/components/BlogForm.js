@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ user, list, onSubmit }) => {
+const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 	const [newBlog, setNewBlog] = useState({
 		title: '',
 		author: '',
@@ -15,20 +15,27 @@ const BlogForm = ({ user, list, onSubmit }) => {
 	}
 
 	const handleSubmit = async event => {
-		const token = `bearer ${user.token}`
-		const config = {
-			headers: {
-				Authorization: token
+		event.preventDefault()
+		if ((newBlog.title && newBlog.author && newBlog.url) !== '') {
+			const token = `bearer ${user.token}`
+			const config = {
+				headers: {
+					Authorization: token
+				}
+			}
+			try {
+				const response = await blogService.postBlog(newBlog, config)
+				onSubmit(list.concat(response))
+				setMessage(
+					'confirm',
+					`Blog Added: '${response.title}' by '${response.author}'`
+				)
+				setNewBlog(emptyForm)
+			} catch (error) {
+				setMessage('error', 'Failed to add blog to list')
 			}
 		}
-		event.preventDefault()
-		const response = await blogService.postBlog(newBlog, config)
-		try {
-			onSubmit(list.concat(response))
-			setNewBlog(emptyForm)
-		} catch (exception) {
-			console.log(response.message)
-		}
+		else {setMessage('warning', 'Please fill in all fields')}
 	}
 	return (
 		<div>

@@ -14,11 +14,10 @@ const Login = ({ user, setUser, setMessage}) => {
 			})
 			window.localStorage.setItem('loggedInUser', JSON.stringify(user))
 			setUser(user)
-			setMessage('confirm', 'log in successful')
 			setUsername('')
 			setPassword('')
 		} catch (exception) {
-			alert('wrong credentials')
+			setMessage('error', 'wrong username or password')
 		}
 	}
 	

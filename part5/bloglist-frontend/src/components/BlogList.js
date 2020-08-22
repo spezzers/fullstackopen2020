@@ -3,7 +3,7 @@ import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
 
-const BlogList = ({ user }) => {
+const BlogList = ({ user, setMessage }) => {
 	const [blogs, setBlogs] = useState([])
 	useEffect(() => {
 		if (user !== null) {
@@ -17,7 +17,7 @@ const BlogList = ({ user }) => {
 
 	return (
 		<div>
-			<BlogForm user={user} onSubmit={setBlogs} list={blogs} />
+			<BlogForm user={user} onSubmit={setBlogs} list={blogs} setMessage={setMessage}/>
 			<h2>Blogs</h2>
 			<table>
 				<tbody>
