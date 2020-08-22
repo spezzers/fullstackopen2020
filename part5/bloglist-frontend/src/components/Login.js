@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import loginService from '../services/login'
 
-const Login = ({ user, setUser }) => {
+const Login = ({ user, setUser, setMessage}) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -14,17 +14,19 @@ const Login = ({ user, setUser }) => {
 			})
 			window.localStorage.setItem('loggedInUser', JSON.stringify(user))
 			setUser(user)
+			setMessage('confirm', 'log in successful')
 			setUsername('')
 			setPassword('')
 		} catch (exception) {
 			alert('wrong credentials')
 		}
 	}
-
+	
 	const handleLogout = event => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
 		setUser(null)
+		setMessage('confirm', 'log out successful')
 	}
 
 	if (user === null) {

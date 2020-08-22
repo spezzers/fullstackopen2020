@@ -5,7 +5,7 @@ import blogService from '../services/blogs'
 
 const BlogList = ({ user }) => {
 	const [blogs, setBlogs] = useState([])
-	useEffect (() => {
+	useEffect(() => {
 		if (user !== null) {
 			blogService.getAll().then(blogs => setBlogs(blogs))
 		}
