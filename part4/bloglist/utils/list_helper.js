@@ -1,10 +1,6 @@
 const _ = require('lodash')
-// const logger = require('./logger')
 
-const dummy = () => {
-	// console.log('dummy:', blogs)
-	return 1
-}
+const dummy = () => 1
 
 const totalLikes = blogs => {
 	const total = blogs

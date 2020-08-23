@@ -18,6 +18,4 @@ const CreateNewBlog = (props) => {
     )
 }
 
-
-
 export default CreateNewBlog
