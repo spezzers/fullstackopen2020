@@ -15,7 +15,24 @@ const BlogList = ({ user, setMessage }) => {
 	if (user === null) {
 		return null
 	}
-	const blogList = blogs.map(blog => <Blog key={blog.id} blog={blog} />)
+
+	const handleUpdate = async (data) => {
+		const blogToUpdate = blogs.find(blog => blog.id === data.id)
+		const updatedBlog = {
+			...data,
+			user: blogToUpdate.user
+		}
+		const updatedList = blogs.map((blog) => blog === blogToUpdate
+			? updatedBlog
+			: blog
+		)
+		console.log(updatedList, updatedBlog)
+		await setBlogs(() => updatedList)
+	}
+
+	const blogList = blogs.map(blog => (
+		<Blog key={blog.id} blog={blog} update={handleUpdate} />
+	))
 
 	return (
 		<div>
@@ -25,7 +42,6 @@ const BlogList = ({ user, setMessage }) => {
 				onSubmit={setBlogs}
 				list={blogs}
 				setMessage={setMessage}
-				
 			/>
 			{blogList}
 		</div>

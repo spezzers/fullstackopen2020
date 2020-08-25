@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, update }) => {
 	const [detailsVisible, setDetailsVisible] = useState(false)
 
 	const showWhenVisible = { display: detailsVisible ? '' : 'none' }
 
 	const toggleDetails = () =>
 		detailsVisible ? setDetailsVisible(false) : setDetailsVisible(true)
+
+		const handleNewLike = async () => {
+			const likeBlog = {
+				...blog,
+				likes: blog.likes + 1,
+				user: blog.user.id
+			}
+			try {
+				const response = await blogService.update(blog.id, likeBlog)
+				update(response.data)
+			} catch (exception) {
+				console.log(exception.message)
+			}
+		}
 
 	return (
 		<div style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}>
@@ -22,7 +37,7 @@ const Blog = ({ blog }) => {
 				</div>
 				<div>
 					likes: {blog.likes}{' '}
-					<button onClick={() => console.log(`${blog.title} received a new like`)}>
+					<button onClick={handleNewLike}>
 						like
 					</button>
 				</div>
