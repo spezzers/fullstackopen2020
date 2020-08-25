@@ -4,11 +4,6 @@ import Message from './components/Message'
 import MessageTest from './components/dev/MessageTest'
 import Login from './components/Login'
 
-
-
-
-
-
 const App = () => {
 	const [user, setUser] = useState(null)
 	const [message, setMessage] = useState(
@@ -39,8 +34,6 @@ const App = () => {
 		)
 		window.clearTimeout(messageTimer - 1)
 	}
-
-
 
 	return (
 		<div>

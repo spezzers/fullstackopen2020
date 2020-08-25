@@ -5,11 +5,13 @@ import blogService from '../services/blogs'
 
 const BlogList = ({ user, setMessage }) => {
 	const [blogs, setBlogs] = useState([])
+
 	useEffect(() => {
 		if (user !== null) {
 			blogService.getAll().then(blogs => setBlogs(blogs))
 		}
 	}, [user])
+
 	if (user === null) {
 		return null
 	}
@@ -17,17 +19,15 @@ const BlogList = ({ user, setMessage }) => {
 
 	return (
 		<div>
-			<BlogForm user={user} onSubmit={setBlogs} list={blogs} setMessage={setMessage}/>
 			<h2>Blogs</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Title</th>
-						<th>Author</th>
-					</tr>
-					{blogList}
-				</tbody>
-			</table>
+			<BlogForm
+				user={user}
+				onSubmit={setBlogs}
+				list={blogs}
+				setMessage={setMessage}
+				
+			/>
+			{blogList}
 		</div>
 	)
 }

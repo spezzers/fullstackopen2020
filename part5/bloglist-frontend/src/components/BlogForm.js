@@ -39,7 +39,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 		else { setMessage('warning', 'Please fill in all fields') }
 	}
 	return (
-		<div>
+		<div style={{padding: '0 20px 20px'}}>
 			<CreateNewBlog>
 				<h3>Add a blog...</h3>
 				<form onSubmit={handleSubmit}>
