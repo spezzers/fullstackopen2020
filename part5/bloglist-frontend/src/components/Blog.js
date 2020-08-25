@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 const Blog = ({ blog, update, remove }) => {
 	const [detailsVisible, setDetailsVisible] = useState(false)
 
+
 	const showWhenVisible = { display: detailsVisible ? '' : 'none' }
 
 	const toggleDetails = () =>
@@ -23,6 +24,8 @@ const Blog = ({ blog, update, remove }) => {
 		}
 	}
 
+	const showRemove = {display: remove().username !== blog.user.username ? 'none' : ''}
+
 	return (
 		<div style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}>
 			{blog.title} - {blog.author}
@@ -39,8 +42,8 @@ const Blog = ({ blog, update, remove }) => {
 					likes: {blog.likes} <button onClick={handleNewLike}>like</button>
 				</div>
 				<div>{blog.user.name}</div>
-				<div>
-					<button onClick={remove}>remove</button>
+				<div style={showRemove}>
+					<button onClick={() => remove(blog)}>remove</button>
 				</div>
 			</div>
 		</div>

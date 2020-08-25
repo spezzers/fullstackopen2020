@@ -16,34 +16,50 @@ const BlogList = ({ user, setMessage }) => {
 		return null
 	}
 
-	const handleUpdate = (data) => {
+	const handleUpdate = data => {
 		const blogToUpdate = blogs.find(blog => blog.id === data.id)
 		const updatedBlog = {
 			...data,
 			user: blogToUpdate.user
 		}
-		const updatedList = blogs.map((blog) => blog === blogToUpdate
-			? updatedBlog
-			: blog
+		const updatedList = blogs.map(blog =>
+			blog === blogToUpdate ? updatedBlog : blog
 		)
-		console.log(updatedList, updatedBlog)
 		setBlogs(() => updatedList)
 	}
 
-	const handleRemove = async (blog) => {
+	const remove = blog => {
+		if (blog === undefined) {
+			return user
+		}
 		const check = window.confirm('Are you sure you want to delete this?')
 		if (check) {
-			console.log('confirmed: delete this, please')
-			setMessage(`'${blog.title}' has been removed`)
+			const config = {
+				headers: { Authorization: `bearer ${user.token}` }
+			}
+			const removedBlog = blog
+			const removeIt = async () => {
+				try {
+					await blogService.remove(blog.id, config)
+					setMessage(
+						`Successfully removed '${removedBlog.title}' by '${removedBlog.author}'`
+					)
+					setBlogs(updatedList)
+				} catch (exception) {
+					setMessage(exception.message, 'error')
+				}
+			}
+			const updatedList = blogs.filter(blog => blog !== removedBlog)
+			removeIt()
 		}
 	}
 
 	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
-	
+
 	const blogList = sortedByLikes.map(blog => (
-		<Blog key={blog.id} blog={blog} update={handleUpdate} remove={handleRemove} />
-		))
-		
+		<Blog key={blog.id} blog={blog} update={handleUpdate} remove={remove} />
+	))
+
 	return (
 		<div>
 			<h2>Blogs</h2>

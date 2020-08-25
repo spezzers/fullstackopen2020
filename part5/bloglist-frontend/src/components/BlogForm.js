@@ -28,15 +28,15 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 				const response = await blogService.postBlog(newBlog, config)
 				onSubmit(list.concat(response))
 				setMessage(
-					'confirm',
-					`Blog Added: '${response.title}' by '${response.author}'`
+					`Blog Added: '${response.title}' by '${response.author}'`,
+					'confirm'
 				)
 				setNewBlog(emptyForm)
 			} catch (error) {
-				setMessage('error', 'Failed to add blog to list')
+				setMessage( 'Failed to add blog to list', 'error')
 			}
 		}
-		else { setMessage('warning', 'Please fill in all fields') }
+		else { setMessage('Please fill in all fields', 'warning') }
 	}
 	return (
 		<div style={{padding: '0 20px 20px'}}>
