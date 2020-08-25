@@ -17,7 +17,7 @@ const Login = ({ user, setUser, setMessage}) => {
 			setUsername('')
 			setPassword('')
 		} catch (exception) {
-			setMessage('error', 'wrong username or password')
+			setMessage('wrong username or password', 'error')
 		}
 	}
 	
@@ -25,7 +25,7 @@ const Login = ({ user, setUser, setMessage}) => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
 		setUser(null)
-		setMessage('confirm', 'log out successful')
+		setMessage('log out successful', 'confirm')
 	}
 
 	if (user === null) {

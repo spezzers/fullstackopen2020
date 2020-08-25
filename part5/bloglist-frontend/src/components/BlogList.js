@@ -16,7 +16,7 @@ const BlogList = ({ user, setMessage }) => {
 		return null
 	}
 
-	const handleUpdate = async (data) => {
+	const handleUpdate = (data) => {
 		const blogToUpdate = blogs.find(blog => blog.id === data.id)
 		const updatedBlog = {
 			...data,
@@ -27,12 +27,21 @@ const BlogList = ({ user, setMessage }) => {
 			: blog
 		)
 		console.log(updatedList, updatedBlog)
-		await setBlogs(() => updatedList)
+		setBlogs(() => updatedList)
 	}
+
+	const handleRemove = async (blog) => {
+		const check = window.confirm('Are you sure you want to delete this?')
+		if (check) {
+			console.log('confirmed: delete this, please')
+			setMessage(`'${blog.title}' has been removed`)
+		}
+	}
+
 	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
 	
 	const blogList = sortedByLikes.map(blog => (
-		<Blog key={blog.id} blog={blog} update={handleUpdate} />
+		<Blog key={blog.id} blog={blog} update={handleUpdate} remove={handleRemove} />
 		))
 		
 	return (

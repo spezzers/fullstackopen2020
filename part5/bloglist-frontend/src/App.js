@@ -24,7 +24,7 @@ const App = () => {
 
 
 	
-	const handleMessage = (type, content) => {
+	const handleMessage = (content, type) => {
 		let messageType
 		['error', 'warning', 'confirm'].includes(type) ? messageType = type : messageType = 'message'
 		setMessage({ type: messageType, content: content })

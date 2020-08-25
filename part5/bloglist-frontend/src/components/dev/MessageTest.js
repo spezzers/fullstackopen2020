@@ -5,16 +5,16 @@ const MessageTest = ({handleMessage}) => {
 		<div style={{paddingBottom: '20px', borderBottom: 'solid #aaaaaa', marginBottom: '20px'}}>
 			{' '}
 			<div>Message Tests</div>
-			<button onClick={() => handleMessage('error', 'error message test')}>
+			<button onClick={() => handleMessage('error message test', 'error')}>
 				error
 			</button>
-			<button onClick={() => handleMessage('warning', 'warning message test')}>
+			<button onClick={() => handleMessage('warning message test', 'warning')}>
 				warning
 			</button>
-			<button onClick={() => handleMessage('confirm', 'confirm message test')}>
+			<button onClick={() => handleMessage('confirm message test', 'confirm')}>
 				confirm
 			</button>
-			<button onClick={() => handleMessage('default', 'default message test')}>
+			<button onClick={() => handleMessage('default message test', 'default')}>
 				default
 			</button>
 		</div>
