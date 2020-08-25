@@ -29,11 +29,12 @@ const BlogList = ({ user, setMessage }) => {
 		console.log(updatedList, updatedBlog)
 		await setBlogs(() => updatedList)
 	}
-
-	const blogList = blogs.map(blog => (
+	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
+	
+	const blogList = sortedByLikes.map(blog => (
 		<Blog key={blog.id} blog={blog} update={handleUpdate} />
-	))
-
+		))
+		
 	return (
 		<div>
 			<h2>Blogs</h2>
