@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Toggle = (props) => {
+const Toggle = props => {
 	const [visible, setVisible] = useState(false)
 
 	const secondaryLabel = props.secondaryLabel || 'Cancel'
@@ -10,7 +10,7 @@ const Toggle = (props) => {
 	const style = {
 		...props.style,
 		display: visible ? '' : 'none'
-    }
+	}
 
 	return (
 		<>
@@ -23,7 +23,7 @@ const Toggle = (props) => {
 }
 
 Toggle.propTypes = {
-    primaryLabel: PropTypes.string.isRequired
+	primaryLabel: PropTypes.string.isRequired
 }
 
 export default Toggle

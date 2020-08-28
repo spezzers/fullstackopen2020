@@ -32,7 +32,9 @@ const BlogList = ({ user, setMessage }) => {
 		if (blog === undefined) {
 			return user
 		}
-		const check = window.confirm(`Are you sure you want to delete '${blog.title}' by '${blog.author}'?`)
+		const check = window.confirm(
+			`Are you sure you want to delete '${blog.title}' by '${blog.author}'?`
+		)
 		if (check) {
 			const config = {
 				headers: { Authorization: `bearer ${user.token}` }

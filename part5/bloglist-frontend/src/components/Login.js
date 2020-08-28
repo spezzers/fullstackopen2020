@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import loginService from '../services/login'
 import propTypes from 'prop-types'
 
-const Login = ({ user, setUser, setMessage}) => {
+const Login = ({ user, setUser, setMessage }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -22,14 +22,14 @@ const Login = ({ user, setUser, setMessage}) => {
 			setMessage('wrong username or password', 'error')
 		}
 	}
-	
+
 	const handleLogout = event => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
-		setUser({username: '', name: '', token: ''})
+		setUser({ username: '', name: '', token: '' })
 		setMessage('log out successful', 'confirm')
 	}
-	
+
 	if (user.username === '') {
 		return (
 			<div>
@@ -60,7 +60,7 @@ const Login = ({ user, setUser, setMessage}) => {
 	}
 	return (
 		<div>
-            <div>Hello {user.name}</div>
+			<div>Hello {user.name}</div>
 			<button onClick={handleLogout}>logout</button>
 		</div>
 	)
@@ -73,7 +73,7 @@ Login.propTypes = {
 		token: propTypes.string.isRequired
 	}).isRequired,
 	setUser: propTypes.func.isRequired,
-	setMessage: propTypes.func,
+	setMessage: propTypes.func
 }
 
 export default Login

@@ -3,7 +3,6 @@ import blogService from '../services/blogs'
 import Toggle from './Toggle'
 
 const Blog = ({ blog, update, remove }) => {
-
 	const handleNewLike = async () => {
 		const likeBlog = {
 			...blog,
@@ -18,7 +17,9 @@ const Blog = ({ blog, update, remove }) => {
 		}
 	}
 
-	const showRemove = {display: remove().username !== blog.user.username ? 'none' : ''}
+	const showRemove = {
+		display: remove().username !== blog.user.username ? 'none' : ''
+	}
 
 	return (
 		<div style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}>

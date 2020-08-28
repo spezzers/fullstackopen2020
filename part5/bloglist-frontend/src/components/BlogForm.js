@@ -15,7 +15,6 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 		url: ''
 	}
 
-
 	const handleSubmit = async event => {
 		event.preventDefault()
 		if ((newBlog.title && newBlog.author && newBlog.url) !== '') {
