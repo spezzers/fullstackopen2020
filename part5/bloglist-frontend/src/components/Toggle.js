@@ -1,33 +1,25 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
 
-const Toggle = React.forwardRef((props, ref) => {
-    const [visible, setVisible] = useState(false)
+const Toggle = (props, ref) => {
+	const [visible, setVisible] = useState(false)
 
-    const secondaryLabel = props.secondaryLabel || 'Cancel'
+	const secondaryLabel = props.secondaryLabel || 'Cancel'
 
-    const toggleVisible = () => setVisible(!visible)
-    const style = {
-        ...props.style,
-        display: visible ? '' : 'none'
-    }
-
-    useImperativeHandle(ref, () => {
-        return {
-            toggleVisible
-        }
-    })
+	const toggleVisible = () => setVisible(!visible)
+	const style = {
+		...props.style,
+		display: visible ? '' : 'none'
+	}
 
 	return (
-        <>
-        <button onClick={toggleVisible}>
-            {visible ? secondaryLabel : props.primaryLabel}
-        </button>
-		<div style={style}>
-			{props.children}
-		</div>
-        </>
-    )
-})
+		<>
+			<button onClick={toggleVisible}>
+				{visible ? secondaryLabel : props.primaryLabel}
+			</button>
+			<div style={style}>{props.children}</div>
+		</>
+	)
+}
 
 export default Toggle
