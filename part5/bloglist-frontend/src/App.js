@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import BlogList from './components/BlogList'
 import Message from './components/Message'
-import MessageTest from './components/dev/MessageTest'
 import Login from './components/Login'
 
 const App = () => {
@@ -20,9 +19,6 @@ const App = () => {
 			setUser(user)
 		}
 	}, [])
-
-
-
 	
 	const handleMessage = (content, type) => {
 		let messageType
@@ -37,11 +33,9 @@ const App = () => {
 
 	return (
 		<div>
-			<MessageTest handleMessage={handleMessage} />
 			<Login user={user} setUser={setUser} setMessage={handleMessage} />
 			<Message message={message} />
 			<BlogList user={user} setMessage={handleMessage} />
-
 		</div>
 	)
 }

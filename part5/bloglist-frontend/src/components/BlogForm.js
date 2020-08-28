@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import blogService from '../services/blogs'
-import CreateNewBlog from './CreateNewBlog'
+import Toggle from './Toggle'
 
 const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 	const [newBlog, setNewBlog] = useState({
@@ -14,6 +14,8 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 		author: '',
 		url: ''
 	}
+
+	const blogFormRef = useRef()
 
 	const handleSubmit = async event => {
 		event.preventDefault()
@@ -36,12 +38,11 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 				setMessage( 'Failed to add blog to list', 'error')
 			}
 		}
-		else { setMessage('Please fill in all fields', 'warning') }
+		else { setMessage('Please fill in all fields', 'error') }
 	}
+
 	return (
-		<div style={{padding: '0 20px 20px'}}>
-			<CreateNewBlog>
-				<h3>Add a blog...</h3>
+			<Toggle primaryLabel='Add a blog' ref={blogFormRef} style={{border: 'dashed #cccccc 1px', padding: '5px', margin: '0 5px 5px'}}>
 				<form onSubmit={handleSubmit}>
 					<table>
 						<tbody>
@@ -87,11 +88,10 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 						</tbody>
 					</table>
 					<button type='submit' onSubmit={handleSubmit}>
-						Submit
+						Add blog
 					</button>
 				</form>
-			</CreateNewBlog>
-		</div>
+			</Toggle>
 	)
 }
 

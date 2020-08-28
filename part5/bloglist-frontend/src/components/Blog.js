@@ -1,14 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../services/blogs'
+import Toggle from './Toggle'
 
 const Blog = ({ blog, update, remove }) => {
-	const [detailsVisible, setDetailsVisible] = useState(false)
-
-
-	const showWhenVisible = { display: detailsVisible ? '' : 'none' }
-
-	const toggleDetails = () =>
-		detailsVisible ? setDetailsVisible(false) : setDetailsVisible(true)
 
 	const handleNewLike = async () => {
 		const likeBlog = {
@@ -29,10 +23,7 @@ const Blog = ({ blog, update, remove }) => {
 	return (
 		<div style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}>
 			{blog.title} - {blog.author}
-			<button onClick={toggleDetails}>
-				{detailsVisible ? 'hide' : 'view'}
-			</button>
-			<div style={showWhenVisible}>
+			<Toggle primaryLabel='view' secondaryLabel='hide'>
 				<div>
 					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
 						{blog.url}
@@ -45,7 +36,7 @@ const Blog = ({ blog, update, remove }) => {
 				<div style={showRemove}>
 					<button onClick={() => remove(blog)}>remove</button>
 				</div>
-			</div>
+			</Toggle>
 		</div>
 	)
 }
