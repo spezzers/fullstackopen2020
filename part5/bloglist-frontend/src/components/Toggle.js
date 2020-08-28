@@ -18,14 +18,16 @@ const Toggle = React.forwardRef((props, ref) => {
         }
     })
 
-	return [
+	return (
+        <>
         <button onClick={toggleVisible}>
             {visible ? secondaryLabel : props.primaryLabel}
-        </button>,
+        </button>
 		<div style={style}>
 			{props.children}
 		</div>
-    ]
+        </>
+    )
 })
 
 export default Toggle
