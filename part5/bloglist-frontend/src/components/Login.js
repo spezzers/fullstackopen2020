@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import loginService from '../services/login'
+import propTypes from 'prop-types'
 
 const Login = ({ user, setUser, setMessage}) => {
 	const [username, setUsername] = useState('')
@@ -16,6 +17,7 @@ const Login = ({ user, setUser, setMessage}) => {
 			setUser(user)
 			setUsername('')
 			setPassword('')
+			setMessage('welcome', 'confirm')
 		} catch (exception) {
 			setMessage('wrong username or password', 'error')
 		}
@@ -24,11 +26,11 @@ const Login = ({ user, setUser, setMessage}) => {
 	const handleLogout = event => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
-		setUser(null)
+		setUser({username: '', name: '', token: ''})
 		setMessage('log out successful', 'confirm')
 	}
-
-	if (user === null) {
+	
+	if (user.username === '') {
 		return (
 			<div>
 				<h2>Login</h2>
@@ -62,6 +64,16 @@ const Login = ({ user, setUser, setMessage}) => {
 			<button onClick={handleLogout}>logout</button>
 		</div>
 	)
+}
+
+Login.propTypes = {
+	user: propTypes.exact({
+		username: propTypes.string.isRequired,
+		name: propTypes.string.isRequired,
+		token: propTypes.string.isRequired
+	}).isRequired,
+	setUser: propTypes.func.isRequired,
+	setMessage: propTypes.func,
 }
 
 export default Login

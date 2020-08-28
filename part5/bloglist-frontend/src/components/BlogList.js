@@ -7,12 +7,12 @@ const BlogList = ({ user, setMessage }) => {
 	const [blogs, setBlogs] = useState([])
 
 	useEffect(() => {
-		if (user !== null) {
+		if (user.username !== '') {
 			blogService.getAll().then(blogs => setBlogs(blogs))
 		}
 	}, [user])
 
-	if (user === null) {
+	if (user.username === '') {
 		return null
 	}
 

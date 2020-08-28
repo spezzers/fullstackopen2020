@@ -4,7 +4,7 @@ import Message from './components/Message'
 import Login from './components/Login'
 
 const App = () => {
-	const [user, setUser] = useState(null)
+	const [user, setUser] = useState({username: '', name: '', token: ''})
 	const [message, setMessage] = useState(
 		{
 			type: 'initial',
