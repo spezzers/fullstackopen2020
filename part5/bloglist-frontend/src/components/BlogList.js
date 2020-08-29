@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
+import Toggle from './Toggle'
 
 const BlogList = ({ user, setMessage }) => {
 	const [blogs, setBlogs] = useState([])
@@ -58,9 +59,46 @@ const BlogList = ({ user, setMessage }) => {
 
 	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
 
-	const blogList = sortedByLikes.map(blog => (
-		<Blog key={blog.id} blog={blog} update={handleUpdate} remove={remove} />
-	))
+	const blogList = sortedByLikes.map(blog => {
+		const showRemove = {
+			display: remove().username !== blog.user.username ? 'none' : ''
+		}
+		const handleNewLike = async () => {
+			const likeBlog = {
+				...blog,
+				likes: blog.likes + 1,
+				user: blog.user.id
+			}
+			try {
+				const response = await blogService.update(blog.id, likeBlog)
+				handleUpdate(response.data)
+			} catch (exception) {
+				console.log(exception.message)
+			}
+		}
+		return (
+			<div
+				key={blog.id}
+				style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}
+			>
+				<Blog blog={blog} update={handleUpdate} remove={remove} />
+				<Toggle primaryLabel='view' secondaryLabel='hide'>
+					<div>
+						<a target='_blank' rel='noopener noreferrer' href={blog.url}>
+							{blog.url}
+						</a>
+					</div>
+					<div>
+						likes: {blog.likes} <button onClick={handleNewLike}>like</button>
+					</div>
+					<div>{blog.user.name}</div>
+					<div style={showRemove}>
+						<button onClick={() => remove(blog)}>remove</button>
+					</div>
+				</Toggle>
+			</div>
+		)
+	})
 
 	return (
 		<div>
