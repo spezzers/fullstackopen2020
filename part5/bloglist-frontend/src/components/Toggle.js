@@ -17,7 +17,7 @@ const Toggle = props => {
 			<button onClick={toggleVisible}>
 				{visible ? secondaryLabel : props.primaryLabel}
 			</button>
-			<div style={style}>{props.children}</div>
+			<div className={props.className} style={style}>{props.children}</div>
 		</>
 	)
 }

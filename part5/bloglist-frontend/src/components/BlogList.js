@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
-import Toggle from './Toggle'
 
 const BlogList = ({ user, setMessage }) => {
 	const [blogs, setBlogs] = useState([])
@@ -77,26 +76,20 @@ const BlogList = ({ user, setMessage }) => {
 			}
 		}
 		return (
-			<div
-				key={blog.id}
-				style={{ border: 'black solid 1px', margin: '5px', padding: '5px' }}
-			>
-				<Blog blog={blog} update={handleUpdate} remove={remove} />
-				<Toggle primaryLabel='view' secondaryLabel='hide'>
-					<div>
-						<a target='_blank' rel='noopener noreferrer' href={blog.url}>
-							{blog.url}
-						</a>
-					</div>
-					<div>
-						likes: {blog.likes} <button onClick={handleNewLike}>like</button>
-					</div>
-					<div>{blog.user.name}</div>
-					<div style={showRemove}>
-						<button onClick={() => remove(blog)}>remove</button>
-					</div>
-				</Toggle>
-			</div>
+			<Blog key={blog.id} blog={blog}>
+				<div>
+					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
+						{blog.url}
+					</a>
+				</div>
+				<div>
+					likes: {blog.likes} <button onClick={handleNewLike}>like</button>
+				</div>
+				<div>{blog.user.name}</div>
+				<div style={showRemove}>
+					<button onClick={() => remove(blog)}>remove</button>
+				</div>
+			</Blog>
 		)
 	})
 
