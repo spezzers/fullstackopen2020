@@ -6,7 +6,7 @@ const Toggle = props => {
 
 	const secondaryLabel = props.secondaryLabel || 'Cancel'
 
-	const handleToggle = () => props.toggleButton ? props.toggleButton : setVisible(!visible)
+	const handleToggle = props.toggleButton ? props.toggleButton : () => setVisible(!visible)
 
 	const style = {
 		...props.style,

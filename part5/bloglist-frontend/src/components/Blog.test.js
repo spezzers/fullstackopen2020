@@ -27,10 +27,8 @@ describe('5.13', () => {
 	})
 })
 describe('5.14', () => {
-	test.only('5.14 - URL and Likes are shown on button click', () => {
-
+	test('URL and Likes are shown on button click', () => {
 		const component = render(<Blog blog={blog}></Blog>)
-
 		const button = component.container.querySelector('.toggleButton')
 		const toggle = component.container.querySelector('.toggle')
 
@@ -39,5 +37,18 @@ describe('5.14', () => {
 		expect(toggle).not.toHaveStyle('display: none')
 		expect(toggle.querySelector('.url'))
 		expect(toggle.querySelector('.likes'))
+	})
+})
+describe('5.15', () => {
+	test('two clicks on like button triggers event handler twice', () => {
+		const mockFn = jest.fn()
+		const component = render(<Blog handleLike={mockFn} blog={blog}></Blog>)
+		const button = component.container.querySelector('.likeButton')
+
+		fireEvent.click(button)
+		fireEvent.click(button)
+
+		console.log(mockFn.mock.calls.length)
+		expect(mockFn.mock.calls.length).toBe(2)
 	})
 })

@@ -14,14 +14,14 @@ const Blog = props => {
 			}}
 		>
 			{blog.title} - {blog.author}
-			<Toggle className='toggle' primaryLabel='view' secondaryLabel='hide'>
+			<Toggle className='toggle' primaryLabel='view' secondaryLabel='hide' toggleButton={props.toggleButton}>
 				<div className='url'>
 					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
 						{blog.url}
 					</a>
 				</div>
 				<div className='likes'>
-					likes: {blog.likes} <button onClick={props.handleLike}>like</button>
+					likes: {blog.likes} <button className='likeButton' onClick={props.handleLike}>like</button>
 				</div>
 				<div className='name-of-user'>{blog.user.name}</div>
 				{props.children}
