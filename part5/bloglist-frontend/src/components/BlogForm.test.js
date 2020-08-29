@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import {
 	render,
 	fireEvent,
-	prettyDOM
+	// prettyDOM
 } from '@testing-library/react'
 // import { prettyDOM } from '@testing-library/dom'
 import BlogForm from './BlogForm'
@@ -11,7 +11,7 @@ import BlogForm from './BlogForm'
 describe('5.16*', () => {
 	test('Event handler props match correct form details', () => {
 		const mockSubmit = jest.fn()
-		const user = {token: '12'}
+		const user = {token: 'meep'}
 		const component = render(<BlogForm user={user} onSubmit={mockSubmit}/>)
 		const button = component.container.querySelector('#submitBlog')
 		const author = component.container.querySelector('#author')
@@ -28,6 +28,6 @@ describe('5.16*', () => {
 		})
 		fireEvent.click(button)
 		// component.debug()
-		console.log(mockSubmit.mock.calls)
+		console.log(mockSubmit.mock)
 	})
 })

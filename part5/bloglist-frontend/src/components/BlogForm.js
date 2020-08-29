@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
 
-const BlogForm = ({ user, list, onSubmit, setMessage }) => {
+const BlogForm = ({ user, list, setBlogs, setMessage }) => {
 	const [newBlog, setNewBlog] = useState({
 		title: '',
 		author: '',
@@ -26,13 +26,14 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 			}
 			try {
 				const response = await blogService.postBlog(newBlog, config)
-				onSubmit(list.concat(response))
+				setBlogs(list.concat(response))
 				setMessage(
 					`Blog Added: '${response.title}' by '${response.author}'`,
 					'confirm'
 				)
 				setNewBlog(emptyForm)
 			} catch (error) {
+				console.log(error.message)
 				setMessage('Failed to add blog to list', 'error')
 			}
 		} else {

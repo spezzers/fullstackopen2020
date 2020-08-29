@@ -89,7 +89,7 @@ const BlogList = ({ user, setMessage }) => {
 			<h2>Blogs</h2>
 			<BlogForm
 				user={user}
-				onSubmit={setBlogs}
+				setBlogs={setBlogs}
 				list={blogs}
 				setMessage={setMessage}
 			/>
