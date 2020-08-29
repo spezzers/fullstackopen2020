@@ -49,7 +49,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 				margin: '0 5px 5px'
 			}}
 		>
-			<form onSubmit={handleSubmit}>
+			<form id='form' onSubmit={handleSubmit}>
 				<table>
 					<tbody>
 						<tr>
@@ -58,7 +58,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 								<input
 									type='text'
 									value={newBlog.title}
-									name='title'
+									id='title'
 									onChange={({ target }) =>
 										setNewBlog({ ...newBlog, title: target.value })
 									}
@@ -71,7 +71,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 								<input
 									type='text'
 									value={newBlog.author}
-									name='author'
+									id='author'
 									onChange={({ target }) =>
 										setNewBlog({ ...newBlog, author: target.value })
 									}
@@ -84,7 +84,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 								<input
 									type='text'
 									value={newBlog.url}
-									name='url'
+									id='url'
 									onChange={({ target }) =>
 										setNewBlog({ ...newBlog, url: target.value })
 									}
@@ -93,7 +93,7 @@ const BlogForm = ({ user, list, onSubmit, setMessage }) => {
 						</tr>
 					</tbody>
 				</table>
-				<button type='submit' onSubmit={handleSubmit}>
+				<button type='submit' id='submitBlog' onSubmit={handleSubmit}>
 					Add blog
 				</button>
 			</form>
