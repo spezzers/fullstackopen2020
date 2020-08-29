@@ -76,16 +76,7 @@ const BlogList = ({ user, setMessage }) => {
 			}
 		}
 		return (
-			<Blog key={blog.id} blog={blog}>
-				<div>
-					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
-						{blog.url}
-					</a>
-				</div>
-				<div>
-					likes: {blog.likes} <button onClick={handleNewLike}>like</button>
-				</div>
-				<div>{blog.user.name}</div>
+			<Blog key={blog.id} blog={blog} handleLike={handleNewLike}>
 				<div style={showRemove}>
 					<button onClick={() => remove(blog)}>remove</button>
 				</div>

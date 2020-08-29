@@ -6,7 +6,8 @@ const Toggle = props => {
 
 	const secondaryLabel = props.secondaryLabel || 'Cancel'
 
-	const toggleVisible = () => setVisible(!visible)
+	const handleToggle = () => props.toggleButton ? props.toggleButton : setVisible(!visible)
+
 	const style = {
 		...props.style,
 		display: visible ? '' : 'none'
@@ -14,10 +15,12 @@ const Toggle = props => {
 
 	return (
 		<>
-			<button onClick={toggleVisible}>
+			<button onClick={handleToggle} className='toggleButton'>
 				{visible ? secondaryLabel : props.primaryLabel}
 			</button>
-			<div className={props.className} style={style}>{props.children}</div>
+			<div className={props.className} style={style}>
+				{props.children}
+			</div>
 		</>
 	)
 }
