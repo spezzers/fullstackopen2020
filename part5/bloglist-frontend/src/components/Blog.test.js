@@ -48,7 +48,6 @@ describe('5.15', () => {
 		fireEvent.click(button)
 		fireEvent.click(button)
 
-		console.log(mockFn.mock.calls.length)
 		expect(mockFn.mock.calls.length).toBe(2)
 	})
 })
