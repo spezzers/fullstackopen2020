@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
 
-const BlogForm = ({ user, list, setBlogs, setMessage }) => {
+const BlogForm = (props) => {
 	const [newBlog, setNewBlog] = useState({
 		title: '',
 		author: '',
@@ -14,6 +14,11 @@ const BlogForm = ({ user, list, setBlogs, setMessage }) => {
 		author: '',
 		url: ''
 	}
+	const
+		user = props.user,
+		list = props.list,
+		setBlogs = props.setBlogs,
+		setMessage = props.setMessage
 
 	const handleSubmit = async event => {
 		event.preventDefault()
@@ -41,6 +46,8 @@ const BlogForm = ({ user, list, setBlogs, setMessage }) => {
 		}
 	}
 
+	const onSubmit = props.onSubmit ? props.onSubmit(newBlog) : handleSubmit
+
 	return (
 		<Toggle
 			primaryLabel='Add a blog'
@@ -50,7 +57,7 @@ const BlogForm = ({ user, list, setBlogs, setMessage }) => {
 				margin: '0 5px 5px'
 			}}
 		>
-			<form id='form' onSubmit={handleSubmit}>
+			<form id='form' onSubmit={onSubmit}>
 				<table>
 					<tbody>
 						<tr>
@@ -94,7 +101,7 @@ const BlogForm = ({ user, list, setBlogs, setMessage }) => {
 						</tr>
 					</tbody>
 				</table>
-				<button type='submit' id='submitBlog' onSubmit={handleSubmit}>
+				<button type='submit' id='submitBlog' onSubmit={onSubmit}>
 					Add blog
 				</button>
 			</form>

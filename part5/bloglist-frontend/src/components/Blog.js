@@ -3,7 +3,6 @@ import Toggle from './Toggle'
 
 const Blog = props => {
 	const blog = props.blog
-	// const handleLike = props.handleLike || console.log('like not handled')
 	return (
 		<div
 			style={{
