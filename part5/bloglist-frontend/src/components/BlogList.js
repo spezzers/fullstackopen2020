@@ -58,16 +58,38 @@ const BlogList = ({ user, setMessage }) => {
 
 	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
 
-	const blogList = sortedByLikes.map(blog => (
-		<Blog key={blog.id} blog={blog} update={handleUpdate} remove={remove} />
-	))
+	const blogList = sortedByLikes.map(blog => {
+		const showRemove = {
+			display: remove().username !== blog.user.username ? 'none' : ''
+		}
+		const handleNewLike = async () => {
+			const likeBlog = {
+				...blog,
+				likes: blog.likes + 1,
+				user: blog.user.id
+			}
+			try {
+				const response = await blogService.update(blog.id, likeBlog)
+				handleUpdate(response.data)
+			} catch (exception) {
+				console.log(exception.message)
+			}
+		}
+		return (
+			<Blog key={blog.id} blog={blog} handleLike={handleNewLike}>
+				<div style={showRemove}>
+					<button onClick={() => remove(blog)}>remove</button>
+				</div>
+			</Blog>
+		)
+	})
 
 	return (
 		<div>
 			<h2>Blogs</h2>
 			<BlogForm
 				user={user}
-				onSubmit={setBlogs}
+				setBlogs={setBlogs}
 				list={blogs}
 				setMessage={setMessage}
 			/>
