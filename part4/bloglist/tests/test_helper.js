@@ -8,25 +8,25 @@ const api = supertest(app)
 const initialBlogList = [
 	{
 		_id: '5f113dc8cd737d08d839798e',
-		title: 'blogs_testies',
-		author: 'Full Stack Open part 0',
-		url: 'https://fullstackopen.com/en/part0',
+		title: 'A Blog Above Them All',
+		author: 'Ego Willis',
+		url: 'https://gogo.ego.com/blog/supreme-bloggin',
 		likes: 1,
 		user: '5f2aef99a560312908046798'
 	},
 	{
 		_id: '5f113dc8cd737d08d839798f',
-		title: 'Bloggus Testus',
-		author: 'Full Stack Open part 1',
-		url: 'https://fullstackopen.com/en/part1',
+		title: 'The Day I Found My Cellphone',
+		author: 'Gary "GadgetMon" Johnsson',
+		url: 'http://www.gadgetmon.com/cellphone-love',
 		likes: 17,
 		user: '5f2aef99a560312908046797'
 	},
 	{
 		_id: '5f113dc8cd737d08d8397990',
-		title: 'Blogmon & Bobbin',
-		author: 'Full Stack Open part 2',
-		url: 'https://fullstackopen.com/en/part2',
+		title: 'How To Slay Like A Boss',
+		author: 'Janet Shropshire-Dale, OBE',
+		url: 'https://blog.businessbossness.com/slay-like-a-boss',
 		likes: 56,
 		user: '5f2aef99a560312908046796'
 	}

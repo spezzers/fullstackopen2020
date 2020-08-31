@@ -35,11 +35,16 @@ bloglistRouter.post('/', async (request, response) => {
 		user: user,
 		likes: body.likes || 0
 	})
-	if (blog.title !== undefined && blog.url !== undefined) {
-		const savedBlog = await blog.save()
-		response.status(201).json(savedBlog)
-	} else {
-		response.status(400).end()
+	if ( user !== null) {
+		if (blog.title !== undefined && blog.url !== undefined) {
+			const savedBlog = await blog.save()
+			response.status(201).json(savedBlog)
+		} else {
+			response.status(400).end()
+		}
+	}
+	else {
+		response.status(401).end()
 	}
 })
 

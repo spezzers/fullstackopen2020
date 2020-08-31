@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const uniquieValidator = require('mongoose-unique-validator')
 
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
+
 const blogSchema = mongoose.Schema({
 	title: String,
 	author: String,
