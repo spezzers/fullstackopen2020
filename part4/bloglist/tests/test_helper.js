@@ -64,8 +64,8 @@ const initialUsers = [
 ]
 
 const superUser = {
-	...initialUsers[0],
-	token: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6ImZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZiIsImlhdCI6MTU5Njk2NjQ0OX0.sFjrlTuuVQcuZyERaCAWODhYOm9xdGkfdpsOCH528DI'
+	...initialUsers.find(user => user.username === 'root')[0],
+	token: process.env.SUPERUSER_TOKEN
 }
 
 const getUserToken = async (userid) => {
