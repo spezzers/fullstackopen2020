@@ -24,10 +24,17 @@ mongoose
 	})
 
 app.use(cors())
-app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogListRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') {
+	const testRouter = require('./controllers/testing')
+	app.use('/api/testing', testRouter)
+	console.log('Testing router enabled')
+}
+
+app.use(middleware.tokenExtractor)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.requestLogger)
 app.use(middleware.errorHandler)
