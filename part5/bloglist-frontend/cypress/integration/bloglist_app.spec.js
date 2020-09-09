@@ -10,8 +10,16 @@ describe('Blog app', function() {
 			cy.contains('password')
 		})
 	})
-	describe.skip('5.18 - User Login', function() {
-		it('sucessful login', function() {
+	describe.only('5.18 - User Login', function() {
+		beforeEach(function() {
+			const user = {
+				username: 'root',
+				name: 'Superuser',
+				password: 'supersecret'
+			}
+			cy.request('POST', 'http://localhost:3003/api/users', user)
+		})
+		it('succeeds with correct credentials', function() {
 			cy.contains('Login')
 			cy.get('#username').type('root')
 			cy.get('#password').type('supersecret')
@@ -19,7 +27,13 @@ describe('Blog app', function() {
 
 			cy.contains('Hello Superuser')
 		})
-		it('failed login attempt shows error message', function() {
+		it('fails with wrong credentials', function() {
+			cy.contains('Login')
+			cy.get('#username').type('root')
+			cy.get('#password').type('semisecret')
+			cy.get('#login-button').click()
+
+			cy.contains('wrong username or password')
 
 		})
 	})
