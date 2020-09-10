@@ -38,7 +38,7 @@ describe('Blog app', function() {
 
 		})
 	})
-	describe.only('5.19 - When logged in', function() {
+	describe('5.19 - When logged in', function() {
 		beforeEach(function() {
 			cy.request('POST', 'http://localhost:3003/api/users', user)
 			cy.request('POST', 'http://localhost:3003/api/login', {
@@ -57,6 +57,20 @@ describe('Blog app', function() {
 			cy.contains('Add blog').click()
 			cy.contains('Blog Added')
 			cy.contains('A Brand New Blog - New Kid')
+		})
+	})
+	describe.only('5.20', function() {
+		beforeEach(function() {
+			cy.request('POST', 'http://localhost:3003/api/users', user)
+			cy.request('POST', 'http://localhost:3003/api/login', {
+				username: 'root', password: 'supersecret'
+			}).then(response => {
+				localStorage.setItem('loggedInUser', JSON.stringify(response.body))
+				cy.visit('http://localhost:3000')
+			})
+		})
+		it('Can like a blog', function() {
+
 		})
 	})
 })
