@@ -24,6 +24,9 @@ mongoose
 	})
 
 app.use(cors())
+app.use(middleware.tokenExtractor)
+app.use(middleware.errorHandler)
+app.use(middleware.requestLogger)
 app.use('/api/blogs', blogListRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
@@ -34,9 +37,6 @@ if (process.env.NODE_ENV === 'test') {
 	console.log('Testing router enabled')
 }
 
-app.use(middleware.tokenExtractor)
 app.use(middleware.unknownEndpoint)
-app.use(middleware.requestLogger)
-app.use(middleware.errorHandler)
 
 module.exports = app

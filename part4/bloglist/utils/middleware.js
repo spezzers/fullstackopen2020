@@ -10,7 +10,7 @@ const requestLogger = (request, response, next) => {
 	logger.info('Body:', request.body)
 	logger.info('Authorization:', request.headers.authorization)
 	logger.info('------')
-	next(response)
+	next()
 }
 
 const tokenExtractor = (request, response, next) => {
