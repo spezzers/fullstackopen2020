@@ -10,7 +10,7 @@ describe('Blog app', function() {
 			cy.contains('password')
 		})
 	})
-	describe.only('5.18 - User Login', function() {
+	describe('5.18 - User Login', function() {
 		beforeEach(function() {
 			const user = {
 				username: 'root',

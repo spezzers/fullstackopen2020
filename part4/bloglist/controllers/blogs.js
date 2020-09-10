@@ -22,7 +22,8 @@ bloglistRouter.get('/:id', async (request, response) => {
 
 bloglistRouter.post('/', async (request, response) => {
 	const body = request.body
-	const token = request.token
+	const token = request.headers.authorization.slice(7)
+	console.log(token)
 	const decodedToken = token
 		? jwt.verify(token, process.env.SECRET)
 		: null
