@@ -23,7 +23,7 @@ describe('Blog app', function() {
 	})
 	describe('5.18 - User Login', function() {
 		beforeEach(function() {
-			cy.request('POST', 'http://localhost:3003/api/users', user)
+			cy.addUser(user)
 		})
 		it('succeeds with correct credentials', function() {
 			cy.contains('Login')
@@ -45,7 +45,7 @@ describe('Blog app', function() {
 	})
 	describe('5.19 - When logged in', function() {
 		beforeEach(function() {
-			cy.request('POST', 'http://localhost:3003/api/users', user)
+			cy.addUser(user)
 			cy.login(credentials)
 		})
 		it('A blog can be created', function() {
@@ -61,7 +61,7 @@ describe('Blog app', function() {
 	})
 	describe('5.20', function() {
 		beforeEach(function() {
-			cy.request('POST', 'http://localhost:3003/api/users', user)
+			cy.addUser(user)
 			cy.login(credentials)
 		})
 		it('Can like a blog', function() {
