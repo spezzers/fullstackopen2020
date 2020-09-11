@@ -9,6 +9,11 @@ describe('Blog app', function() {
 		name: 'Superuser',
 		password: 'supersecret'
 	}
+	const credentials = {
+		username: user.username,
+		password: user.password
+	}
+
 	describe('5.17', function() {
 		it('Display Login form by default', function() {
 			cy.contains('Login')
@@ -41,12 +46,7 @@ describe('Blog app', function() {
 	describe('5.19 - When logged in', function() {
 		beforeEach(function() {
 			cy.request('POST', 'http://localhost:3003/api/users', user)
-			cy.request('POST', 'http://localhost:3003/api/login', {
-				username: 'root', password: 'supersecret'
-			}).then(response => {
-				localStorage.setItem('loggedInUser', JSON.stringify(response.body))
-				cy.visit('http://localhost:3000')
-			})
+			cy.login(credentials)
 		})
 		it('A blog can be created', function() {
 			cy.contains('Blogs')
@@ -59,15 +59,10 @@ describe('Blog app', function() {
 			cy.contains('A Brand New Blog - New Kid')
 		})
 	})
-	describe.only('5.20', function() {
+	describe('5.20', function() {
 		beforeEach(function() {
 			cy.request('POST', 'http://localhost:3003/api/users', user)
-			cy.request('POST', 'http://localhost:3003/api/login', {
-				username: 'root', password: 'supersecret'
-			}).then(response => {
-				localStorage.setItem('loggedInUser', JSON.stringify(response.body))
-				cy.visit('http://localhost:3000')
-			})
+			cy.login(credentials)
 		})
 		it('Can like a blog', function() {
 
