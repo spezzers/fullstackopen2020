@@ -59,7 +59,7 @@ describe('Blog app', function() {
 			cy.contains('A Brand New Blog - New Kid')
 		})
 	})
-	describe('5.20', function() {
+	describe.only('5.20', function() {
 		beforeEach(function() {
 			cy.addUser(user)
 			cy.login(credentials)
@@ -70,7 +70,8 @@ describe('Blog app', function() {
 			})
 		})
 		it('Can like a blog', function() {
-			// cy.contains('Hello World - Original Annie').get()
+			cy.contains('Hello World - Original Annie').get('#blogDetails-toggle').click().get('.likeButton').click()
+			cy.contains('Hello World - Original Annie').contains('likes: 1')
 		})
 	})
 })

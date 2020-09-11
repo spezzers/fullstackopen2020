@@ -12,7 +12,7 @@ const Blog = props => {
 			}}
 		>
 			{blog.title} - {blog.author}
-			<Toggle className='toggle' primaryLabel='view' secondaryLabel='hide' toggleButton={props.toggleButton}>
+			<Toggle id='blogDetails' className='toggle' primaryLabel='view' secondaryLabel='hide' toggleButton={props.toggleButton}>
 				<div className='url'>
 					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
 						{blog.url}
