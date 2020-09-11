@@ -50,6 +50,7 @@ const BlogForm = (props) => {
 
 	return (
 		<Toggle
+			id='blogForm'
 			primaryLabel='Add a blog'
 			style={{
 				border: 'dashed #cccccc 1px',
