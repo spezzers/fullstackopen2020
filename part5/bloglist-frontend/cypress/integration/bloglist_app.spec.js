@@ -50,7 +50,7 @@ describe('Blog app', function() {
 		})
 		it('A blog can be created', function() {
 			cy.contains('Blogs')
-			cy.get('#blogForm .toggleButton').click()
+			cy.get('#blogForm-toggle.toggleButton').click()
 			cy.get('#blogForm #form #title').type('A Brand New Blog')
 			cy.get('#blogForm #form #author').type('New Kid')
 			cy.get('#blogForm #form #url').type('http://blog.newkid.com/a-brand-new-blog')
@@ -59,7 +59,7 @@ describe('Blog app', function() {
 			cy.contains('A Brand New Blog - New Kid')
 		})
 	})
-	describe.only('5.20', function() {
+	describe('5.20', function() {
 		beforeEach(function() {
 			cy.addUser(user)
 			cy.login(credentials)
@@ -70,7 +70,7 @@ describe('Blog app', function() {
 			})
 		})
 		it('Can like a blog', function() {
-
+			// cy.contains('Hello World - Original Annie').get()
 		})
 	})
 })

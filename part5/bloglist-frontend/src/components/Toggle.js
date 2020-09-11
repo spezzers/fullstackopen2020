@@ -14,14 +14,14 @@ const Toggle = props => {
 	}
 
 	return (
-		<div id={props.id}>
-			<button onClick={handleToggle} className='toggleButton'>
+		<>
+			<button id={`${props.id}-toggle`} onClick={handleToggle} className='toggleButton'>
 				{visible ? secondaryLabel : props.primaryLabel}
 			</button>
-			<div className={props.className} style={style}>
+			<div id={props.id} className={props.className} style={style}>
 				{props.children}
 			</div>
-		</div>
+		</>
 	)
 }
 
