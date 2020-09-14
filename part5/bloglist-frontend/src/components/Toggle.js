@@ -15,7 +15,7 @@ const Toggle = props => {
 
 	return (
 		<>
-			<button id={`${props.id}-toggle`} onClick={handleToggle} className='toggleButton'>
+			<button id={props.id ? `${props.id}-toggle` : null} onClick={handleToggle} className={props.className ? `${props.className}-toggle` : 'toggleButton'}>
 				{visible ? secondaryLabel : props.primaryLabel}
 			</button>
 			<div id={props.id} className={props.className} style={style}>

@@ -10,9 +10,10 @@ const Blog = props => {
 				margin: '5px',
 				padding: '5px'
 			}}
+			className='blogItem'
 		>
 			{blog.title} - {blog.author}
-			<Toggle id='blogDetails' className='toggle' primaryLabel='view' secondaryLabel='hide' toggleButton={props.toggleButton}>
+			<Toggle className='blogDetails' primaryLabel='view' secondaryLabel='hide' toggleButton={props.toggleButton}>
 				<div className='url'>
 					<a target='_blank' rel='noopener noreferrer' href={blog.url}>
 						{blog.url}
