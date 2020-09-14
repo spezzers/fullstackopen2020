@@ -78,7 +78,7 @@ describe('Blog app', function() {
 				cy.contains('Hello World - Original Annie').contains('likes: 1')
 			})
 		})
-		describe.only('5.21', function() {
+		describe('5.21', function() {
 			const secondUser = {
 				username: 'poppasmith',
 				name: 'Alan Smith',
@@ -113,15 +113,15 @@ describe('Blog app', function() {
 				cy
 					.get('.blogItem')
 					.contains('Hello World - Original Annie')
+					.as('removeBlog')
 					.find('.blogDetails-toggle')
 					.click()
 				cy
-					.get('.blogItem')
-					.contains('Hello World - Original Annie')
+					.get('@removeBlog')
 					.find('.removeButton')
 					.click()
 
-				cy.expect('Successfully removed')
+				cy.contains('Successfully removed')
 				cy
 					.get('.blogItem')
 					.should(blogs => {
