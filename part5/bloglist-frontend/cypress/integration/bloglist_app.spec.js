@@ -46,7 +46,7 @@ describe('Blog app', function() {
 	describe('When logged in', function() {
 		describe('5.19', function() {
 			beforeEach(function() {
-				cy.addUser(user)
+				helper.users.map(user => cy.addUser(user))
 				cy.login(credentials(user))
 			})
 			it('A blog can be created', function() {
@@ -122,9 +122,26 @@ describe('Blog app', function() {
 				cy.contains('Request failed with status code 401')
 			})
 		})
-		describe('5.22', function() {
+		describe.only('5.22', function() {
 			it('Blogs are ordered by likes', function() {
-
+				helper.users.map(user => cy.addUser(user))
+				cy.login(credentials(user))
+				helper.blogs.map(blog => cy.addBlog(blog))
+				cy
+					.get('.blogItem')
+					.each(blog => {
+						const blogObject = {
+							id: blog.attr('id'),
+							likes: parseFloat(blog.find('.likeCount').text())
+						}
+						console.log(blogObject)
+						return(blogObject)})
+					.then(blogs => {
+						const sorted = blogs.sort((a, b) => a.likes - b.likes)
+						blogs.each(blog => {
+							expect(blog).attr('id').to.equal(sorted[0])
+						})
+					})
 			})
 		})
 	})
