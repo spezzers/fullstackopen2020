@@ -1,14 +1,11 @@
+const helper = require('./test_helper')
+
 describe('Blog app', function() {
 	beforeEach(function() {
 		cy.request('POST', 'http://localhost:3003/api/testing/reset')
 		cy.visit('http://localhost:3000')
 	})
-	const user = {
-		id: 'aaaaaaaaaaaaaaaaaaaaaaaa',
-		username: 'root',
-		name: 'Superuser',
-		password: 'supersecret'
-	}
+	const user = helper.users[0]
 	const credentials = function(user) {
 		return {
 			username: user.username,
@@ -64,45 +61,27 @@ describe('Blog app', function() {
 			})
 		})
 		describe('5.20', function() {
+			const blog = helper.blogs[0]
 			beforeEach(function() {
 				cy.addUser(user)
 				cy.login(credentials(user))
-				cy.addBlog({
-					title: 'Hello World',
-					author: 'Original Annie',
-					url: 'http://www.worldwideweb.com/blogs/helloworld'
-				})
+				cy.addBlog(blog)
 			})
 			it('Can like a blog', function() {
-				cy.contains('Hello World - Original Annie').get('.blogDetails-toggle').click().get('.likeButton').click()
-				cy.contains('Hello World - Original Annie').contains('likes: 1')
+				cy.contains(`${blog.title} - ${blog.author}`).as('likedBlog').get('.blogDetails-toggle').click().get('.likeButton').click()
+				cy.get('@likedBlog').contains(`likes: ${blog.likes + 1}`)
 			})
 		})
 		describe('5.21', function() {
-			const secondUser = {
-				username: 'poppasmith',
-				name: 'Alan Smith',
-				password: 'idontlikethosesmurfs',
-				id: 'bbbbbbbbbbbbbbbbbbbbbbbb'
-			}
+			const secondUser = helper.users[1]
 			beforeEach(function() {
 				cy.addUser(user)
 				cy.addUser(secondUser)
 				cy.login(credentials(secondUser))
-				cy.addBlog({
-					title: 'Wossapnin?',
-					author: 'Informal Ian',
-					url: 'http://blog.sozboutdat.com/wossapnin',
-					id: '222222222222222222222222',
-				})
+				cy.addBlog(helper.blogs[1])
 				localStorage.removeItem('loggedInUser')
 				cy.login(credentials(user))
-				cy.addBlog({
-					title: 'Hello World',
-					author: 'Original Annie',
-					url: 'http://www.worldwideweb.com/blogs/helloworld',
-					id: '111111111111111111111111',
-				})
+				cy.addBlog(helper.blogs[0])
 			})
 			it('User who created blog can delete it', function() {
 				cy
@@ -112,7 +91,7 @@ describe('Blog app', function() {
 					})
 				cy
 					.get('.blogItem')
-					.contains('Hello World - Original Annie')
+					.contains(`${helper.blogs[0].title} - ${helper.blogs[0].author}`)
 					.as('removeBlog')
 					.find('.blogDetails-toggle')
 					.click()
@@ -131,18 +110,22 @@ describe('Blog app', function() {
 			it('User cannot delete another users blog', function() {
 				cy
 					.get('.blogItem')
-					.contains('Wossapnin? - Informal Ian')
+					.contains(`${helper.blogs[1].title} - ${helper.blogs[1].author}`)
+					.as('otherBlog')
 					.find('.blogDetails-toggle')
 					.click()
 				cy
-					.get('.blogItem')
-					.contains('Wossapnin? - Informal Ian')
+					.get('@otherBlog')
 					.find('.removeButton')
 					.should('not.be.visible')
 					.click({ force:true })
 				cy.contains('Request failed with status code 401')
 			})
 		})
+		describe('5.22', function() {
+			it('Blogs are ordered by likes', function() {
 
+			})
+		})
 	})
 })
