@@ -78,7 +78,7 @@ const BlogList = ({ user, setMessage }) => {
 		return (
 			<Blog key={blog.id} blog={blog} handleLike={handleNewLike}>
 				<div style={showRemove}>
-					<button onClick={() => remove(blog)}>remove</button>
+					<button className='removeButton' onClick={() => remove(blog)}>remove</button>
 				</div>
 			</Blog>
 		)
