@@ -122,7 +122,7 @@ describe('Blog app', function() {
 				cy.contains('Request failed with status code 401')
 			})
 		})
-		describe.only('5.22', function() {
+		describe('5.22', function() {
 			it('Blogs are ordered by likes', function() {
 				const blogList = []
 				helper.users.map(user => cy.addUser(user))
