@@ -124,22 +124,22 @@ describe('Blog app', function() {
 		})
 		describe.only('5.22', function() {
 			it('Blogs are ordered by likes', function() {
+				const blogList = []
 				helper.users.map(user => cy.addUser(user))
 				cy.login(credentials(user))
 				helper.blogs.map(blog => cy.addBlog(blog))
 				cy
 					.get('.blogItem')
 					.each(blog => {
-						const blogObject = {
+						blogList.push({
 							id: blog.attr('id'),
 							likes: parseFloat(blog.find('.likeCount').text())
-						}
-						console.log(blogObject)
-						return(blogObject)})
-					.then(blogs => {
-						const sorted = blogs.sort((a, b) => a.likes - b.likes)
-						blogs.each(blog => {
-							expect(blog).attr('id').to.equal(sorted[0])
+						})
+					})
+					.then(() => {
+						const sorted = blogList.map(blog => blog).sort((a, b) => b.likes - a.likes)
+						blogList.map((blog, key) => {
+							expect(blog.id).to.equal(sorted[key].id)
 						})
 					})
 			})
