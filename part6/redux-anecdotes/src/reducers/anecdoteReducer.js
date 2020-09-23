@@ -44,7 +44,6 @@ const anecdoteReducer = (state = initialState, action) => {
 
 		case 'ADD':
 			const newAnecdote = asObject(action.content)
-			console.log(newAnecdote)
 			return [...state, newAnecdote]
 
 		default:
