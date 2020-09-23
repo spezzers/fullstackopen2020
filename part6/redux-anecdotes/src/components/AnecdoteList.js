@@ -9,6 +9,7 @@ import {
 const AnecdoteList = () => {
 	const anecdotes = useSelector(state => state.anecdotes)
 	const previousTimer = useSelector(state => state.notification.id)
+	const filter = useSelector(state => state.filter)
 	const dispatch = useDispatch()
 
 	const vote = id => {
@@ -17,9 +18,8 @@ const AnecdoteList = () => {
 
 		if (previousTimer) {
 			window.clearTimeout(previousTimer)
-			console.log(previousTimer)
 		}
-		const timer = setTimeout(() => {
+		let timer = setTimeout(() => {
 			dispatch(removeNotification())
 		}, 5000)
 		dispatch(notification(`You voted for '${content}'`, timer))
@@ -28,6 +28,7 @@ const AnecdoteList = () => {
 	return (
 		<div id='AnecdoteList'>
 			{anecdotes
+				.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
 				.sort((a, b) => b.votes - a.votes)
 				.map(anecdote => (
 					<div key={anecdote.id}>

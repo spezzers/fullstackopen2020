@@ -2,20 +2,20 @@ export const notification = (message, id) => {
 	return {
         message,
         id,
-        type: 'SET',
+        type: 'SET_NOTIFICATION',
 	}
 }
 export const removeNotification = () => {
 	return {
 		message: '',
-        type: 'SET',
+        type: 'SET_NOTIFICATION',
         id: null
 	}
 }
 
 const notificationReducer = (state = '', action) => {
     switch (action.type) {
-        case 'SET':
+        case 'SET_NOTIFICATION':
 			return {
                 message: action.message,
                 id: action.id
