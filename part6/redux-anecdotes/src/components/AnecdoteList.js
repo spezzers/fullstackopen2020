@@ -12,8 +12,6 @@ const AnecdoteList = () => {
 	const filter = useSelector(state => state.filter)
 	const dispatch = useDispatch()
 
-	
-
 	const vote = id => {
 		const content = anecdotes.find(a => a.id === id).content
 		dispatch(castVote(id))
@@ -26,7 +24,6 @@ const AnecdoteList = () => {
 		}, 5000)
 		dispatch(notification(`You voted for '${content}'`, timer))
 	}
-	// console.log(anecdotes)
 
 	return (
 		<div id='AnecdoteList'>

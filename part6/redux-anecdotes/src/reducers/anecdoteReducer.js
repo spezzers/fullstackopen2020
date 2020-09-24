@@ -1,16 +1,7 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = anecdote => {
+export const createAnecdote = data => {
 	return {
-		content: anecdote,
-		id: getId(),
-		votes: 0
-	}
-}
-
-export const createAnecdote = content => {
-	return {
-		content,
+		data,
 		type: 'ADD_ANECDOTE'
 	}
 }
@@ -39,8 +30,7 @@ const anecdoteReducer = (state = [], action) => {
 			return newState
 
 		case 'ADD_ANECDOTE':
-			const newAnecdote = asObject(action.content)
-			return [...state, newAnecdote]
+			return [...state, action.data]
 
 		case 'IMPORT_ANECDOTE':
 			return [...state, action.data]

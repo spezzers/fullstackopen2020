@@ -1,5 +1,7 @@
 import React from 'react'
+import anecdoteService from '../services/anecdotes'
 import { createAnecdote } from '../reducers/anecdoteReducer'
+
 import { useSelector, useDispatch } from 'react-redux'
 import {
 	notification,
@@ -10,11 +12,12 @@ const AnecdoteForm = () => {
 	const dispatch = useDispatch()
 	const previousTimer = useSelector(state => state.notification.id)
 
-	const addAnecdote = event => {
+	const addAnecdote = async (event) => {
 		event.preventDefault()
 		const content = event.target.anecdote.value
 		event.target.anecdote.value = ''
-		dispatch(createAnecdote(content))
+		const newAnecdote = await anecdoteService.addNew(content)
+		dispatch(createAnecdote(newAnecdote))
 
 		if (previousTimer) {
 			window.clearTimeout(previousTimer)

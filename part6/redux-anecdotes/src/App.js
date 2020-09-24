@@ -9,10 +9,12 @@ import { importAnecdote } from './reducers/anecdoteReducer'
 
 const App = () => {
 	const dispatch = useDispatch()
-	
+
 	useEffect(() => {
 		anecdoteService.getAll().then(anecs => {
-			anecs.map(a => dispatch(importAnecdote(a)))
+			anecs.map(a => {
+				dispatch(importAnecdote(a))
+			})
 		})
 	}, [dispatch])
 
