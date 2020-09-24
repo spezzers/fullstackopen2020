@@ -1,5 +1,4 @@
-
-export const createAnecdote = data => {
+export const addAnecdote = data => {
 	return {
 		data,
 		type: 'ADD_ANECDOTE'
@@ -13,13 +12,6 @@ export const castVote = id => {
 	}
 }
 
-export const importAnecdote = data => {
-	return {
-		type: 'IMPORT_ANECDOTE',
-		data
-	}
-}
-
 const anecdoteReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'CAST_VOTE':
@@ -30,9 +22,6 @@ const anecdoteReducer = (state = [], action) => {
 			return newState
 
 		case 'ADD_ANECDOTE':
-			return [...state, action.data]
-
-		case 'IMPORT_ANECDOTE':
 			return [...state, action.data]
 
 		default:
