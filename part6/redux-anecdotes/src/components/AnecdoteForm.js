@@ -9,23 +9,22 @@ import {
 
 const AnecdoteForm = () => {
 	const dispatch = useDispatch()
-	const previousTimer = useSelector(state => state.notification.id)
+	const prevNoti = useSelector(state => state.notification.id)
 
 	const handleAnecdote = async (event) => {
 		event.preventDefault()
 		const content = event.target.anecdote.value
 		event.target.anecdote.value = ''
-		// const newAnecdote = await anecdoteService.addNew(content)
 		dispatch(addAnecdote(content))
 
-		if (previousTimer) {
-			window.clearTimeout(previousTimer)
-			console.log(previousTimer)
-		}
-		const timer = setTimeout(() => {
-			dispatch(removeNotification())
-		}, 5000)
-		dispatch(notification(`You added '${content}'`, timer))
+		// if (prevNoti) {
+		// 	window.clearTimeout(prevNoti)
+		// 	console.log(prevNoti)
+		// }
+		// const timer = setTimeout(() => {
+		// 	dispatch(removeNotification())
+		// }, 5000)
+		dispatch(notification(`You added '${content}'`, 5000, prevNoti))
 	}
 
 	return (

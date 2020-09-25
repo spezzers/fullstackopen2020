@@ -1,9 +1,19 @@
-export const notification = (message, id) => {
-	return {
-        message,
-        id,
-        type: 'SET_NOTIFICATION',
-	}
+
+export const notification = (message, duration, previousNotification) => {
+    return async dispatch => {
+        
+        if (previousNotification) {
+            window.clearTimeout(previousNotification)
+        }
+        let timer = setTimeout(() => {
+            dispatch(removeNotification())
+        }, duration)
+        dispatch({
+            type: 'SET_NOTIFICATION',
+            message,
+            id: timer
+        })
+    }
 }
 export const removeNotification = () => {
 	return {

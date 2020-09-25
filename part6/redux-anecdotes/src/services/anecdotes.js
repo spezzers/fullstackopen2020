@@ -18,13 +18,11 @@ const addNew = async content => {
 }
 
 const addNewVote = async anecdote => {
-	console.log('before vote', anecdote)
 	const votedAnecdote = {
 		...anecdote,
 		votes: anecdote.votes + 1
 	}
 	const response = await axios.put(`${baseUrl}/${anecdote.id}`, votedAnecdote)
-	console.log('after vote', response.data)
 	return response.data
 }
 
