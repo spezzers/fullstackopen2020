@@ -1,7 +1,6 @@
 import anecdoteService from '../services/anecdotes'
 
 export const addAnecdote = data => {
-	console.log(data)
 	return async dispatch => {
 		const newAnecdote = await anecdoteService.addNew(data)
 		dispatch({
@@ -11,10 +10,14 @@ export const addAnecdote = data => {
 	}
 }
 
-export const castVote = id => {
-	return {
-		id,
-		type: 'CAST_VOTE'
+export const castVote = anecdote => {
+	return async dispatch => {
+		const data = await anecdoteService.addNewVote(anecdote)
+		dispatch({
+			type: 'CAST_VOTE',
+			data
+		})
+		
 	}
 }
 
@@ -31,9 +34,9 @@ export const initializeAnecdotes = () => {
 const anecdoteReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'CAST_VOTE':
-			const id = action.id
+			const id = action.data.id
 			const newState = state.map(a =>
-				a.id === id ? { ...a, votes: a.votes + 1 } : a
+				a.id === id ? { ...a, votes: action.data.votes } : a
 			)
 			return newState
 

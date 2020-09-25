@@ -13,8 +13,8 @@ const AnecdoteList = () => {
 	const dispatch = useDispatch()
 
 	const vote = id => {
-		const content = anecdotes.find(a => a.id === id).content
-		dispatch(castVote(id))
+		const anecdote = anecdotes.find(a => a.id === id)
+		dispatch(castVote(anecdote))
 
 		if (previousTimer) {
 			window.clearTimeout(previousTimer)
@@ -22,7 +22,7 @@ const AnecdoteList = () => {
 		let timer = setTimeout(() => {
 			dispatch(removeNotification())
 		}, 5000)
-		dispatch(notification(`You voted for '${content}'`, timer))
+		dispatch(notification(`You voted for '${anecdote.content}'`, timer))
 	}
 
 	return (
