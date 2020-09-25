@@ -7,9 +7,9 @@ const Notification = () => {
 		border: 'solid',
 		padding: 10,
 		borderWidth: 1,
-		visibility: notification.id ? 'visible' : 'hidden'
+		visibility: notification !== '' ? 'visible' : 'hidden'
 	}
-	return <div style={style}>{notification.message}</div>
+	return <div style={style}>{notification}</div>
 }
 
 export default Notification

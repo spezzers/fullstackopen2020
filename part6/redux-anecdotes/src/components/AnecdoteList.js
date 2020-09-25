@@ -5,7 +5,6 @@ import { notification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
 	const anecdotes = useSelector(state => state.anecdotes)
-	const prevNoti = useSelector(state => state.notification.id)
 	const filter = useSelector(state => state.filter)
 	const dispatch = useDispatch()
 
@@ -13,7 +12,7 @@ const AnecdoteList = () => {
 		const anecdote = anecdotes.find(a => a.id === id)
 		dispatch(castVote(anecdote))
 		dispatch(
-			notification(`You voted for '${anecdote.content}'`, 5000, prevNoti)
+			notification(`You voted for '${anecdote.content}'`, 5000)
 		)
 	}
 
