@@ -30,7 +30,7 @@ const AnecdoteFormComponent = (props) => {
 }
 
 const mapDispatchToProps = {notification, addAnecdote}
-const mapStateToProps = () => {}
+const mapStateToProps = () => {return {}}
 
 const AnecdoteForm = connect(mapStateToProps, mapDispatchToProps)(AnecdoteFormComponent)
 
