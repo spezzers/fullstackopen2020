@@ -3,7 +3,7 @@ import { castVote } from '../reducers/anecdoteReducer'
 import { connect } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 
-const Anecdotes = (props) => {
+const Anecdotes = props => {
 	const anecdotes = props.anecdotes
 	const filter = props.filter
 
@@ -32,18 +32,14 @@ const Anecdotes = (props) => {
 }
 
 const mapStateToProps = state => {
-	console.log(state)
 	return {
 		anecdotes: state.anecdotes,
 		filter: state.filter
 	}
 }
 
-const mapDispatchToProps = {notification, castVote}
+const mapDispatchToProps = { notification, castVote }
 
-const AnecdoteList = connect(
-	mapStateToProps,
-	mapDispatchToProps
-	)(Anecdotes)
+const AnecdoteList = connect(mapStateToProps, mapDispatchToProps)(Anecdotes)
 
 export default AnecdoteList

@@ -15,6 +15,7 @@ export const notification = (message, duration) => {
 		})
 	}
 }
+
 export const removeNotification = () => {
 	return async dispatch => {
         previous = undefined
