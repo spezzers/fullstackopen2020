@@ -1,18 +1,17 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { setFilter, clearFilter } from '../reducers/filterReducer'
 
-const Filter = () => {
-	const filter = useSelector(state => state.filter)
-	const dispatch = useDispatch()
+const FilterComponent = (props) => {
+	const filter = props.filter
 
 	const changeFilter = event => {
 		event.preventDefault()
-		dispatch(setFilter(event.target.value))
+		props.setFilter(event.target.value)
 	}
 	const clearForm = event => {
 		event.preventDefault()
-		dispatch(clearFilter())
+		props.clearFilter()
 	}
 	const buttonVisible = {
 		display: filter.length > 0 ? null : 'none'
@@ -31,5 +30,14 @@ const Filter = () => {
 		</div>
 	)
 }
+
+const mapStateToProps = state => {
+	return {
+		filter: state.filter
+	}
+}
+const mapDispatchToProps = {setFilter, clearFilter}
+
+const Filter = connect(mapStateToProps, mapDispatchToProps)(FilterComponent)
 
 export default Filter
