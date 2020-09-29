@@ -6,6 +6,7 @@ import AnecdoteList from './components/AnecdoteList'
 import CreateNew from './components/CreateNew'
 import Menu from './components/Menu'
 import Anecdote from './components/Anecdote'
+import Notification from './components/Notification'
 
 const App = () => {
 	const [anecdotes, setAnecdotes] = useState([
@@ -25,7 +26,20 @@ const App = () => {
 		}
 	])
 
-	// const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState('')
+
+  let previousTimer
+
+  const handleNotification = (message, duration) => {
+    const timer = setTimeout(() => {
+      setNotification('')
+    }, duration || 2000)
+    setNotification(message)
+    window.clearTimeout(previousTimer)
+    previousTimer = timer
+  }
+
+
 
 	const addNew = anecdote => {
 		anecdote.id = (Math.random() * 10000).toFixed(0)
@@ -54,6 +68,7 @@ const App = () => {
 		<>
 			<h1>Software anecdotes</h1>
 			<Menu />
+      <Notification message={notification}/>
 			<Switch>
 				<Route path='/anecdotes/:id'>
 					<Anecdote anecdote={anecdote}></Anecdote>
@@ -65,7 +80,7 @@ const App = () => {
 					<About />
 				</Route>
 				<Route path='/create'>
-					<CreateNew addNew={addNew} />
+					<CreateNew addNew={addNew} notify={handleNotification}/>
 				</Route>
 			</Switch>
 			<Footer />
