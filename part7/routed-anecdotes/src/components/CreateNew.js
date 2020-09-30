@@ -3,13 +3,11 @@ import { useHistory } from 'react-router-dom'
 import { useField } from '../hooks'
 
 const CreateNew = props => {
-	// const [content, setContent] = useState('')
-	// const [author, setAuthor] = useState('')
-	// const [info, setInfo] = useState('')
 
-	const author = useField('text')
-	const content = useField('text')
-	const info = useField('url')
+	const author = useField('text', 'author')
+	const content = useField('text', 'content')
+	const info = useField('text', 'info')
+	const reset = useField([author, content, info])
 
 	const history = useHistory()
 
@@ -18,7 +16,7 @@ const CreateNew = props => {
 		props.addNew({
 			content: content.value,
 			author: author.value,
-			infor: info.value,
+			info: info.value,
 			votes: 0
 		})
 		props.notify(`New anecdote added: '${content}'`, 10000)
@@ -31,17 +29,18 @@ const CreateNew = props => {
 			<form onSubmit={handleSubmit}>
 				<div>
 					content
-					<input name='content' {...content} />
+					<input {...content} />
 				</div>
 				<div>
 					author
-					<input name='author' {...author} />
+					<input {...author} />
 				</div>
 				<div>
 					url for more info
-					<input name='info' {...info} />
+					<input {...info} />
 				</div>
-				<button>create</button>
+				<button type='submit'>create</button>
+				<button {...reset} >reset</button>
 			</form>
 		</div>
 	)
