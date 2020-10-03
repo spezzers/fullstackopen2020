@@ -1,6 +1,5 @@
   
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 import { useResource, useField } from './hooks'
 
 const App = () => {
@@ -14,11 +13,14 @@ const App = () => {
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
+    content.onChange('reset')
   }
- 
+  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
     personService.create({ name: name.value, number: number.value})
+    name.onChange('reset')
+    number.onChange('reset')
   }
 
   return (

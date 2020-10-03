@@ -1,12 +1,24 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
 
 export const useResource = baseUrl => {
 	const [resources, setResources] = useState([])
 
-	// ...
+	useEffect(() => {
+        axios
+            .get(baseUrl)
+            .then(response => {
+                setResources(response.data)
+            })
+    },[baseUrl])
 
 	const create = resource => {
-		// ...
+        axios
+            .post(baseUrl, resource)
+            .then(response => {
+                setResources([...resources, response.data])
+            })
 	}
 
 	const service = {
@@ -20,7 +32,9 @@ export const useField = type => {
 	const [value, setValue] = useState('')
 
 	const onChange = event => {
-		setValue(event.target.value)
+        event.type === 'change'
+            ? setValue(event.target.value)
+            : setValue('')
 	}
 
 	return {
