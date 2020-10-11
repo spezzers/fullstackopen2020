@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import BlogList from './components/BlogList'
 import Message from './components/Message'
 import Login from './components/Login'
+import { setUser, clearUser } from './reducers/userReducer'
 
 const App = () => {
-	const [user, setUser] = useState({ username: '', name: '', token: '' })
+	const user = useSelector(state => state.user)
+	const dispatch = useDispatch()
 	const [message, setMessage] = useState({
 		type: 'initial',
 		content: ''
@@ -14,9 +17,13 @@ const App = () => {
 		const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
 		if (loggedInUserJSON) {
 			const user = JSON.parse(loggedInUserJSON)
-			setUser(user)
+			console.log('App useEffect')
+			dispatch(setUser(user))
 		}
-	}, [])
+		// else {
+		// 	dispatch(clearUser())
+		// }
+	}, [dispatch])
 
 	const handleMessage = (content, type) => {
 		let messageType

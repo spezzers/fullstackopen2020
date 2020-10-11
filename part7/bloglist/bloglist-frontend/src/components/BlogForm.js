@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
 
+
 const BlogForm = (props) => {
 	const [newBlog, setNewBlog] = useState({
 		title: '',

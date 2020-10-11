@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
 import loginService from '../services/login'
 import propTypes from 'prop-types'
+import { setUser, clearUser } from '../reducers/userReducer'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Login = ({ user, setUser, setMessage }) => {
+
+const Login = ({ setMessage }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+
+
+	const user = useSelector(state => state.user)
+	const dispatch = useDispatch()
+
 
 	const handleLogin = async event => {
 		event.preventDefault()
@@ -14,7 +22,7 @@ const Login = ({ user, setUser, setMessage }) => {
 				password
 			})
 			window.localStorage.setItem('loggedInUser', JSON.stringify(user))
-			setUser(user)
+			dispatch(setUser(user))
 			setUsername('')
 			setPassword('')
 			setMessage('welcome', 'confirm')
@@ -26,7 +34,7 @@ const Login = ({ user, setUser, setMessage }) => {
 	const handleLogout = event => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
-		setUser({ username: '', name: '', token: '' })
+		dispatch(clearUser())
 		setMessage('log out successful', 'confirm')
 	}
 
