@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
+import { notification } from '../reducers/notificationReducer'
 
-const BlogList = ({ user, setMessage }) => {
+const BlogList = ({ user }) => {
 	const [blogs, setBlogs] = useState([])
 
 	useEffect(() => {
@@ -43,12 +44,12 @@ const BlogList = ({ user, setMessage }) => {
 			const removeIt = async () => {
 				try {
 					await blogService.remove(blog.id, config)
-					setMessage(
+					notification(
 						`Successfully removed '${removedBlog.title}' by '${removedBlog.author}'`
 					)
 					setBlogs(updatedList)
 				} catch (exception) {
-					setMessage(exception.message, 'error')
+					notification(exception.message, 'error')
 				}
 			}
 			const updatedList = blogs.filter(blog => blog !== removedBlog)
@@ -91,7 +92,7 @@ const BlogList = ({ user, setMessage }) => {
 				user={user}
 				setBlogs={setBlogs}
 				list={blogs}
-				setMessage={setMessage}
+				notification={notification}
 			/>
 			{blogList}
 		</div>

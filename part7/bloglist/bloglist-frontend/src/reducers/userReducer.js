@@ -1,4 +1,4 @@
-import loginService from '../services/login'
+// import loginService from '../services/login'
 
 export const setUser = data => {
     return {type: 'SET_USER', data}
@@ -11,7 +11,7 @@ export const clearUser = () => {
 const userReducer = (state = { username: '', name: '', token: '' }, action) => {
     switch ( action.type ) {
         case 'SET_USER':
-            console.log(action.data)
+            // console.log(action.data)
             const user = action.data
             return ({...user})
         case 'CLEAR_USER':

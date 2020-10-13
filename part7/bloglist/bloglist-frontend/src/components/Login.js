@@ -3,9 +3,11 @@ import loginService from '../services/login'
 import propTypes from 'prop-types'
 import { setUser, clearUser } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { notification } from '../reducers/notificationReducer'
 
 
-const Login = ({ setMessage }) => {
+
+const Login = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -25,9 +27,9 @@ const Login = ({ setMessage }) => {
 			dispatch(setUser(user))
 			setUsername('')
 			setPassword('')
-			setMessage('welcome', 'confirm')
+			notification('welcome', 'confirm')
 		} catch (exception) {
-			setMessage('wrong username or password', 'error')
+			notification('wrong username or password', 'error')
 		}
 	}
 
@@ -35,7 +37,7 @@ const Login = ({ setMessage }) => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
 		dispatch(clearUser())
-		setMessage('log out successful', 'confirm')
+		notification('log out successful', 'confirm')
 	}
 
 	if (user.username === '') {
@@ -81,7 +83,7 @@ Login.propTypes = {
 		token: propTypes.string.isRequired
 	}).isRequired,
 	setUser: propTypes.func.isRequired,
-	setMessage: propTypes.func
+	notification: propTypes.func
 }
 
 export default Login

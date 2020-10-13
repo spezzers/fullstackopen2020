@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
+import { notification } from '../reducers/notificationReducer'
+
 
 
 const BlogForm = (props) => {
@@ -18,8 +20,7 @@ const BlogForm = (props) => {
 	const
 		user = props.user,
 		list = props.list,
-		setBlogs = props.setBlogs,
-		setMessage = props.setMessage
+		setBlogs = props.setBlogs
 
 	const handleSubmit = async event => {
 		event.preventDefault()
@@ -33,17 +34,17 @@ const BlogForm = (props) => {
 			try {
 				const response = await blogService.postBlog(newBlog, config)
 				setBlogs(list.concat(response))
-				setMessage(
+				notification(
 					`Blog Added: '${response.title}' by '${response.author}'`,
-					'confirm'
+					'confirm', 5000
 				)
 				setNewBlog(emptyForm)
 			} catch (error) {
 				console.log(error.message)
-				setMessage('Failed to add blog to list', 'error')
+				notification('Failed to add blog to list', 'error')
 			}
 		} else {
-			setMessage('Please fill in all fields', 'error')
+			notification('Please fill in all fields', 'error')
 		}
 	}
 
