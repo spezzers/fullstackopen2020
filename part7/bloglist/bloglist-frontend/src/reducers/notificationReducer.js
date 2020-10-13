@@ -16,15 +16,25 @@ export const clearNotification = () => {
 	}
 }
 
+
 export const notification = (content, type, duration) => {
+	const data = {
+		content,
+		type: ['error', 'warning', 'confirm'].includes(type) ? type : 'message'
+	}
+	const timer = typeof duration === Number ? duration : 2000
+
 	return async dispatch => {
-		const timer = typeof duration === Number ? duration : 3500
-		const messageType = ['error', 'warning', 'confirm'].includes(type)
-			? type
-			: 'message'
-		console.log('Action => {', content, messageType, timer, '}')
-		previous = setTimeout(() => dispatch(clearNotification()), timer)
-		dispatch(setMessage({ type: messageType, content: content }))
+		if (previous) {
+			window.clearTimeout(previous)
+		}
+		previous = setTimeout(() => {
+			dispatch(clearNotification())
+		}, timer)
+		dispatch({
+			type: 'SET_MESSAGE',
+			data
+		})
 	}
 }
 

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
+import { useDispatch } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 
 
 
 const BlogForm = (props) => {
+
+	const dispatch = useDispatch()
 	const [newBlog, setNewBlog] = useState({
 		title: '',
 		author: '',
@@ -34,17 +37,18 @@ const BlogForm = (props) => {
 			try {
 				const response = await blogService.postBlog(newBlog, config)
 				setBlogs(list.concat(response))
-				notification(
+				console.log(response)
+				dispatch(notification(
 					`Blog Added: '${response.title}' by '${response.author}'`,
 					'confirm', 5000
-				)
+				))
 				setNewBlog(emptyForm)
 			} catch (error) {
 				console.log(error.message)
-				notification('Failed to add blog to list', 'error')
+				dispatch(notification('Failed to add blog to list', 'error'))
 			}
 		} else {
-			notification('Please fill in all fields', 'error')
+			dispatch(notification('Please fill in all fields', 'error'))
 		}
 	}
 

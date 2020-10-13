@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux' 
 import { notification } from '../reducers/notificationReducer'
 
 const BlogList = ({ user }) => {
 	const [blogs, setBlogs] = useState([])
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		if (user.username !== '') {
@@ -44,12 +46,12 @@ const BlogList = ({ user }) => {
 			const removeIt = async () => {
 				try {
 					await blogService.remove(blog.id, config)
-					notification(
+					dispatch(notification(
 						`Successfully removed '${removedBlog.title}' by '${removedBlog.author}'`
-					)
+					))
 					setBlogs(updatedList)
 				} catch (exception) {
-					notification(exception.message, 'error')
+					dispatch(notification(exception.message, 'error'))
 				}
 			}
 			const updatedList = blogs.filter(blog => blog !== removedBlog)
