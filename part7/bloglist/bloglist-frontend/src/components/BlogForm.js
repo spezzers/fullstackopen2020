@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogReducer'
 
-
-
-const BlogForm = (props) => {
+const BlogForm = props => {
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 	const [newBlog, setNewBlog] = useState({
@@ -35,10 +33,13 @@ const BlogForm = (props) => {
 				const response = await blogService.postBlog(newBlog, config)
 				console.log(response)
 				dispatch(addBlog(response))
-				dispatch(notification(
-					`Blog Added: '${response.title}' by '${response.author}'`,
-					'confirm', 5000
-				))
+				dispatch(
+					notification(
+						`Blog Added: '${response.title}' by '${response.author}'`,
+						'confirm',
+						5000
+					)
+				)
 				setNewBlog(emptyForm)
 			} catch (error) {
 				dispatch(notification('Failed to add blog to list', 'error'))

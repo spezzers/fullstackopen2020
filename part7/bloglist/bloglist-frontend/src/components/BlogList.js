@@ -4,7 +4,7 @@ import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
-import { getAllBlogs } from '../reducers/blogReducer'
+import { getAllBlogs, updateBlog, removeBlog } from '../reducers/blogReducer'
 
 const BlogList = ({ user }) => {
 	const blogs = useSelector(state => state.blogs)
@@ -20,18 +20,6 @@ const BlogList = ({ user }) => {
 		return null
 	}
 
-	const handleUpdate = data => {
-		const blogToUpdate = blogs.find(blog => blog.id === data.id)
-		const updatedBlog = {
-			...data,
-			user: blogToUpdate.user
-		}
-		const updatedList = blogs.map(blog =>
-			blog === blogToUpdate ? updatedBlog : blog
-		)
-		// setBlogs(() => updatedList)
-	}
-
 	const remove = blog => {
 		if (blog === undefined) {
 			return user
@@ -43,19 +31,20 @@ const BlogList = ({ user }) => {
 			const config = {
 				headers: { Authorization: `bearer ${user.token}` }
 			}
-			const removedBlog = blog
+			const removeThisBlog = blog
 			const removeIt = async () => {
 				try {
 					await blogService.remove(blog.id, config)
-					dispatch(notification(
-						`Successfully removed '${removedBlog.title}' by '${removedBlog.author}'`
-					))
-					// setBlogs(updatedList)
+					dispatch(
+						notification(
+							`Successfully removed '${removeThisBlog.title}' by '${removeThisBlog.author}'`
+						)
+					)
+					dispatch(removeBlog(removeThisBlog.id))
 				} catch (exception) {
 					dispatch(notification(exception.message, 'error'))
 				}
 			}
-			const updatedList = blogs.filter(blog => blog !== removedBlog)
 			removeIt()
 		}
 	}
@@ -74,7 +63,7 @@ const BlogList = ({ user }) => {
 			}
 			try {
 				const response = await blogService.update(blog.id, likeBlog)
-				handleUpdate(response.data)
+				dispatch(updateBlog(response.data))
 			} catch (exception) {
 				console.log(exception.message)
 			}
@@ -82,7 +71,9 @@ const BlogList = ({ user }) => {
 		return (
 			<Blog key={blog.id} blog={blog} handleLike={handleNewLike}>
 				<div style={showRemove}>
-					<button className='removeButton' onClick={() => remove(blog)}>remove</button>
+					<button className='removeButton' onClick={() => remove(blog)}>
+						remove
+					</button>
 				</div>
 			</Blog>
 		)
@@ -91,11 +82,7 @@ const BlogList = ({ user }) => {
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<BlogForm
-				user={user}
-				list={blogs}
-				notification={notification}
-			/>
+			<BlogForm user={user} list={blogs} notification={notification} />
 			{blogList}
 		</div>
 	)
