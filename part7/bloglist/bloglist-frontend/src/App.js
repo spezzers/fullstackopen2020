@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import BlogList from './components/BlogList'
 import Message from './components/Message'
 import Login from './components/Login'
+import Users from './components/Users'
 import { setUser } from './reducers/userReducer'
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
 			<Login user={user} setUser={setUser} />
 			<Message message={message} />
 			<BlogList user={user} />
+			<Users />
 		</div>
 	)
 }
