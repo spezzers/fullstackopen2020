@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
-import { useDispatch } from 'react-redux' 
+import { useDispatch } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 
 const BlogList = ({ user }) => {

@@ -22,7 +22,7 @@ export const notification = (content, type, duration) => {
 		content,
 		type: ['error', 'warning', 'confirm'].includes(type) ? type : 'message'
 	}
-	const timer = typeof duration === Number ? duration : 2000
+	const timer = typeof duration === Number ? duration : 5000
 
 	return async dispatch => {
 		if (previous) {
@@ -39,7 +39,7 @@ export const notification = (content, type, duration) => {
 }
 
 const notificationReducer = (
-	state = { type: 'initial', content: 'initial message' },
+	state = { type: 'initial', content: '' },
 	action
 ) => {
 	console.log('Reducer:', action.type)
