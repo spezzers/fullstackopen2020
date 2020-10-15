@@ -7,7 +7,7 @@ import { notification } from '../reducers/notificationReducer'
 
 
 
-const Login = () => {
+const Login = (props) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -72,6 +72,7 @@ const Login = () => {
 		<div>
 			<div>Hello {user.name}</div>
 			<button onClick={handleLogout}>logout</button>
+			{props.children}
 		</div>
 	)
 }

@@ -23,18 +23,19 @@ const App = () => {
 
 	return (
 		<div>
-			<Login user={user} setUser={setUser} />
+			<Login user={user} setUser={setUser}>
+				<Switch>
+					<Route path='/users'>
+						<Link to='/'>Go to Blogs</Link>
+						<Users />
+					</Route>
+					<Route path='/'>
+						<Link to='/users'>Go to Users</Link>
+						<BlogList />
+					</Route>
+				</Switch>
+			</Login>
 			<Message message={message} />
-			<Switch>
-				<Route path='/users'>
-					<Link to='/'>Go to Blogs</Link>
-					<Users />
-				</Route>
-				<Route path='/'>
-					<Link to='/users'>Go to Users</Link>
-					<BlogList />
-				</Route>
-			</Switch>
 		</div>
 	)
 }
