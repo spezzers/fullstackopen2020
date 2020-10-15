@@ -1,12 +1,26 @@
+import blogService from '../services/blogs'
+
+
+export const getAllBlogs = () => {
+	return async dispatch => {
+		const blogs = await blogService.getAll()
+		console.log(blogs)
+		dispatch({
+			type: 'GET_ALL_BLOGS',
+			data: blogs
+		})
+	}
+}
+
 const blogReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_BLOG':
-			console.log('need to add blog')
-			break
+			return [ ...state, action.data]
+		case 'GET_ALL_BLOGS':
+			return action.data
 		default:
 			return state
 	}
 }
-
 
 export default blogReducer

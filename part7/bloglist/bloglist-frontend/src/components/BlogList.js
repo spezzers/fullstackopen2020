@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
+import { getAllBlogs } from '../reducers/blogReducer'
 
 const BlogList = ({ user }) => {
-	const [blogs, setBlogs] = useState([])
+	const blogs = useSelector(state => state.blogs)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		if (user.username !== '') {
-			blogService.getAll().then(blogs => setBlogs(blogs))
+			dispatch(getAllBlogs())
 		}
-	}, [user])
+	}, [dispatch, user])
 
 	if (user.username === '') {
 		return null
@@ -28,7 +29,7 @@ const BlogList = ({ user }) => {
 		const updatedList = blogs.map(blog =>
 			blog === blogToUpdate ? updatedBlog : blog
 		)
-		setBlogs(() => updatedList)
+		// setBlogs(() => updatedList)
 	}
 
 	const remove = blog => {
@@ -49,7 +50,7 @@ const BlogList = ({ user }) => {
 					dispatch(notification(
 						`Successfully removed '${removedBlog.title}' by '${removedBlog.author}'`
 					))
-					setBlogs(updatedList)
+					// setBlogs(updatedList)
 				} catch (exception) {
 					dispatch(notification(exception.message, 'error'))
 				}
@@ -92,7 +93,6 @@ const BlogList = ({ user }) => {
 			<h2>Blogs</h2>
 			<BlogForm
 				user={user}
-				setBlogs={setBlogs}
 				list={blogs}
 				notification={notification}
 			/>
