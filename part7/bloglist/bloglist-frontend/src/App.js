@@ -15,7 +15,6 @@ const App = () => {
 		const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
 		if (loggedInUserJSON) {
 			const user = JSON.parse(loggedInUserJSON)
-			console.log('App useEffect')
 			dispatch(setUser(user))
 		}
 	}, [dispatch])

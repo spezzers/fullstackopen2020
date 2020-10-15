@@ -1,7 +1,6 @@
 let previous
 
 export const setMessage = data => {
-	console.log('Action: SET_MESSAGE', 'data:', data)
 	return {
 		type: 'SET_MESSAGE',
 		data
@@ -9,7 +8,6 @@ export const setMessage = data => {
 }
 
 export const clearNotification = () => {
-	console.log('Action: "CLEAR_MESSAGE" Previous timer:', previous)
 	return async dispatch => {
 		previous = undefined
 		dispatch({ type: 'CLEAR_MESSAGE' })
@@ -42,7 +40,6 @@ const notificationReducer = (
 	state = { type: 'initial', content: '' },
 	action
 ) => {
-	console.log('Reducer:', action.type)
 	switch (action.type) {
 		case 'SET_MESSAGE':
 			return { type: action.data.type, content: action.data.content }

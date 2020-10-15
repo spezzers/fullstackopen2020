@@ -37,14 +37,12 @@ const BlogForm = (props) => {
 			try {
 				const response = await blogService.postBlog(newBlog, config)
 				setBlogs(list.concat(response))
-				console.log(response)
 				dispatch(notification(
 					`Blog Added: '${response.title}' by '${response.author}'`,
 					'confirm', 5000
 				))
 				setNewBlog(emptyForm)
 			} catch (error) {
-				console.log(error.message)
 				dispatch(notification('Failed to add blog to list', 'error'))
 			}
 		} else {
