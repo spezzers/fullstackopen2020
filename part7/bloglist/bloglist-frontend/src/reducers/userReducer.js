@@ -6,6 +6,8 @@ export const clearUser = () => {
 	return { type: 'CLEAR_USER' }
 }
 
+// already done exercise 7.12 - yay!
+
 const userReducer = (state = { username: '', name: '', token: '' }, action) => {
 	const user = action.data
 	switch (action.type) {
