@@ -29,7 +29,7 @@ const Login = () => {
 			setPassword('')
 			notification('welcome', 'confirm')
 		} catch (exception) {
-			notification('wrong username or password', 'error')
+			dispatch(notification('wrong username or password', 'error'))
 		}
 	}
 
@@ -37,7 +37,7 @@ const Login = () => {
 		event.preventDefault()
 		window.localStorage.removeItem('loggedInUser')
 		dispatch(clearUser())
-		notification('log out successful', 'confirm')
+		dispatch(notification('log out successful', 'confirm'))
 	}
 
 	if (user.username === '') {

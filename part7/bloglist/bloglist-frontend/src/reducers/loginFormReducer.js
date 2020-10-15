@@ -15,13 +15,13 @@ export const login = data => {
 
 const loginFormReducer = (state = { username: '', password: '' }, action) => {
 	switch (action.type) {
-	case 'SET_USER':
-		// console.log(action.data)
-		return { ...action.data }
-	case 'CLEAR_FORM':
-		return { username: '', password: '' }
-	default:
-		return state
+		case 'SET_USER':
+			// console.log(action.data)
+			return { ...action.data }
+		case 'CLEAR_FORM':
+			return { username: '', password: '' }
+		default:
+			return state
 	}
 }
 
