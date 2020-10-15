@@ -21,7 +21,12 @@ const Users = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{users.map(user => <tr><td>{user.name}</td><td>{user.blogCount}</td></tr>)}
+					{users.map(user => (
+						<tr key={user.id}>
+							<td>{user.name}</td>
+							<td>{user.blogCount}</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 		</div>
