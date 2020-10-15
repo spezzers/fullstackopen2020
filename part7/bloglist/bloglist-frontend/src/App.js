@@ -5,6 +5,7 @@ import Message from './components/Message'
 import Login from './components/Login'
 import Users from './components/Users'
 import { setUser } from './reducers/userReducer'
+import { Switch, Route, useRouteMatch, Link } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -20,13 +21,20 @@ const App = () => {
 		}
 	}, [dispatch])
 
-
 	return (
 		<div>
 			<Login user={user} setUser={setUser} />
 			<Message message={message} />
-			<BlogList user={user} />
-			<Users />
+			<Switch>
+				<Route path='/users'>
+					<Link to='/'>Go to Blogs</Link>
+					<Users />
+				</Route>
+				<Route path='/'>
+					<Link to='/users'>Go to Users</Link>
+					<BlogList />
+				</Route>
+			</Switch>
 		</div>
 	)
 }

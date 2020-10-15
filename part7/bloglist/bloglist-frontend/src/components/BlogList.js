@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 import { getAllBlogs, updateBlog, removeBlog } from '../reducers/blogReducer'
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
+
 	const blogs = useSelector(state => state.blogs)
+	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
