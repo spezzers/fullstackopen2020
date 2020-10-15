@@ -12,6 +12,13 @@ export const getAllBlogs = () => {
 	}
 }
 
+export const addBlog = data => {
+	return {
+		type: 'ADD_BLOG',
+		data
+	}
+}
+
 const blogReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_BLOG':

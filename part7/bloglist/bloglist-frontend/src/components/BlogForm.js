@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
+import { addBlog } from '../reducers/blogReducer'
 
 
 
 const BlogForm = (props) => {
-
+	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 	const [newBlog, setNewBlog] = useState({
 		title: '',
@@ -20,10 +21,6 @@ const BlogForm = (props) => {
 		author: '',
 		url: ''
 	}
-	const
-		user = props.user,
-		list = props.list,
-		setBlogs = props.setBlogs
 
 	const handleSubmit = async event => {
 		event.preventDefault()
@@ -36,7 +33,8 @@ const BlogForm = (props) => {
 			}
 			try {
 				const response = await blogService.postBlog(newBlog, config)
-				setBlogs(list.concat(response))
+				console.log(response)
+				dispatch(addBlog(response))
 				dispatch(notification(
 					`Blog Added: '${response.title}' by '${response.author}'`,
 					'confirm', 5000
