@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import loginService from '../services/login'
-import propTypes from 'prop-types'
-import { setUser, clearUser } from '../reducers/userReducer'
+import { setUser, clearUser } from '../reducers/loggedInUserReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 
@@ -12,7 +11,7 @@ const Login = (props) => {
 	const [password, setPassword] = useState('')
 
 
-	const user = useSelector(state => state.user)
+	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
 
 
@@ -40,7 +39,7 @@ const Login = (props) => {
 		dispatch(notification('log out successful', 'confirm'))
 	}
 
-	if (user.username === '') {
+	if (loggedInUser.username === '') {
 		return (
 			<div>
 				<h2>Login</h2>
@@ -70,21 +69,11 @@ const Login = (props) => {
 	}
 	return (
 		<div>
-			<div>Hello {user.name}</div>
+			<div>Hello {loggedInUser.name}</div>
 			<button onClick={handleLogout}>logout</button>
 			{props.children}
 		</div>
 	)
-}
-
-Login.propTypes = {
-	user: propTypes.exact({
-		username: propTypes.string.isRequired,
-		name: propTypes.string.isRequired,
-		token: propTypes.string.isRequired
-	}).isRequired,
-	setUser: propTypes.func.isRequired,
-	notification: propTypes.func
 }
 
 export default Login

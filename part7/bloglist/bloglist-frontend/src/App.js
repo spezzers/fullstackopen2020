@@ -4,13 +4,13 @@ import BlogList from './components/BlogList'
 import Message from './components/Message'
 import Login from './components/Login'
 import Users from './components/Users'
-import { setUser } from './reducers/userReducer'
+import { setUser } from './reducers/loggedInUserReducer'
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
 
-	const user = useSelector(state => state.user)
+	const loggedInUser = useSelector(state => state.loggedInUser)
 	const message = useSelector(state => state.message)
 
 	useEffect(() => {
@@ -23,7 +23,7 @@ const App = () => {
 
 	return (
 		<div>
-			<Login user={user} setUser={setUser}>
+			<Login user={loggedInUser}>
 				<Switch>
 					<Route path='/users'>
 						<Link to='/'>Go to Blogs</Link>

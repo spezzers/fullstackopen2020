@@ -9,29 +9,29 @@ import { getAllBlogs, updateBlog, removeBlog } from '../reducers/blogReducer'
 const BlogList = () => {
 
 	const blogs = useSelector(state => state.blogs)
-	const user = useSelector(state => state.user)
+	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		if (user.username !== '') {
+		if (loggedInUser.username !== '') {
 			dispatch(getAllBlogs())
 		}
-	}, [dispatch, user])
+	}, [dispatch, loggedInUser])
 
-	if (user.username === '') {
+	if (loggedInUser.username === '') {
 		return null
 	}
 
 	const remove = blog => {
 		if (blog === undefined) {
-			return user
+			return loggedInUser
 		}
 		const check = window.confirm(
 			`Are you sure you want to delete '${blog.title}' by '${blog.author}'?`
 		)
 		if (check) {
 			const config = {
-				headers: { Authorization: `bearer ${user.token}` }
+				headers: { Authorization: `bearer ${loggedInUser.token}` }
 			}
 			const removeThisBlog = blog
 			const removeIt = async () => {
@@ -84,7 +84,7 @@ const BlogList = () => {
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<BlogForm user={user} list={blogs} notification={notification} />
+			<BlogForm user={loggedInUser} list={blogs} notification={notification} />
 			{blogList}
 		</div>
 	)

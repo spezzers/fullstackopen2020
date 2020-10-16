@@ -8,7 +8,7 @@ export const clearUser = () => {
 
 // already done exercise 7.12 - yay!
 
-const userReducer = (state = { username: '', name: '', token: '' }, action) => {
+const loggedInUserReducer = (state = { username: '', name: '', token: '' }, action) => {
 	const user = action.data
 	switch (action.type) {
 		case 'SET_USER':
@@ -20,4 +20,4 @@ const userReducer = (state = { username: '', name: '', token: '' }, action) => {
 	}
 }
 
-export default userReducer
+export default loggedInUserReducer

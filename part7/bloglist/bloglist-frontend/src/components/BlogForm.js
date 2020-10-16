@@ -6,7 +6,7 @@ import { notification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogReducer'
 
 const BlogForm = props => {
-	const user = useSelector(state => state.user)
+	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
 	const [newBlog, setNewBlog] = useState({
 		title: '',
@@ -23,7 +23,7 @@ const BlogForm = props => {
 	const handleSubmit = async event => {
 		event.preventDefault()
 		if ((newBlog.title && newBlog.author && newBlog.url) !== '') {
-			const token = `bearer ${user.token}`
+			const token = `bearer ${loggedInUser.token}`
 			const config = {
 				headers: {
 					Authorization: token
