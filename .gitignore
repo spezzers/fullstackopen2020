@@ -3,3 +3,4 @@ lessons/
 node_modules/
 *.code-workspace
 .env
+.log
