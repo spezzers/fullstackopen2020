@@ -26,7 +26,7 @@ const Login = (props) => {
 			dispatch(setUser(user))
 			setUsername('')
 			setPassword('')
-			notification('welcome', 'confirm')
+			dispatch(notification('welcome', 'confirm'))
 		} catch (exception) {
 			dispatch(notification('wrong username or password', 'error'))
 		}

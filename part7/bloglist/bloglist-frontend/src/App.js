@@ -4,12 +4,13 @@ import BlogList from './components/BlogList'
 import Message from './components/Message'
 import Login from './components/Login'
 import Users from './components/Users'
+import UserInfo from './components/UserInfo'
 import { setUser } from './reducers/loggedInUserReducer'
+import { getUserInfo } from './reducers/usersReducer'
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
-
 	const loggedInUser = useSelector(state => state.loggedInUser)
 	const message = useSelector(state => state.message)
 
@@ -23,8 +24,12 @@ const App = () => {
 
 	return (
 		<div>
+			<Message message={message} />
 			<Login user={loggedInUser}>
 				<Switch>
+					<Route path='/users/:id'>
+						<UserInfo />
+					</Route>
 					<Route path='/users'>
 						<Link to='/'>Go to Blogs</Link>
 						<Users />
@@ -35,7 +40,6 @@ const App = () => {
 					</Route>
 				</Switch>
 			</Login>
-			<Message message={message} />
 		</div>
 	)
 }

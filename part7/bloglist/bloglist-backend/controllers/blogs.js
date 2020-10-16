@@ -38,6 +38,8 @@ bloglistRouter.post('/', async (request, response) => {
 	if ( user !== null) {
 		if (blog.title !== undefined && blog.url !== undefined) {
 			const savedBlog = await blog.save()
+			user.blogs = user.blogs.concat(savedBlog._id)
+			await user.save()
 			response.status(201).json(savedBlog)
 		} else {
 			response.status(400).end()

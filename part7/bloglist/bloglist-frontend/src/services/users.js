@@ -1,17 +1,14 @@
 import axios from 'axios'
 
-const usersBaseUrl = 'http://localhost:3003/api/users'
+const usersBaseUrl = 'http://localhost:3003/api/users/'
 
 const getAll = async () => {
 	const response = await axios.get(usersBaseUrl)
-	const usersInfo = response.data.map(user => (
-		{
-			name: user.name,
-			blogCount: user.blogs.length,
-			id: user.id
-		}
-	))
-	return usersInfo
+	return response.data.map(user => ({ ...user }))
+}
+const getUserInfo = async id => {
+	const response = await axios.get(`${usersBaseUrl}${id}`)
+	return response.data
 }
 
-export default { getAll }
+export default { getAll, getUserInfo }
