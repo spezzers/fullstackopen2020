@@ -10,6 +10,16 @@ export const getAllBlogs = () => {
 	}
 }
 
+export const getBlogs = idArray => {
+	return async dispatch => {
+		const data = idArray.map(id => blogService.getBlog(id))
+		dispatch({
+			type: 'GET_BLOGS',
+			data
+		})
+	}
+}
+
 export const addBlog = data => {
 	return {
 		type: 'ADD_BLOG',
@@ -43,6 +53,9 @@ const blogReducer = (state = [], action) => {
 			)
 		case 'REMOVE_BLOG':
 			return state.filter(blog => blog.id !== action.id)
+		case 'GET_BLOGS':
+			console.log(action.data)
+			return state
 		default:
 			return state
 	}

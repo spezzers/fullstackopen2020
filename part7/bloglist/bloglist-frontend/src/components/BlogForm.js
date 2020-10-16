@@ -31,7 +31,6 @@ const BlogForm = props => {
 			}
 			try {
 				const response = await blogService.postBlog(newBlog, config)
-				console.log(response)
 				dispatch(addBlog(response))
 				dispatch(
 					notification(

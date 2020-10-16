@@ -6,8 +6,7 @@ import Login from './components/Login'
 import Users from './components/Users'
 import UserInfo from './components/UserInfo'
 import { setUser } from './reducers/loggedInUserReducer'
-import { getUserInfo } from './reducers/usersReducer'
-import { Switch, Route, useRouteMatch, Link } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()

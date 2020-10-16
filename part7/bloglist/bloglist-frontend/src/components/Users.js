@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 
 const Users = () => {
 	const dispatch = useDispatch()
+	const users = useSelector(state => state.users)
 	useEffect(() => {
 		dispatch(getAllUsers())
 	}, [dispatch])
 
-	const users = useSelector(state => state.users)
 
 	return (
 		<div>
