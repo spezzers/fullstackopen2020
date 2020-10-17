@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 import { getAllBlogs, updateBlog, removeBlog } from '../reducers/blogReducer'
 
-const BlogList = () => {
-
+const BlogList = props => {
 	const blogs = useSelector(state => state.blogs)
 	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
@@ -50,8 +49,11 @@ const BlogList = () => {
 			removeIt()
 		}
 	}
-
-	const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
+	const userFilteredBlogs =
+		props.userFilter !== undefined
+			? blogs.filter(blog => blog.user.id === props.userFilter.id)
+			: blogs
+	const sortedByLikes = userFilteredBlogs.sort((a, b) => b.likes - a.likes)
 
 	const blogList = sortedByLikes.map(blog => {
 		const showRemove = {
@@ -65,9 +67,13 @@ const BlogList = () => {
 			}
 			try {
 				const response = await blogService.update(blog.id, likeBlog)
-				dispatch(updateBlog(response.data))
+				const updated = {
+					...blog,
+					likes: response.data.likes
+				}
+				dispatch(updateBlog(updated))
 			} catch (exception) {
-				console.log(exception.message)
+				dispatch(notification(`Vote failed for '${likeBlog.title}' - ${exception.message}`))
 			}
 		}
 		return (
@@ -81,10 +87,18 @@ const BlogList = () => {
 		)
 	})
 
+	const includeForm = () => {
+		if (props.userFilter) {
+			const check = props.userFilter.username !== undefined && props.userFilter.username === loggedInUser.username
+			return check
+		}
+		return true
+	}
+
 	return (
 		<div>
 			<h2>Blogs</h2>
-			<BlogForm user={loggedInUser} list={blogs} notification={notification} />
+			{includeForm() ? <BlogForm /> : null}
 			{blogList}
 		</div>
 	)
