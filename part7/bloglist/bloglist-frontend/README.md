@@ -1,5 +1,10 @@
 # Part 7 - Bloglist
 
+## To-do
+- [ ] Fix remove button on blogs
+- [ ] Fix like button on blogs
+
+
 ## Testing
 For testing with **Cypress**, start the test server with `npm run dev:test`
 

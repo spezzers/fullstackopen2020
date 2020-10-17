@@ -5,6 +5,7 @@ import Message from './components/Message'
 import Login from './components/Login'
 import Users from './components/Users'
 import UserInfo from './components/UserInfo'
+import Blog from './components/Blog'
 import { setUser } from './reducers/loggedInUserReducer'
 import { Switch, Route, Link } from 'react-router-dom'
 
@@ -26,6 +27,9 @@ const App = () => {
 			<Message message={message} />
 			<Login user={loggedInUser}>
 				<Switch>
+					<Route path='/blogs/:id'>
+						<Blog />
+					</Route>
 					<Route path='/users/:id'>
 						<UserInfo />
 					</Route>
