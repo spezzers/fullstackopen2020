@@ -1,9 +1,10 @@
 # Part 7 - Bloglist
 
 ## To-do
-- [ ] Fix remove button on blogs
-- [ ] Fix like button on blogs
-
+- [x] Fix remove button on blogs
+- [x] Fix like button on blogs
+- [ ] Fix bug that makes login form reset when notification times out
+- [ ] Finish useField implementation
 
 ## Testing
 For testing with **Cypress**, start the test server with `npm run dev:test`

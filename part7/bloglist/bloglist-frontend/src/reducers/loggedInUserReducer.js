@@ -6,14 +6,16 @@ export const clearUser = () => {
 	return { type: 'CLEAR_USER' }
 }
 
-// already done exercise 7.12 - yay!
-
-const loggedInUserReducer = (state = { username: '', name: '', token: '' }, action) => {
+const loggedInUserReducer = (
+	state = { username: '', name: '', token: '' },
+	action
+) => {
 	const user = action.data
 	switch (action.type) {
 		case 'SET_USER':
 			return { ...user }
 		case 'CLEAR_USER':
+			window.localStorage.removeItem('loggedInUser')
 			return { username: '', name: '', token: '' }
 		default:
 			return state

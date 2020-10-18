@@ -1,31 +1,22 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import BlogList from './components/BlogList'
 import Message from './components/Message'
-import Login from './components/Login'
 import Users from './components/Users'
 import UserInfo from './components/UserInfo'
 import Blog from './components/Blog'
-import { setUser } from './reducers/loggedInUserReducer'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import { useUser } from './hooks'
 
 const App = () => {
-	const dispatch = useDispatch()
-	const loggedInUser = useSelector(state => state.loggedInUser)
 	const message = useSelector(state => state.message)
 
-	useEffect(() => {
-		const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
-		if (loggedInUserJSON) {
-			const user = JSON.parse(loggedInUserJSON)
-			dispatch(setUser(user))
-		}
-	}, [dispatch])
+	const user = useUser()
 
-	return (
-		<div>
-			<Message message={message} />
-			<Login user={loggedInUser}>
+	const accessApp = () => {
+		if (user.isLoggedIn) {
+			return (
 				<Switch>
 					<Route path='/blogs/:id'>
 						<Blog />
@@ -34,15 +25,21 @@ const App = () => {
 						<UserInfo />
 					</Route>
 					<Route path='/users'>
-						<Link to='/'>Go to Blogs</Link>
 						<Users />
 					</Route>
 					<Route path='/'>
-						<Link to='/users'>Go to Users</Link>
 						<BlogList />
 					</Route>
 				</Switch>
-			</Login>
+			)
+		}
+	}
+
+	return (
+		<div>
+			<Message message={message} />
+			<NavBar></NavBar>
+			{accessApp()}
 		</div>
 	)
 }

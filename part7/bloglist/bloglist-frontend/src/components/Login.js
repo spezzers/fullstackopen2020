@@ -1,31 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
 import loginService from '../services/login'
 import { setUser, clearUser } from '../reducers/loggedInUserReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
+import { useField } from '../hooks'
 
-
-
-const Login = (props) => {
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-
+const Login = props => {
+	const username = useField('text')
+	const password = useField('password')
 
 	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
-
 
 	const handleLogin = async event => {
 		event.preventDefault()
 		try {
 			const user = await loginService.login({
-				username,
-				password
+				username: username.value,
+				password: password.value
 			})
 			window.localStorage.setItem('loggedInUser', JSON.stringify(user))
 			dispatch(setUser(user))
-			setUsername('')
-			setPassword('')
+			username.onChange('reset')
+			password.onChange('reset')
 			dispatch(notification('welcome', 'confirm'))
 		} catch (exception) {
 			dispatch(notification('wrong username or password', 'error'))
@@ -34,45 +31,46 @@ const Login = (props) => {
 
 	const handleLogout = event => {
 		event.preventDefault()
-		window.localStorage.removeItem('loggedInUser')
 		dispatch(clearUser())
 		dispatch(notification('log out successful', 'confirm'))
 	}
 
 	if (loggedInUser.username === '') {
 		return (
-			<div>
+			<>
 				<h2>Login</h2>
 				<form onSubmit={handleLogin}>
 					<div>
 						username
 						<input
-							type='text'
-							value={username}
 							id='username'
-							onChange={({ target }) => setUsername(target.value)}
+							type={username.type}
+							value={username.value}
+							onChange={username.onChange}
 						/>
 					</div>
 					<div>
 						password
 						<input
-							type='password'
-							value={password}
 							id='password'
-							onChange={({ target }) => setPassword(target.value)}
+							type={password.type}
+							value={password.value}
+							onChange={password.onChange}
 						/>
 					</div>
-					<button id="login-button" type='submit'>login</button>
+					<button id='login-button' type='submit'>
+						login
+					</button>
 				</form>
-			</div>
+			</>
 		)
 	}
 	return (
-		<div>
-			<div>Hello {loggedInUser.name}</div>
+		<>
+			Hello {loggedInUser.name}
 			<button onClick={handleLogout}>logout</button>
 			{props.children}
-		</div>
+		</>
 	)
 }
 
