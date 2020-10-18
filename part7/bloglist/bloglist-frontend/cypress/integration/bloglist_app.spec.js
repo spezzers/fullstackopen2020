@@ -68,8 +68,8 @@ describe('Blog app', function() {
 				cy.addBlog(blog)
 			})
 			it('Can like a blog', function() {
-				cy.contains(`${blog.title} - ${blog.author}`).as('likedBlog').get('.blogDetails-toggle').click().get('.likeButton').click()
-				cy.get('@likedBlog').contains(`likes: ${blog.likes + 1}`)
+				cy.contains(`${blog.title} - ${blog.author}`).as('likedBlog').click().get('.likeButton').click()
+				cy.contains(`likes: ${blog.likes + 1}`)
 			})
 		})
 		describe('5.21', function() {
@@ -93,11 +93,9 @@ describe('Blog app', function() {
 					.get('.blogItem')
 					.contains(`${helper.blogs[0].title} - ${helper.blogs[0].author}`)
 					.as('removeBlog')
-					.find('.blogDetails-toggle')
 					.click()
 				cy
-					.get('@removeBlog')
-					.find('.removeButton')
+					.get('.removeButton')
 					.click()
 
 				cy.contains('Successfully removed')
@@ -112,11 +110,9 @@ describe('Blog app', function() {
 					.get('.blogItem')
 					.contains(`${helper.blogs[1].title} - ${helper.blogs[1].author}`)
 					.as('otherBlog')
-					.find('.blogDetails-toggle')
 					.click()
 				cy
-					.get('@otherBlog')
-					.find('.removeButton')
+					.get('.removeButton')
 					.should('not.be.visible')
 					.click({ force:true })
 				cy.contains('Request failed with status code 401')

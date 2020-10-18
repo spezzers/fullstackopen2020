@@ -22,20 +22,20 @@ const Blog = props => {
 
 	if (!match) {
 		return (
-			<div
-				id={blog.id}
-				style={{
-					border: 'black solid 1px',
-					margin: '5px',
-					padding: '5px'
-				}}
-				className='blogItem'
-			>
-				<Link to={`/blogs/${blog.id}`}>
+			<Link to={`/blogs/${blog.id}`}>
+				<div
+					id={blog.id}
+					style={{
+						border: 'black solid 1px',
+						margin: '5px',
+						padding: '5px'
+					}}
+					className='blogItem'
+				>
 					<span className='title'>{blog.title}</span> -{' '}
 					<span className='author'>{blog.author}</span>
-				</Link>
-			</div>
+				</div>
+			</Link>
 		)
 	}
 
@@ -89,26 +89,15 @@ const Blog = props => {
 			)
 		}
 	}
+
 	const showRemove = {
 		display: blog.user.username !== loggedInUser.username ? 'none' : ''
 	}
 
 	return (
-		<div
-			id={blog.id}
-			style={{
-				border: 'black solid 1px',
-				margin: '5px',
-				padding: '5px'
-			}}
-			className='blogItem'
-		>
-			<div style={showRemove}>
-				<button className='removeButton' onClick={() => remove(blog)}>
-					remove
-				</button>
-			</div>
-
+		<div id={blog.id} className='blogItem'>
+			<h2 className='title'>{blog.title}</h2>
+			<h3 className='author'>{blog.author}</h3>
 			<div className='url'>
 				<a target='_blank' rel='noopener noreferrer' href={blog.url}>
 					{blog.url}
@@ -121,7 +110,11 @@ const Blog = props => {
 				</button>
 			</div>
 			<div className='name-of-user'>{blog.user.name}</div>
-			{props.children}
+			<div style={showRemove}>
+				<button className='removeButton' onClick={() => remove(blog)}>
+					remove
+				</button>
+			</div>
 		</div>
 	)
 }
