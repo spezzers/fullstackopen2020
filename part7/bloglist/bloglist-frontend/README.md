@@ -3,8 +3,9 @@
 ## To-do
 - [x] Fix remove button on blogs
 - [x] Fix like button on blogs
-- [ ] Fix bug that makes login form reset when notification times out
-- [ ] Finish useField implementation
+- [x] Fix bug that makes login form reset when notification times out
+- [x] Finish useField implementation
+- [x] Fix console warning when logging in: "Can't perform a React state update on an unmounted component"
 
 ## Testing
 For testing with **Cypress**, start the test server with `npm run dev:test`

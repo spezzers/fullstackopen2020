@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
-const Login = props => {
+const Login = () => {
 	const username = useField('text')
 	const password = useField('password')
 
@@ -68,8 +68,12 @@ const Login = props => {
 	return (
 		<>
 			Hello {loggedInUser.name}
-			<button onClick={handleLogout}>logout</button>
-			{props.children}
+			<button
+				style={{ padding: '4px 8px', margin: '0 8px' }}
+				onClick={handleLogout}
+			>
+				logout
+			</button>
 		</>
 	)
 }

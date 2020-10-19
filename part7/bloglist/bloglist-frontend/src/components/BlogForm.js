@@ -1,28 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../services/blogs'
 import Toggle from './Toggle'
 import { useDispatch, useSelector } from 'react-redux'
 import { notification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogReducer'
+import { useField } from '../hooks'
 
 const BlogForm = props => {
 	const loggedInUser = useSelector(state => state.loggedInUser)
 	const dispatch = useDispatch()
-	const [newBlog, setNewBlog] = useState({
-		title: '',
-		author: '',
-		url: ''
-	})
+	const title = useField('text')
+	const author = useField('text')
+	const url = useField('text')
 
-	const emptyForm = {
-		title: '',
-		author: '',
-		url: ''
+	const newBlog = {
+		title: title.value,
+		author: author.value,
+		url: url.value
 	}
 
 	const handleSubmit = async event => {
 		event.preventDefault()
-		if ((newBlog.title && newBlog.author && newBlog.url) !== '') {
+		if ((title.value && author.value && url.value) !== '') {
 			const token = `bearer ${loggedInUser.token}`
 			const config = {
 				headers: {
@@ -39,7 +38,9 @@ const BlogForm = props => {
 						5000
 					)
 				)
-				setNewBlog(emptyForm)
+				title.clear()
+				author.clear()
+				url.clear()
 			} catch (error) {
 				dispatch(notification('Failed to add blog to list', 'error'))
 			}
@@ -70,9 +71,7 @@ const BlogForm = props => {
 									type='text'
 									value={newBlog.title}
 									id='title'
-									onChange={({ target }) =>
-										setNewBlog({ ...newBlog, title: target.value })
-									}
+									onChange={title.onChange}
 								/>
 							</td>
 						</tr>
@@ -83,9 +82,7 @@ const BlogForm = props => {
 									type='text'
 									value={newBlog.author}
 									id='author'
-									onChange={({ target }) =>
-										setNewBlog({ ...newBlog, author: target.value })
-									}
+									onChange={author.onChange}
 								/>
 							</td>
 						</tr>
@@ -96,9 +93,7 @@ const BlogForm = props => {
 									type='text'
 									value={newBlog.url}
 									id='url'
-									onChange={({ target }) =>
-										setNewBlog({ ...newBlog, url: target.value })
-									}
+									onChange={url.onChange}
 								/>
 							</td>
 						</tr>

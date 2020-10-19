@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import BlogList from './components/BlogList'
 import Message from './components/Message'
 import Users from './components/Users'
@@ -10,7 +9,6 @@ import NavBar from './components/NavBar'
 import { useUser } from './hooks'
 
 const App = () => {
-	const message = useSelector(state => state.message)
 
 	const user = useUser()
 
@@ -36,11 +34,11 @@ const App = () => {
 	}
 
 	return (
-		<div>
-			<Message message={message} />
-			<NavBar></NavBar>
+		<>
+			<Message/>
+			<NavBar/>
 			{accessApp()}
-		</div>
+		</>
 	)
 }
 

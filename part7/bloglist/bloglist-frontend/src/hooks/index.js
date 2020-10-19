@@ -9,10 +9,13 @@ export const useField = type => {
 		event.type === 'change' ? setValue(event.target.value) : setValue('')
 	}
 
+	const clear = () => setValue('')
+
 	return {
 		type,
 		value,
-		onChange
+		onChange,
+		clear
 	}
 }
 

@@ -1,37 +1,36 @@
 import React from 'react'
 import Login from '../components/Login'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-const NavBar = props => {
+const NavBar = () => {
 	const loggedInUser = useSelector(state => state.loggedInUser)
-
-	const NavItem = props => (
-		<div
-			style={{
-				display: 'inline',
-				padding: '10px'
-			}}
-		>
-			{props.children}
-		</div>
-	)
+	const showNav = loggedInUser.username !== ''
+	const navItem = content => {
+		return (
+			<div style={{ display: 'inline', padding: '5px 10px' }}>
+				{content}
+			</div>
+		)
+	}
 	return (
 		<>
 			<div
 				style={{
-					display: 'inline-block'
+					display: 'inline-block',
+					backgroundColor: '#ddd',
+					padding: '5px 10px',
+					width: '100%',
+					margin: '0px'
 				}}
 			>
-				<NavItem>
-					<Link to='/'>Blogs</Link>
-				</NavItem>
-				<NavItem>
-					<Link to='/users'>Users</Link>
-				</NavItem>
-				<NavItem>
-					<Login user={loggedInUser}>{props.children}</Login>
-				</NavItem>
+				{showNav ? (
+					<>
+						{navItem(<Link to='/'>Blogs</Link>)}
+						{navItem(<Link to='/users'>Users</Link>)}
+					</>
+				) : null}
+				{navItem(<Login />)}
 			</div>
 		</>
 	)
