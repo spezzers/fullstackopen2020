@@ -109,7 +109,7 @@ const Blog = props => {
 					like
 				</button>
 			</div>
-			<div className='name-of-user'>{blog.user.name}</div>
+			<div className='name-of-user'>Added by <strong>{blog.user.name}</strong></div>
 			<div style={showRemove}>
 				<button className='removeButton' onClick={() => remove(blog)}>
 					remove

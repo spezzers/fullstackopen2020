@@ -68,7 +68,7 @@ const BlogForm = props => {
 							<td>title</td>
 							<td>
 								<input
-									type='text'
+									type={title.type}
 									value={newBlog.title}
 									id='title'
 									onChange={title.onChange}
@@ -79,7 +79,7 @@ const BlogForm = props => {
 							<td>author</td>
 							<td>
 								<input
-									type='text'
+									type={author.type}
 									value={newBlog.author}
 									id='author'
 									onChange={author.onChange}
@@ -90,7 +90,7 @@ const BlogForm = props => {
 							<td>url</td>
 							<td>
 								<input
-									type='text'
+									type={url.type}
 									value={newBlog.url}
 									id='url'
 									onChange={url.onChange}
