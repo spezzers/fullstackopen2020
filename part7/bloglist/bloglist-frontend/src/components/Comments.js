@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom'
+import CommentForm from './CommentForm'
 
 const Comments = props => {
 	const match = useRouteMatch('/blogs/:id')
@@ -11,8 +12,8 @@ const Comments = props => {
 	return (
 		<div>
 			<h4>Comments</h4>
-
 			{list.length === 0 ? 'No comments yet...' : null}
+			<CommentForm />
 			<ul>
 				{list.map(comment => (
 					<li key={comment.id}>{comment.content}</li>

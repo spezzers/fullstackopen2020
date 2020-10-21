@@ -7,6 +7,7 @@
 - [x] Finish useField implementation
 - [x] Fix console warning when logging in: "Can't perform a React state update on an unmounted component"
 - [x] Fix bug after 7.17, can no longer like a blog with comments on (400)
+- [ ] When an item is deleted from the database, it's references remain.
 
 ## Testing
 For testing with **Cypress**, start the test server with `npm run dev:test`

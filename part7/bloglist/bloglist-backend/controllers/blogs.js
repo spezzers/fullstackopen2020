@@ -48,7 +48,7 @@ bloglistRouter.post('/:id/comments', async (request, response) => {
 	const blog = await Blog.findById(id)
 	if (blog) {
 		const comment = new Comment({
-			...body,
+			content: body.content,
 			blog: blog.id,
 			date: Date.now()
 		})

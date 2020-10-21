@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+// import { useField } from '../hooks'
 
 export const getAllBlogs = () => {
 	return async dispatch => {
@@ -31,6 +32,20 @@ export const removeBlog = id => {
 	}
 }
 
+export const addComment = (blogId, content, formInputs) => {
+	return async dispatch => {
+		const response = await blogService.comment(blogId, content)
+		if (response.status === 201) {
+			formInputs.map(i => i.clear())
+		}
+		dispatch({
+			type: 'ADD_COMMENT',
+			blogId,
+			comment: response.data
+		})
+	}
+}
+
 const blogReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_BLOG':
@@ -43,6 +58,12 @@ const blogReducer = (state = [], action) => {
 			)
 		case 'REMOVE_BLOG':
 			return state.filter(blog => blog.id !== action.id)
+		case 'ADD_COMMENT':
+			return state.map(blog =>
+				blog.id === action.blogId
+					? { ...blog, comments: [...blog.comments, action.comment] }
+					: blog
+			)
 		default:
 			return state
 	}

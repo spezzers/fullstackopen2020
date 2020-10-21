@@ -12,4 +12,6 @@ const update = (id, body) => axios.put(`${baseUrl}/${id}`, body)
 
 const remove = (id, token) => axios.delete(`${baseUrl}/${id}`, token)
 
-export default { getBlogs, getAll, postBlog, update, remove }
+const comment = (blogId, content) => axios.post(`${baseUrl}/${blogId}/comments`, content)
+
+export default { getBlogs, getAll, postBlog, update, remove, comment }
