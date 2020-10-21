@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import { notification } from '../reducers/notificationReducer'
 import { removeBlog, updateBlog } from '../reducers/blogReducer'
+import Comments from './Comments'
 
 const Blog = props => {
 	const match = useRouteMatch('/blogs/:id')
@@ -115,6 +116,7 @@ const Blog = props => {
 					remove
 				</button>
 			</div>
+			<Comments />
 		</div>
 	)
 }
