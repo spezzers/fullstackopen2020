@@ -6,6 +6,7 @@
 - [x] Fix bug that makes login form reset when notification times out
 - [x] Finish useField implementation
 - [x] Fix console warning when logging in: "Can't perform a React state update on an unmounted component"
+- [x] Fix bug after 7.17, can no longer like a blog with comments on (400)
 
 ## Testing
 For testing with **Cypress**, start the test server with `npm run dev:test`

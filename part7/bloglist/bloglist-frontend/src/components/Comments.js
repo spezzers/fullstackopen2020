@@ -8,7 +8,6 @@ const Comments = props => {
 		blog => blog.id === match.params.id
 	)
 	const list = props.list || blog.comments
-	console.log(list.length, list)
 	return (
 		<div>
 			<h4>Comments</h4>

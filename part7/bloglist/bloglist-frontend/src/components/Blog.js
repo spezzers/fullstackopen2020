@@ -73,7 +73,8 @@ const Blog = props => {
 		const likeBlog = {
 			...blog,
 			likes: blog.likes + 1,
-			user: blog.user.id
+			user: blog.user.id,
+			comments: blog.comments.map(c => c.id)
 		}
 		try {
 			const response = await blogService.update(blog.id, likeBlog)
