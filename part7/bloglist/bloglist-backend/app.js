@@ -33,7 +33,7 @@ app.use('/api/login', loginRouter)
 if (process.env.NODE_ENV === 'test') {
 	const testRouter = require('./controllers/testing')
 	app.use('/api/testing', testRouter)
-	logger.info('Testing router enabled')
+	console.log('Testing router enabled - `logger.info()` is disabled')
 }
 
 app.use(middleware.errorHandler)

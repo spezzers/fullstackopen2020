@@ -9,14 +9,17 @@ bloglistRouter.get('/', async (request, response) => {
 	const blogs = await Blog
 		.find({})
 		.populate('user', { username: 1, name: 1 })
-		.populate('Comment')
+		.populate('comments', {content: 1, date: 1})
 	response.json(blogs)
 })
 
 // ---------------------  GET SPECIFIC BLOG  ----------------------
 bloglistRouter.get('/:id', async (request, response) => {
 	const id = request.params.id
-	const blog = await Blog.findById(id)
+	const blog = await Blog
+		.findById(id)
+		.populate('user', { username: 1, name: 1 })
+		.populate('comments', {content: 1, date: 1})
 	if (blog) {
 		response.json(blog)
 	} else {
