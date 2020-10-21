@@ -31,10 +31,14 @@ const errorHandler = (error, request, response, next) => {
 	if (error.name === 'TypeError' && request.method === 'DELETE') {
 		response.status(404).send({error: 'Nothing to delete, the item does not exist'})
 	}
+	if (error.name === 'TypeError' && request.method === 'POST') {
+		response.status(401)
+	}
 	next(error)
 }
 module.exports = {
 	errorHandler,
 	unknownEndpoint,
-	requestLogger, tokenExtractor
+	requestLogger,
+	tokenExtractor
 }
