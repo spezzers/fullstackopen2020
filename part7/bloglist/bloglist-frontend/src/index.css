@@ -1,22 +1,8 @@
-#messageArea {
-	width: 100%;
-    min-height: 50px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white
+body {
+    margin: 0;
+    font-family: 'Merriweather', serif;
+    background-color: #e8f4ff;
 }
-
-.message {
-	background-color: #0e3172;
-}
-.confirm {
-	background-color: #268a22;
-}
-.warning {
-	background-color: #ce8f07;
-}
-.error {
-	background-color: #ac200d;
+h1, h2 {
+    font-weight: 800;
 }

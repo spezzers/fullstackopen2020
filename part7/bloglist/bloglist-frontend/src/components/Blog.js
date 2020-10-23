@@ -5,6 +5,27 @@ import blogService from '../services/blogs'
 import { notification } from '../reducers/notificationReducer'
 import { removeBlog, updateBlog } from '../reducers/blogReducer'
 import Comments from './Comments'
+import styled from 'styled-components'
+import { colors } from '../styled'
+
+
+const BlogContainer = styled.div`
+	background-color: ${colors.offWhite};
+	border-radius: 2.5px;
+	padding: 5px;
+	margin: 0 0 6px;
+	box-shadow: 3px 2px 8px -6px ${colors.main};
+	transition: 0.05s;
+	:hover {
+		box-shadow: 3px 2px 10px -6px ${colors.main};
+		transform: scale(1.007);
+
+	}
+	.author {
+		opacity: 0.5;
+		font-style: italic;
+	}
+`
 
 const Blog = props => {
 	const match = useRouteMatch('/blogs/:id')
@@ -23,20 +44,17 @@ const Blog = props => {
 
 	if (!match) {
 		return (
-			<Link to={`/blogs/${blog.id}`}>
-				<div
-					id={blog.id}
-					style={{
-						border: 'black solid 1px',
-						margin: '5px',
-						padding: '5px'
-					}}
-					className='blogItem'
-				>
-					<span className='title'>{blog.title}</span> -{' '}
-					<span className='author'>{blog.author}</span>
-				</div>
-			</Link>
+			<BlogContainer>
+				<Link to={`/blogs/${blog.id}`}>
+					<div
+						id={blog.id}
+						className='blogItem'
+					>
+						<span className='title'>{blog.title}</span> -{' '}
+						<span className='author'>{blog.author}</span>
+					</div>
+				</Link>
+			</BlogContainer>
 		)
 	}
 
@@ -111,7 +129,9 @@ const Blog = props => {
 					like
 				</button>
 			</div>
-			<div className='name-of-user'>Added by <strong>{blog.user.name}</strong></div>
+			<div className='name-of-user'>
+				Added by <strong>{blog.user.name}</strong>
+			</div>
 			<div style={showRemove}>
 				<button className='removeButton' onClick={() => remove(blog)}>
 					remove
