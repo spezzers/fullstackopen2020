@@ -10,13 +10,12 @@ const NavContainer = styled.div`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	padding: 5px 10px;
+	padding: 5px 10px 20px;
 	width: 100%;
-	border-bottom: 1px solid white;
-
 	margin: 0;
 	button {
-		background-color: green;
+		background-color: ${colors.blue};
+		border-style:  outset;
 		border-radius: 6px;
 		color: white;
 		:hover {
@@ -45,7 +44,6 @@ const NavItem = styled.div`
 			color: initial;
 		}
 		color: ${colors.main};
-		
 		padding: 5px 15px;
 		text-decoration: none;
 	}

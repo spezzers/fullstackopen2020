@@ -3,6 +3,8 @@ import { useField } from '../hooks'
 import { addComment } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom'
+import styled from 'styled-components'
+import { colors } from '../styled'
 
 const CommentForm = () => {
 	const blogId = useRouteMatch('/blogs/:id').params.id
@@ -18,7 +20,7 @@ const CommentForm = () => {
 	}
 
 	return (
-		<form id='commentForm' onSubmit={handleSubmit}>
+		<CommentFormContainer id='commentForm' onSubmit={handleSubmit}>
 			<input
 				type={comment.type}
 				value={comment.value}
@@ -26,8 +28,22 @@ const CommentForm = () => {
 				name='comment'
 			/>
 			<button type='submit'>add comment</button>
-		</form>
+		</CommentFormContainer>
 	)
 }
+
+const CommentFormContainer = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	input {
+		flex-grow: 10;
+	}
+	button {
+		background-color: ${colors.blue};
+		color: ${colors.offWhite};
+	}
+`
 
 export default CommentForm

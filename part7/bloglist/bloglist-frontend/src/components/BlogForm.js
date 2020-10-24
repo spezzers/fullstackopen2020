@@ -52,15 +52,7 @@ const BlogForm = props => {
 	const onSubmit = props.onSubmit ? props.onSubmit(newBlog) : handleSubmit
 
 	return (
-		<Toggle
-			id='blogForm'
-			primaryLabel='Add a blog'
-			style={{
-				border: 'dashed #cccccc 1px',
-				padding: '5px',
-				margin: '0 5px 5px'
-			}}
-		>
+		<Toggle id='blogForm' primaryLabel='Add a blog'>
 			<form id='form' onSubmit={onSubmit}>
 				<table>
 					<tbody>

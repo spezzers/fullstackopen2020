@@ -8,22 +8,47 @@ import Comments from './Comments'
 import styled from 'styled-components'
 import { colors } from '../styled'
 
+const expanded = `
+	text-align: center;
+`
 
-const BlogContainer = styled.div`
-	background-color: ${colors.offWhite};
-	border-radius: 2.5px;
-	padding: 5px;
-	margin: 0 0 6px;
-	box-shadow: 3px 2px 8px -6px ${colors.main};
-	transition: 0.05s;
+const compact = `
+	.author {
+		::before {
+			content: ' - ';
+		}
+	}
 	:hover {
 		box-shadow: 3px 2px 10px -6px ${colors.main};
 		transform: scale(1.007);
-
 	}
+`
+
+const BlogContainer = styled.div`
+	${props => (props.expanded ? expanded : compact)}
+	background-color: ${colors.offWhite};
+	border-radius: 2.5px;
+	padding: 6px 10px;;
+	margin: 0 0 6px;
+	box-shadow: 3px 2px 8px -6px ${colors.main};
+	transition: 0.08s;
+	box-sizing: border-box;
+	
 	.author {
 		opacity: 0.5;
 		font-style: italic;
+	}
+	.name-of-user {
+		font-size: 0.8rem;
+		margin-top: 20px;
+	}
+	.likes {
+		margin: 25px 0;
+	}
+	.url {
+		color: ${colors.blue};
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 `
 
@@ -46,11 +71,8 @@ const Blog = props => {
 		return (
 			<BlogContainer>
 				<Link to={`/blogs/${blog.id}`}>
-					<div
-						id={blog.id}
-						className='blogItem'
-					>
-						<span className='title'>{blog.title}</span> -{' '}
+					<div id={blog.id} className='blogItem'>
+						<span className='title'>{blog.title}</span>
 						<span className='author'>{blog.author}</span>
 					</div>
 				</Link>
@@ -115,30 +137,39 @@ const Blog = props => {
 	}
 
 	return (
-		<div id={blog.id} className='blogItem'>
-			<h2 className='title'>{blog.title}</h2>
-			<h3 className='author'>{blog.author}</h3>
-			<div className='url'>
-				<a target='_blank' rel='noopener noreferrer' href={blog.url}>
-					{blog.url}
-				</a>
-			</div>
-			<div className='likes'>
-				likes: <span className='likeCount'>{blog.likes}</span>{' '}
-				<button className='likeButton' onClick={handleNewLike}>
-					like
-				</button>
-			</div>
-			<div className='name-of-user'>
-				Added by <strong>{blog.user.name}</strong>
-			</div>
-			<div style={showRemove}>
-				<button className='removeButton' onClick={() => remove(blog)}>
-					remove
-				</button>
-			</div>
+		<>
+			<BlogContainer expanded>
+				<div id={blog.id} className='blogItem'>
+					<h2 className='title'>{blog.title}</h2>
+					<h3 className='author'>{blog.author}</h3>
+					<div className='url'>
+						<a target='_blank' rel='noopener noreferrer' href={blog.url}>
+							{blog.url}
+						</a>
+					</div>
+					<div className='likes'>
+						likes: <span className='likeCount'>{blog.likes}</span>{' '}
+						<button className='likeButton' onClick={handleNewLike}>
+							like
+						</button>
+					</div>
+					<div className='name-of-user'>
+						Added by{' '}
+						<strong>
+							{blog.user.username === loggedInUser.username
+								? 'you'
+								: blog.user.name}
+						</strong>
+					</div>
+					<div style={showRemove}>
+						<button className='removeButton' onClick={() => remove(blog)}>
+							remove
+						</button>
+					</div>
+				</div>
+			</BlogContainer>
 			<Comments />
-		</div>
+		</>
 	)
 }
 

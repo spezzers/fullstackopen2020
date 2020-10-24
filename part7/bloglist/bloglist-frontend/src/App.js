@@ -17,6 +17,9 @@ const AppContainer = styled.div`
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	flex-wrap: wrap;
+	/* padding: 3%; */
+	box-sizing: border-box;
 	h2 {
 		width: 100%;
 		text-align: center;
