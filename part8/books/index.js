@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const _ = require('lodash')
+const { v1: uuid } = require('uuid')
 
 let authors = [
 	{
@@ -99,6 +100,14 @@ const typeDefs = gql`
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Person!]!
 	}
+	type Mutation {
+		addBook(
+			title: String!
+			author: String!
+			genres: [String]
+			published: Int!
+		): Book
+	}
 `
 
 const resolvers = {
@@ -118,7 +127,26 @@ const resolvers = {
 		allAuthors: () => authors
 	},
 	Person: {
-		bookCount: (root) => books.filter(b => b.author === root.name).length
+		bookCount: root => books.filter(b => b.author === root.name).length
+	},
+	Mutation: {
+		addBook: (root, args) => {
+			if (books.find(b => b.title === args.title)) {
+				throw new UserInputError('This title already exists', {
+					invalidArgs: args.title
+				})
+			}
+			const newBook = { ...args, id: uuid() }
+			const knownAuthors = authors.map(a => a.name)
+			if (!knownAuthors.includes(args.author)) {
+				const newAuthor = {
+					name: args.author
+				}
+				authors = [...authors, newAuthor]
+			}
+			books = [...books, newBook]
+			return newBook
+		}
 	}
 }
 
