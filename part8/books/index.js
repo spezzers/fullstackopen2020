@@ -108,8 +108,8 @@ const typeDefs = gql`
 			published: Int!
 		): Book,
 		editAuthor(
-			name: String
-			setBornTo: Int
+			name: String!
+			setBornTo: Int!
 		): Person
 	}
 `
