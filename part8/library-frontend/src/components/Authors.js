@@ -21,7 +21,7 @@ const Authors = (props) => {
   const updateAuthor = event => {
     event.preventDefault()
     console.log('updateAuthor...')
-    editAuthor({variables:{name: author, year: parseInt(born)}}).then(result => console.log(result.data))
+    editAuthor({ variables: { name: author, year: parseInt(born) } }).then(result => console.log(result.data))
   }
 
   return (
@@ -50,22 +50,10 @@ const Authors = (props) => {
       <div>
         <h3>Update Author</h3>
         <form onSubmit={updateAuthor}>
-          <table>
-            <tbody>
-              <tr>
-                <td>author</td>
-                <td>
-                  <input type='text' value={author} onChange={({ target }) => setAuthor(target.value)}></input>
-                </td>
-              </tr>
-              <tr>
-                <td>birth year</td>
-                <td>
-                  <input type='text' value={born} onChange={({ target }) => setBorn(target.value)}></input>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <select value={author} onChange={({target}) => setAuthor(target.value)}>
+            {authors.data.allAuthors.map(a => <option value={a.name}>{a.name}</option>)}
+          </select>
+          <input type='text' value={born} onChange={({ target }) => setBorn(target.value)}></input>
           <button type='submit'>update</button>
         </form>
       </div>
