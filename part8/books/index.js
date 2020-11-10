@@ -144,7 +144,8 @@ const resolvers = {
 			const knownAuthors = authors.map(a => a.name)
 			if (!knownAuthors.includes(args.author)) {
 				const newAuthor = {
-					name: args.author
+					name: args.author,
+					id: uuid()
 				}
 				authors = [...authors, newAuthor]
 			}

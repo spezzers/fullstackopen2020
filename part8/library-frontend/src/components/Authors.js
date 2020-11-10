@@ -38,13 +38,13 @@ const Authors = (props) => {
               books
             </th>
           </tr>
-          {authors.data.allAuthors.map(a =>
+          {authors.data ? authors.data.allAuthors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
               <td>{a.bookCount}</td>
             </tr>
-          )}
+          ) : null}
         </tbody>
       </table>
       <div>
@@ -58,7 +58,9 @@ const Authors = (props) => {
                 </td>
                 <td>
                   <select value={author} onChange={({ target }) => setAuthor(target.value)}>
-                    {authors.data.allAuthors.map(a => <option value={a.name}>{a.name}</option>)}
+                    {authors.data
+                      ? authors.data.allAuthors.map(a => <option key={a.name} value={a.name}>{a.name}</option>)
+                    : null}
                   </select>
                 </td>
               </tr>
