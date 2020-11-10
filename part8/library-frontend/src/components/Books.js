@@ -3,8 +3,6 @@ import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
 
 
-
-
 const Books = (props) => {
   const books = useQuery(ALL_BOOKS)
 
@@ -35,7 +33,7 @@ const Books = (props) => {
           {books.data.allBooks.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td align='center'>{a.published}</td>
             </tr>
           )}
