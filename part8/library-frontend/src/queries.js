@@ -14,7 +14,9 @@ mutation addNewBook(
     genres: $genres
   ) {
   	title
-    author
+    author {
+      name
+    }
     id
     published
     genres

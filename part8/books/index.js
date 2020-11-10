@@ -152,6 +152,7 @@ const resolvers = {
 	},
 	Mutation: {
 		addBook: async (root, args) => {
+			console.log(args)
 			if (books.find(b => b.title === args.title)) {
 				throw new UserInputError('This title already exists', {
 					invalidArgs: args.title
