@@ -6,8 +6,9 @@ const mongoose = require('mongoose')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
 
-
-console.log('connecting to', config.MONGODB_URI)
+if (process.env.NODE_ENV !== 'test') {
+	console.log('connecting to', config.MONGODB_URI)
+}
 
 mongoose.connect(config.MONGODB_URI, {
 	useNewUrlParser: true,
@@ -15,7 +16,9 @@ mongoose.connect(config.MONGODB_URI, {
 	useFindAndModify: false,
 	useCreateIndex: true
 }).then(() => {
-	console.log('connected to MongoDB')
+	if (process.env.NODE_ENV !== 'test') {
+		console.log('connected to MongoDB')
+	}
 })
 .catch((error) => {
 	console.log('error connecting to MongoDB:', error.message)
@@ -205,5 +208,7 @@ const server = new ApolloServer({
 })
 
 server.listen().then(({ url }) => {
-	console.log(`Server ready at ${url}`)
+	if (process.env.NODE_ENV !== 'test') {
+		console.log(`Server ready at ${url}`)
+	}
 })
