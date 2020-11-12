@@ -58,6 +58,7 @@ const Authors = (props) => {
                 </td>
                 <td>
                   <select value={author} onChange={({ target }) => setAuthor(target.value)}>
+                    <option value="" disabled selected>select author</option>
                     {authors.data
                       ? authors.data.allAuthors.map(a => <option key={a.name} value={a.name}>{a.name}</option>)
                     : null}

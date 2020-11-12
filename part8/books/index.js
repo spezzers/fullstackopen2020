@@ -10,19 +10,21 @@ if (process.env.NODE_ENV !== 'test') {
 	console.log('connecting to', config.MONGODB_URI)
 }
 
-mongoose.connect(config.MONGODB_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useFindAndModify: false,
-	useCreateIndex: true
-}).then(() => {
-	if (process.env.NODE_ENV !== 'test') {
-		console.log('connected to MongoDB')
-	}
-})
-.catch((error) => {
-	console.log('error connecting to MongoDB:', error.message)
-})
+mongoose
+	.connect(config.MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+		useCreateIndex: true
+	})
+	.then(() => {
+		if (process.env.NODE_ENV !== 'test') {
+			console.log('connected to MongoDB')
+		}
+	})
+	.catch(error => {
+		console.log('error connecting to MongoDB:', error.message)
+	})
 
 let authors = [
 	{
@@ -151,7 +153,10 @@ const resolvers = {
 		allAuthors: async () => await Author.find({})
 	},
 	Author: {
-		bookCount: root => books.filter(b => b.author === root.name).length
+		bookCount: async root => {
+			const result = await Book.find({ author: root.id })
+			return result.length
+		}
 	},
 	Mutation: {
 		addBook: async (root, args) => {
@@ -161,43 +166,36 @@ const resolvers = {
 					invalidArgs: args.title
 				})
 			}
-			const existingAuthor = await Author.findOne({name: args.author})
-			
+			const existingAuthor = await Author.findOne({ name: args.author })
+
 			const newAuthor = new Author({
 				name: args.author,
 				id: uuid()
 			})
 			let newBookAuthor
 
-			// existingAuthor
-			// 	? newBookAuthor = existingAuthor
-			// 	: newBookAuthor = await newAuthor.save()
+			existingAuthor
+				? newBookAuthor = existingAuthor
+				: newBookAuthor = await newAuthor.save()
 
-			if (existingAuthor) {
-				newBookAuthor = existingAuthor
-			} else {
-				newBookAuthor = await newAuthor.save()
-			}
-			console.log(newBookAuthor)
 			const newBook = new Book({
 				...args,
 				id: uuid(),
 				author: newBookAuthor
 			})
 
-			console.log(newBook)
 			return newBook.save()
 		},
-		editAuthor: (root, args) => {
-			const author = authors.find(a => a.name === args.name)
+		editAuthor: async (root, args) => {
+			const author = await Author.findOne({name: args.name})
 			if (!author) {
 				return null
 			}
 			const updatedAuthor = {
-				...author,
+				...author._doc,
 				born: args.setBornTo
 			}
-			return updatedAuthor
+			return await Author.findByIdAndUpdate(author.id, updatedAuthor, {new: true})
 		}
 	}
 }
