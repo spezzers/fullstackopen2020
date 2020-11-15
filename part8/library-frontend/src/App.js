@@ -1,33 +1,34 @@
 import React, { useState } from 'react'
+import { useMessage } from './hooks/useMessage'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 
 const App = () => {
-  const [page, setPage] = useState('authors')
+	const [page, setPage] = useState('authors')
 
-  return (
-    <div>
-      <div>
-        <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
-      </div>
+	const message = useMessage()
 
-      <Authors
-        show={page === 'authors'}
-      />
+	return (
+		<div>
+			{message.display}
+			<div>
+				<button onClick={() => setPage('authors')}>authors</button>
+				<button onClick={() => setPage('books')}>books</button>
+				<button onClick={() => setPage('add')}>add book</button>
+			</div>
 
-      <Books
-        show={page === 'books'}
-      />
+			<Authors show={page === 'authors'} setMessage={message.newMessage} />
 
-      <NewBook
-        show={page === 'add'}
-      />
+			<Books show={page === 'books'} />
 
-    </div>
-  )
+			<NewBook
+				show={page === 'add'}
+				setMessage={message.newMessage}
+				setPage={setPage}
+			/>
+		</div>
+	)
 }
 
 export default App

@@ -184,18 +184,30 @@ const resolvers = {
 				author: newBookAuthor
 			})
 
-			return newBook.save()
+			try {
+				const result = await newBook.save()
+				return result.data
+			} catch (error) {
+				throw new UserInputError(error.message)
+			}
 		},
 		editAuthor: async (root, args) => {
 			const author = await Author.findOne({name: args.name})
 			if (!author) {
 				return null
 			}
+			if (args.setBornTo.toString().length < 4) {
+				throw new UserInputError('birth year should be 4 digits long')
+			}
 			const updatedAuthor = {
 				...author._doc,
 				born: args.setBornTo
 			}
-			return await Author.findByIdAndUpdate(author.id, updatedAuthor, {new: true})
+			try {
+				return await Author.findByIdAndUpdate(author.id, updatedAuthor, {new: true})
+			} catch (error) {
+				throw new UserInputError(error.message)
+			}
 		}
 	}
 }
