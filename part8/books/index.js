@@ -105,6 +105,14 @@ let books = [
 ]
 
 const typeDefs = gql`
+	type User {
+		username: String!
+		favouriteGenre: String!
+		id: ID!
+	}
+	type Token {
+		value: String!
+	}
 	type Author {
 		name: String!
 		born: String
@@ -123,6 +131,7 @@ const typeDefs = gql`
 		authorCount: Int!
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
+		me: User
 	}
 	type Mutation {
 		addBook(
@@ -132,6 +141,14 @@ const typeDefs = gql`
 			published: Int!
 		): Book
 		editAuthor(name: String!, setBornTo: Int!): Author
+		createUser(
+			username: String!
+			favouriteGenre: String!
+		): User
+		login(
+			username: String!
+			password: String!
+		): Token
 	}
 `
 
@@ -139,7 +156,6 @@ const resolvers = {
 	Query: {
 		bookCount: () => Book.collection.countDocuments(),
 		authorCount: () => Author.collection.countDocuments(),
-		// allBooks: async () => await Book.find({}).populate('author'),
 		allBooks: async (root, args) => {
 			let bookList = await Book.find({}).populate('author')
 			// if (args.author) {
