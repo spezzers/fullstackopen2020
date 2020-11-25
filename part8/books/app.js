@@ -13,7 +13,6 @@ const typeDefs = gql`
 		username: String!
 		favouriteGenre: String!
 		id: ID!
-		passwordHash: String!
 	}
 	type Token {
 		value: String!

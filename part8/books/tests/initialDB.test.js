@@ -5,11 +5,13 @@ const api = supertest(app)
 const Author = require('../models/Author')
 const Book = require('../models/Book')
 const helper = require('./testHelper')
+const User = require('../models/User')
 
 
 beforeEach(async () => {
 	await Book.deleteMany({})
 	await Author.deleteMany({})
+	await User.deleteMany({})
 })
 
 describe('Delete existing collection data', () => {
@@ -22,6 +24,10 @@ describe('Delete existing collection data', () => {
 	test('Delete: Authors', async () => {
 		const authors = await Author.find({})
 		expect(authors.length).toBe(0)
+	})
+	test('Delete Users', async () => {
+		const  users = await User.find({})
+		expect(users.length).toBe(0)
 	})
 })
 describe('Initialise test data', () => {
