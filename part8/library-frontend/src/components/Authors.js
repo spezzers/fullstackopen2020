@@ -17,11 +17,16 @@ const Authors = props => {
 		return <div>Loading...</div>
 	}
 
-	const updateAuthor = async event => {
+	const updateAuthor = event => {
 		event.preventDefault()
 		if (author && born) {
 			try {
-				await editAuthor({ variables: { name: author, year: parseInt(born) } })
+				editAuthor({ variables: { name: author, year: parseInt(born) } }).then(
+					() => {
+						setBorn('')
+						setAuthor('')
+					}
+				)
 			} catch (error) {
 				props.setMessage(error.message)
 			}
@@ -30,8 +35,8 @@ const Authors = props => {
 		} else if (!author && born) {
 			props.setMessage(`Please select an author`)
 		} else {
-      props.setMessage('Please fill in the form before submitting')
-    }
+			props.setMessage('Please fill in the form before submitting')
+		}
 	}
 
 	return (
@@ -64,7 +69,7 @@ const Authors = props => {
 								<td>Author</td>
 								<td>
 									<select
-										defaultValue=''
+										value={author}
 										onChange={({ target }) => setAuthor(target.value)}
 									>
 										<option value='' disabled>
@@ -84,8 +89,8 @@ const Authors = props => {
 								<td>Birth Year</td>
 								<td>
 									<input
-                    type='text'
-                    placeholder='yyyy'
+										type='text'
+										placeholder='yyyy'
 										value={born}
 										onChange={({ target }) => setBorn(target.value)}
 									></input>
