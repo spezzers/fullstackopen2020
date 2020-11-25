@@ -1,13 +1,19 @@
+const config = require('./utils/config')
+const bcrypt = require('bcrypt')
 const { v1: uuid } = require('uuid')
 const { gql, UserInputError } = require('apollo-server')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
+const User = require('./models/User')
+
+const JWT_SECRET = config.JWT_SECRET
 
 const typeDefs = gql`
 	type User {
 		username: String!
 		favouriteGenre: String!
 		id: ID!
+		passwordHash: String!
 	}
 	type Token {
 		value: String!
@@ -53,7 +59,10 @@ const resolvers = {
 			let bookList = await Book.find({}).populate('author')
 			return bookList
 		},
-		allAuthors: async () => await Author.find({})
+		allAuthors: async () => await Author.find({}),
+		me: async () => {
+			console.log('Mutation: me')
+		},
 	},
 	Author: {
 		bookCount: async root => {
@@ -125,6 +134,26 @@ const resolvers = {
 			} catch (error) {
 				throw new UserInputError(error.message)
 			}
+		},
+		createUser: async ( root, args ) => {
+
+			const hash = await bcrypt.hash('wordpass', 10)
+			const newUser = new User({
+				...args,
+				passwordHash: hash
+			})
+			try {
+				const savedUser = await newUser.save()
+				console.log('SAVED:', savedUser)
+				return savedUser
+			} catch (error) {
+				console.log(error.message)
+				return error
+			}
+		},
+		
+		login: async () => {
+			console.log('Mutation: login')
 		}
 	}
 }

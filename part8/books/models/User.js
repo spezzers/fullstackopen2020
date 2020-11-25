@@ -18,16 +18,16 @@ const userSchema = new mongoose.Schema({
 	}
 })
 
-userSchema.set('toJSON', {
-	transform: (document, returnedObject) => {
-		returnedObject.id = returnedObject._id._.toString()
-		delete returnedObject._id
-		delete returnedObject.__v
-		delete returnedObject.passwordHash
-	}
-})
-
-userSchema.plugin(uniqueValidator)
+// userSchema.set('toJSON', {
+// 	transform: (document, returnedObject) => {
+// 		returnedObject.id = returnedObject._id._.toString()
+// 		delete returnedObject._id
+// 		delete returnedObject.__v
+// 		delete returnedObject.passwordHash
+// 	}
+// })
+// 
+// userSchema.plugin(uniqueValidator)
 
 const User = mongoose.model('User', userSchema)
 
