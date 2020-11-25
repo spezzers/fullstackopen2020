@@ -79,16 +79,7 @@ const initBooks = [
 	}
 ]
 
-const addBook = async (book) => {
-	const newBook = new Book({
-		...book
-	})
-	console.log(book, newBook)
-	return newBook
-}
-
 module.exports = {
 	initBooks,
-	initAuthors,
-	addBook
+	initAuthors
 }
