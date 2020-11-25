@@ -1,7 +1,7 @@
 const config = require('./utils/config')
-const { ApolloServer } = require('apollo-server')
 const mongoose = require('mongoose')
-const { typeDefs, resolvers } = require('./app')
+const { server } = require('./app')
+
 
 if (process.env.NODE_ENV !== 'test') {
 	console.log('connecting to', config.MONGODB_URI)
@@ -22,11 +22,6 @@ mongoose
 	.catch(error => {
 		console.log('error connecting to MongoDB:', error.message)
 	})
-
-const server = new ApolloServer({
-	typeDefs,
-	resolvers
-})
 
 server.listen().then(({ url }) => {
 	if (process.env.NODE_ENV !== 'test') {
