@@ -5,6 +5,7 @@ const { gql, UserInputError } = require('apollo-server')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
 const User = require('./models/User')
+const jwt = require('jsonwebtoken')
 
 const JWT_SECRET = config.JWT_SECRET
 
@@ -151,8 +152,28 @@ const resolvers = {
 			}
 		},
 		
-		login: async () => {
-			console.log('Mutation: login')
+		login: async (root, args) => {
+			const user = await User.findOne({username: args.username})
+			const passwordCorrect = user === null
+				? false
+				: await bcrypt.compare(args.password, user.passwordHash)
+
+			if (!(user && passwordCorrect)) {
+				throw new UserInputError('wrong credentials')
+			}
+			const userForToken = {
+				username: user.username,
+				id: user._id
+			}
+			try {
+				const token = { value: jwt.sign(userForToken, JWT_SECRET)}
+				console.log(`'${args.username}' has logged in`)
+				return token
+
+			} catch (error) {
+				console.log(error.message)
+				return error
+			}
 		}
 	}
 }
