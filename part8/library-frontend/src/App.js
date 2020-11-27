@@ -15,7 +15,6 @@ const App = () => {
 
 	useEffect(() => {
 		const savedToken = localStorage.getItem('bookLibrary-user-token')
-		console.log(savedToken)
 		if (savedToken) {
 			console.log('token set')
 			setToken(savedToken)
@@ -23,9 +22,14 @@ const App = () => {
 	}, [])
 
 	const logout = () => {
-		setToken(null)
-		localStorage.clear()
-		client.resetStore()
+		const confirm = window.confirm('Are you sure you want to log out?')
+		if (confirm) {
+			setToken(null)
+			localStorage.clear()
+			client.resetStore()
+			setPage('login')
+		}
+		
 	}
 
 	const loginButton = token ? (
@@ -34,19 +38,21 @@ const App = () => {
 		<button onClick={() => setPage('login')}>login</button>
 	)
 
+	const showIfLoggedIn = {display: token ? null : 'none'}
+
 	return (
 		<div>
 			{message.display}
 			<div>
 				<button onClick={() => setPage('books')}>books</button>
 				<button onClick={() => setPage('authors')}>authors</button>
-				<button onClick={() => setPage('add')}>add book</button>
+				<button style={showIfLoggedIn} onClick={() => setPage('add')}>add book</button>
 				{loginButton}
 			</div>
 
 			<Books show={page === 'books'} />
 
-			<Authors show={page === 'authors'} setMessage={message.newMessage} />
+			<Authors show={page === 'authors'} setMessage={message.newMessage} showIfLoggedIn={showIfLoggedIn}/>
 
 			<NewBook
 				show={page === 'add'}

@@ -17,18 +17,18 @@ const Authors = props => {
 		return <div>Loading...</div>
 	}
 
-	const updateAuthor = event => {
+	const updateAuthor = async event => {
 		event.preventDefault()
 		if (author && born) {
 			try {
-				editAuthor({ variables: { name: author, year: parseInt(born) } }).then(
+				await editAuthor({ variables: { name: author, year: parseInt(born) } }).then(
 					() => {
 						setBorn('')
 						setAuthor('')
 					}
 				)
 			} catch (error) {
-				props.setMessage(error.message)
+				props.setMessage(error.graphQLErrors[0].message)
 			}
 		} else if (author && !born) {
 			props.setMessage(`Please enter birth year for ${author}`)
@@ -60,7 +60,7 @@ const Authors = props => {
 						: null}
 				</tbody>
 			</table>
-			<div>
+			<div style={props.showIfLoggedIn}>
 				<h3>Update Author</h3>
 				<form onSubmit={updateAuthor}>
 					<table>
