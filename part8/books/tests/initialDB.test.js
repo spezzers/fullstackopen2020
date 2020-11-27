@@ -52,6 +52,10 @@ describe('Initialise test data', () => {
 		const books = await Book.find({})
 		expect(books.length).toBe(helper.initBooks.length)
 	})
+	test('Add Authors', async () => {
+		const authors = await Author.find({})
+		expect(authors.length).toBe(helper.initAuthors.length)
+	})
 })
 
 

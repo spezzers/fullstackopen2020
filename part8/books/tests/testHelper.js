@@ -79,7 +79,16 @@ const initBooks = [
 	}
 ]
 
+const initUsers = [
+	{
+		username: 'RootUser',
+		password: 'wordpass',
+		favouriteGenre: 'code'
+	}
+]
+
 module.exports = {
 	initBooks,
-	initAuthors
+	initAuthors,
+	initUsers
 }
