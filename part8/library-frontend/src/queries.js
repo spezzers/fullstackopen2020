@@ -33,6 +33,7 @@ query {
       name
     }
     published
+    genres
   }
 }
 `
