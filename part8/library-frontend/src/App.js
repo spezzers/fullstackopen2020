@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useMessage } from './hooks/useMessage'
+import { useMessage } from './hooks'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
