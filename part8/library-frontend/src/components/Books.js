@@ -11,7 +11,7 @@ const Books = props => {
 
 	return (
 		<div>
-			{books.component}
+			{books.jsx}
 			<div>
 				<button onClick={() => books.setFilter('')}>all genres</button>
 				{books.genres.map(g => (

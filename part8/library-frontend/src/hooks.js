@@ -1,8 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from './queries'
-
-
 
 export const useMessage = () => {
 	const [message, setMessage] = useState('')
@@ -50,25 +48,16 @@ export const useBookList = (title, initFilter) => {
 			? allBooks
 			: allBooks.filter(book => book.genres.includes(filter))
 
-	// ------------------------ conditional rendering
-
-	// if (!props.show) {
-	// 	return null
-	// }
-
-
-	// -------------------------------------------
-
-	const component = books.loading
-		? <div>Loading...</div>
-		: (
+	const jsx = books.loading ? (
+		<div>Loading...</div>
+	) : (
 		<div>
 			<h2>{title}</h2>
-			{filter !== '' ? (
+			{filter === '' || initFilter ? null : (
 				<p>
 					in genre: <strong>{filter}</strong>
 				</p>
-			) : null}
+			)}
 			<table>
 				<tbody>
 					<tr>
@@ -88,9 +77,9 @@ export const useBookList = (title, initFilter) => {
 		</div>
 	)
 	return {
-		component,
+		jsx,
 		setFilter,
-		genres
+		genres,
+		title
 	}
-
 }
