@@ -4,7 +4,28 @@ import { ALL_BOOKS } from '../queries'
 
 const Books = props => {
 	const [filter, setFilter] = useState('')
+
 	const books = useQuery(ALL_BOOKS)
+
+	const allBooks = books.data && books.data.allBooks ? books.data.allBooks : []
+
+	const genres = allBooks
+		? allBooks
+				.flatMap(book => book.genres)
+				.reduce((acc, cur) => {
+					if (acc.includes(cur)) {
+						return [...acc]
+					}
+					return acc.concat(cur)
+				}, [])
+		: []
+
+	const booksToShow =
+		filter === ''
+			? allBooks
+			: allBooks.filter(book => book.genres.includes(filter))
+
+	// ------------------------ conditional rendering
 
 	if (!props.show) {
 		return null
@@ -14,28 +35,16 @@ const Books = props => {
 		return <div>Loading...</div>
 	}
 
-	let genres
-	let booksToShow
-
-	if (books.data) {
-		booksToShow =
-			filter === ''
-				? books.data.allBooks
-        : books.data.allBooks.filter(book => book.genres.includes(filter))
-        
-		const genreArray = books.data.allBooks.flatMap(book => book.genres)
-		genres = genreArray.reduce((acc, cur) => {
-			if (acc.includes(cur)) {
-				return [...acc]
-			}
-			return acc.concat(cur)
-		}, [])
-	}
+	// -------------------------------------------
 
 	return (
 		<div>
 			<h2>books</h2>
-      {filter !== '' ? <p>in genre: <strong>{filter}</strong></p> : null}
+			{filter !== '' ? (
+				<p>
+					in genre: <strong>{filter}</strong>
+				</p>
+			) : null}
 			<table>
 				<tbody>
 					<tr>
@@ -53,9 +62,11 @@ const Books = props => {
 				</tbody>
 			</table>
 			<div>
-      <button onClick={() => setFilter('')}>all genres</button>
+				<button onClick={() => setFilter('')}>all genres</button>
 				{genres.map(g => (
-					<button onClick={() => setFilter(g)}>{g}</button>
+					<button key={g} onClick={() => setFilter(g)}>
+						{g}
+					</button>
 				))}
 			</div>
 		</div>
