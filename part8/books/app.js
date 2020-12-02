@@ -66,9 +66,11 @@ const resolvers = {
 		},
 		allAuthors: async () => await Author.find({}),
 		me: async (root, args, context) => {
-			console.log('Mutation: me')
-			console.log('my username is', context.currentUser.username)
-			return context.currentUser
+			if(context.currentUser) {
+				return context.currentUser
+			}
+			// console.log('Mutation: me', context.currentUser)
+			// console.log('my username is', context.currentUser.username)
 		}
 	},
 	Author: {

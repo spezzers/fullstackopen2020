@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { ALL_BOOKS } from './queries'
+import React, { useState, useEffect } from 'react'
+import { useQuery, useMutation } from '@apollo/client'
+import { ALL_BOOKS, LOGIN, ME } from './queries'
+import { useApolloClient } from '@apollo/client'
 
 export const useMessage = () => {
 	const [message, setMessage] = useState('')
@@ -26,11 +27,16 @@ export const useMessage = () => {
 }
 
 export const useBookList = (title, initFilter) => {
-	const [filter, setFilter] = useState(initFilter || '')
+	const [filter, setFilter] = useState('')
 
 	const books = useQuery(ALL_BOOKS)
 
 	const allBooks = books.data && books.data.allBooks ? books.data.allBooks : []
+	useEffect(() => {
+		if (initFilter) {
+			setFilter(initFilter)
+		}
+	}, [initFilter])
 
 	const genres = allBooks
 		? allBooks
@@ -81,5 +87,60 @@ export const useBookList = (title, initFilter) => {
 		setFilter,
 		genres,
 		title
+	}
+}
+
+export const useAuthentication = setMessage => {
+	const [token, setToken] = useState(null)
+	const client = useApolloClient()
+	const { loading, error, data, refetch } = useQuery(ME) //eslint-disable-line
+	const me = data ? data.me : null
+
+	const [login, result] = useMutation(LOGIN, {
+		onError: error => {
+			setMessage(error.message)
+		}
+	})
+
+	useEffect(() => {
+		const storedToken = localStorage.getItem('bookLibrary-user-token')
+		if (result.data) {
+			const newToken = result.data.login.value
+			setToken(newToken)
+			localStorage.setItem('bookLibrary-user-token', newToken)
+		}
+		if (storedToken !== token) {
+			setToken(storedToken)
+		}
+		refetch()
+	}, [result.data, token, refetch])
+
+	if (error) {
+		return () => setMessage(error.message)
+	}
+
+	const submit = (username, password) => event => {
+		event.preventDefault()
+		return login({ variables: { username, password } })
+	}
+
+	const logout = async callback => {
+		const cbFn = () => callback
+		const confirm = window.confirm('Are you sure you want to log out?')
+		if (confirm !== false) {
+			localStorage.clear()
+			client.resetStore()
+			setToken(null)
+			cbFn()
+			// debugger
+		}
+	}
+
+	return {
+		token,
+		setToken,
+		me,
+		logout,
+		submit
 	}
 }

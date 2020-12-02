@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import { useMessage } from './hooks'
+import React, { useState } from 'react'
+import { useMessage, useAuthentication } from './hooks'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { useApolloClient } from '@apollo/client'
 import Recommended from './components/Recommended'
 
 const App = () => {
 	const [page, setPage] = useState('books')
-	const [token, setToken] = useState(null)
 
-	const client = useApolloClient()
 	const message = useMessage()
 
-	useEffect(() => {
-		const savedToken = localStorage.getItem('bookLibrary-user-token')
-		if (savedToken) {
-			console.log('token set')
-			setToken(savedToken)
-		}
-	}, [])
+	const auth = useAuthentication(message.newMessage)
+	const logout = () => auth.logout(() => setPage('login'))
 
-	const logout = () => {
-		const confirm = window.confirm('Are you sure you want to log out?')
-		if (confirm) {
-			setToken(null)
-			localStorage.clear()
-			client.resetStore()
-			setPage('login')
-		}
-		
-	}
-
-	const loginButton = token ? (
+	const loginButton = auth.token ? (
 		<button onClick={logout}>logout</button>
 	) : (
 		<button onClick={() => setPage('login')}>login</button>
 	)
 
-	const showIfLoggedIn = {display: token ? null : 'none'}
+	const showIfLoggedIn = { display: auth.token ? null : 'none' }
 
 	return (
 		<div>
@@ -47,25 +28,30 @@ const App = () => {
 			<div>
 				<button onClick={() => setPage('books')}>books</button>
 				<button onClick={() => setPage('authors')}>authors</button>
-				<button style={showIfLoggedIn} onClick={() => setPage('add')}>add book</button>
+				<button style={showIfLoggedIn} onClick={() => setPage('add')}>
+					add book
+				</button>
 				<button onClick={() => setPage('recommended')}>recommended</button>
 				{loginButton}
 			</div>
 
 			<Books show={page === 'books'} />
 
-			<Authors show={page === 'authors'} setMessage={message.newMessage} showIfLoggedIn={showIfLoggedIn}/>
+			<Authors
+				show={page === 'authors'}
+				setMessage={message.newMessage}
+				showIfLoggedIn={showIfLoggedIn}
+			/>
 
 			<NewBook
 				show={page === 'add'}
 				setMessage={message.newMessage}
 				setPage={setPage}
 			/>
-			<Recommended show={page === 'recommended'} />
+			<Recommended show={page === 'recommended'} user={auth.me} />
 			<LoginForm
 				show={page === 'login'}
-				setToken={setToken}
-				setError={message.newMessage}
+				auth={auth}
 			/>
 		</div>
 	)

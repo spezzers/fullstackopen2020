@@ -2,7 +2,8 @@ import React from 'react'
 import { useBookList } from '../hooks'
 
 const Recommended = props => {
-	const books = useBookList('Recommended Books')
+	const faveGenre = props.user ? props.user.favouriteGenre : null
+	const recommended = useBookList('Recommended Books', faveGenre)
 
 	if (!props.show) {
 		return null
@@ -11,13 +12,15 @@ const Recommended = props => {
 	if (!props.user) {
 		return (
 			<div>
-				<h2>{books.title}</h2>
+				<h2>{recommended.title}</h2>
 				<p>Please log in to see recommendations</p>
 			</div>
 		)
 	}
+	if (props.user !== undefined && props.user.favouriteGenre) {
+		return <>{recommended.jsx}</>
+	}
 
-	return <>{books.jsx}</>
 }
 
 export default Recommended
