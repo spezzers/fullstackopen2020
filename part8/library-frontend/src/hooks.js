@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useMutation } from '@apollo/client'
-import { ALL_BOOKS, LOGIN, ME } from './queries'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
+import { GET_BOOKS, LOGIN, ME } from './queries'
 import { useApolloClient } from '@apollo/client'
 
 export const useMessage = () => {
@@ -26,17 +26,42 @@ export const useMessage = () => {
 	}
 }
 
-export const useBookList = (title, initFilter) => {
-	const [filter, setFilter] = useState('')
+export const useBookList = (title, strictFilter) => {
+	const [filter, setFilter] = useState(null)
+	const [books, setBooks] = useState([])
+	const handleFilter = strictFilter !== undefined ? { genre: strictFilter } : {genre: filter}
 
-	const books = useQuery(ALL_BOOKS)
-
-	const allBooks = books.data && books.data.allBooks ? books.data.allBooks : []
-	useEffect(() => {
-		if (initFilter) {
-			setFilter(initFilter)
+	const [getBooks, { loading, called, error, data, refetch }] = useLazyQuery(
+		GET_BOOKS,
+		{
+			variables: handleFilter,
+			onError: error => console.log(error.message),
+			onCompleted: response => setBooks(response.getBooks)
 		}
-	}, [initFilter])
+	)
+
+	console.log(title, strictFilter, handleFilter)
+	useEffect(() => {
+		if (!called) {
+			getBooks()
+			console.log('first query call:', title)
+		}
+		if (!loading && called) {
+			refetch(handleFilter)
+			console.log(`refetch({variables: {genre: ${handleFilter.genre}}})`, title, books)
+		}
+	}, [filter, books])
+	
+	if (error) {
+		return (
+			<div>
+				<h2>Error</h2>
+				<p>{error.message}</p>
+			</div>
+		)
+	}
+
+	const allBooks = data && data.getBooks ? data.getBooks : []
 
 	const genres = allBooks
 		? allBooks
@@ -49,17 +74,17 @@ export const useBookList = (title, initFilter) => {
 				}, [])
 		: []
 
-	const booksToShow =
-		filter === ''
-			? allBooks
-			: allBooks.filter(book => book.genres.includes(filter))
+	// const booksToShow =
+	// 	filter === ''
+	// 		? allBooks
+	// 		: allBooks.filter(book => book.genres.includes(filter))
 
-	const jsx = books.loading ? (
+	const jsx = loading ? (
 		<div>Loading...</div>
 	) : (
 		<div>
 			<h2>{title}</h2>
-			{filter === '' || initFilter ? null : (
+			{filter === null || strictFilter ? null : (
 				<p>
 					in genre: <strong>{filter}</strong>
 				</p>
@@ -71,7 +96,7 @@ export const useBookList = (title, initFilter) => {
 						<th>Author</th>
 						<th align='center'>Published</th>
 					</tr>
-					{booksToShow.map(a => (
+					{allBooks.map(a => (
 						<tr key={a.title}>
 							<td>{a.title}</td>
 							<td>{a.author.name}</td>

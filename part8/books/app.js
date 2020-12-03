@@ -40,6 +40,7 @@ const typeDefs = gql`
 		bookCount(author: String): Int!
 		authorCount: Int!
 		allBooks(author: String, genre: String): [Book!]!
+		getBooks(genre: String): [Book]!
 		allAuthors: [Author!]!
 		me: User
 	}
@@ -64,13 +65,16 @@ const resolvers = {
 			let bookList = await Book.find({}).populate('author')
 			return bookList
 		},
+		getBooks: async (root, args) => {
+			const filter = args.genre ? {genres: args.genre} : {}
+			const bookList = await Book.find(filter).populate('author')
+			return bookList
+		},
 		allAuthors: async () => await Author.find({}),
 		me: async (root, args, context) => {
 			if(context.currentUser) {
 				return context.currentUser
 			}
-			// console.log('Mutation: me', context.currentUser)
-			// console.log('my username is', context.currentUser.username)
 		}
 	},
 	Author: {
