@@ -3,6 +3,8 @@ import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import { GET_BOOKS, LOGIN, ME } from './queries'
 import { useApolloClient } from '@apollo/client'
 
+/////////////////////////////////////////////   M E S S A G E
+
 export const useMessage = () => {
 	const [message, setMessage] = useState('')
 	const [timer, setTimer] = useState()
@@ -26,10 +28,13 @@ export const useMessage = () => {
 	}
 }
 
+////////////////////////////////////////////////  B O O K   L I S T
+
 export const useBookList = (title, strictFilter) => {
 	const [filter, setFilter] = useState(null)
 	const [books, setBooks] = useState([])
-	const variables = strictFilter !== undefined ? { genre: strictFilter } : {genre: filter}
+	const variables =
+		strictFilter !== undefined ? { genre: strictFilter } : { genre: filter }
 
 	const [getBooks, { loading, called, error, data, refetch }] = useLazyQuery(
 		GET_BOOKS,
@@ -48,7 +53,7 @@ export const useBookList = (title, strictFilter) => {
 			refetch(variables)
 		}
 	}, [filter, books]) // eslint-disable-line
-	
+
 	if (error) {
 		return (
 			<div>
@@ -70,11 +75,6 @@ export const useBookList = (title, strictFilter) => {
 					return acc.concat(cur)
 				}, [])
 		: []
-
-	// const booksToShow =
-	// 	filter === ''
-	// 		? allBooks
-	// 		: allBooks.filter(book => book.genres.includes(filter))
 
 	const jsx = loading ? (
 		<div>Loading...</div>
@@ -111,6 +111,8 @@ export const useBookList = (title, strictFilter) => {
 		title
 	}
 }
+
+/////////////////////////////////////   A U T H E N T I C A T I O N
 
 export const useAuthentication = setMessage => {
 	const [token, setToken] = useState(null)
@@ -164,3 +166,5 @@ export const useAuthentication = setMessage => {
 		submit
 	}
 }
+
+////////////////////////////////////////////////////////////////
