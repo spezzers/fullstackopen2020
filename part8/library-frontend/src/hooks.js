@@ -29,28 +29,25 @@ export const useMessage = () => {
 export const useBookList = (title, strictFilter) => {
 	const [filter, setFilter] = useState(null)
 	const [books, setBooks] = useState([])
-	const handleFilter = strictFilter !== undefined ? { genre: strictFilter } : {genre: filter}
+	const variables = strictFilter !== undefined ? { genre: strictFilter } : {genre: filter}
 
 	const [getBooks, { loading, called, error, data, refetch }] = useLazyQuery(
 		GET_BOOKS,
 		{
-			variables: handleFilter,
+			variables,
 			onError: error => console.log(error.message),
 			onCompleted: response => setBooks(response.getBooks)
 		}
 	)
 
-	console.log(title, strictFilter, handleFilter)
 	useEffect(() => {
 		if (!called) {
 			getBooks()
-			console.log('first query call:', title)
 		}
 		if (!loading && called) {
-			refetch(handleFilter)
-			console.log(`refetch({variables: {genre: ${handleFilter.genre}}})`, title, books)
+			refetch(variables)
 		}
-	}, [filter, books])
+	}, [filter, books]) // eslint-disable-line
 	
 	if (error) {
 		return (
