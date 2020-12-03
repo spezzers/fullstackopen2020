@@ -3,12 +3,8 @@ import React, { useState } from 'react'
 const LoginForm = props => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
-	
-	
+
 	const auth = props.auth
-
-
-	
 
 	if (!props.show) {
 		return null
@@ -18,12 +14,17 @@ const LoginForm = props => {
 		return <h2>Welcome</h2>
 	}
 
-
+	const login = event => {
+		event.preventDefault()
+		auth.submit(username, password)
+		setUsername('')
+		setPassword('')
+	}
 
 	return (
 		<div>
 			<h2>Login</h2>
-			<form onSubmit={auth.submit(username, password)}>
+			<form onSubmit={login}>
 				<div>
 					username
 					<input

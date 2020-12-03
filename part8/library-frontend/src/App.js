@@ -31,7 +31,7 @@ const App = () => {
 				<button style={showIfLoggedIn} onClick={() => setPage('add')}>
 					add book
 				</button>
-				<button onClick={() => setPage('recommended')}>recommended</button>
+				<button style={showIfLoggedIn} onClick={() => setPage('recommended')}>recommended</button>
 				{loginButton}
 			</div>
 

@@ -96,35 +96,34 @@ export const useAuthentication = setMessage => {
 	const { loading, error, data, refetch } = useQuery(ME) //eslint-disable-line
 	const me = data ? data.me : null
 
-	const [login, result] = useMutation(LOGIN, {
+	const [login] = useMutation(LOGIN, {
 		onError: error => {
 			setMessage(error.message)
+		},
+		update: (store, response) => {
+			const newToken = response.data.login.value
+			localStorage.setItem('bookLibrary-user-token', newToken)
+			setToken(newToken)
+			refetch()
 		}
 	})
 
 	useEffect(() => {
 		const storedToken = localStorage.getItem('bookLibrary-user-token')
-		if (result.data) {
-			const newToken = result.data.login.value
-			setToken(newToken)
-			localStorage.setItem('bookLibrary-user-token', newToken)
-		}
 		if (storedToken !== token) {
 			setToken(storedToken)
+			refetch()
 		}
-		refetch()
-	}, [result.data, token, refetch])
+	}, [token, refetch, me])
 
 	if (error) {
 		return () => setMessage(error.message)
 	}
 
-	const submit = (username, password) => event => {
-		event.preventDefault()
-		return login({ variables: { username, password } })
-	}
+	const submit = (username, password) =>
+		login({ variables: { username, password } })
 
-	const logout = async callback => {
+	const logout = callback => {
 		const cbFn = () => callback
 		const confirm = window.confirm('Are you sure you want to log out?')
 		if (confirm !== false) {
@@ -132,7 +131,6 @@ export const useAuthentication = setMessage => {
 			client.resetStore()
 			setToken(null)
 			cbFn()
-			// debugger
 		}
 	}
 
