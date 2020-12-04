@@ -31,12 +31,24 @@ export const useMessage = () => {
 ////////////////////////////////////////////////  B O O K   L I S T
 
 export const useBookList = (title, strictFilter) => {
+
 	const [filter, setFilter] = useState(null)
 	const [books, setBooks] = useState([])
+
 	const variables =
-		strictFilter !== undefined ? { genre: strictFilter } : { genre: filter }
-	const [getBooks, { loading, called, error, data, refetch }] = useLazyQuery(
-		GET_BOOKS,
+		strictFilter !== undefined
+			? { genre: strictFilter }
+			: filter
+				? { genre: filter }
+				: null
+
+	const [getBooks, {
+		loading,
+		called,
+		error,
+		data,
+		refetch
+	}] = useLazyQuery(GET_BOOKS,
 		{
 			variables,
 			onError: error => console.log(error.message),
@@ -52,6 +64,7 @@ export const useBookList = (title, strictFilter) => {
 			refetch(variables)
 		}
 	}, [filter, books]) // eslint-disable-line
+
 
 	if (error) {
 		return (
@@ -75,34 +88,34 @@ export const useBookList = (title, strictFilter) => {
 				}, [])
 		: []
 
-	const jsx = loading ? (
-		<div>Loading...</div>
-	) : (
-		<div>
-			<h2>{title}</h2>
-			{filter === null || strictFilter ? null : (
-				<p>
-					in genre: <strong>{filter}</strong>
-				</p>
-			)}
-			<table>
-				<tbody>
-					<tr>
-						<th>Book Title</th>
-						<th>Author</th>
-						<th align='center'>Published</th>
-					</tr>
-					{allBooks.map(a => (
-						<tr key={a.title}>
-							<td>{a.title}</td>
-							<td>{a.author.name}</td>
-							<td align='center'>{a.published}</td>
+	const jsx = loading
+		? <div>Loading...</div>
+		: (
+			<div>
+				<h2>{title}</h2>
+				{
+					filter === null || strictFilter
+						? null
+						: <p>in genre: <strong>{filter}</strong></p>
+				}
+				<table>
+					<tbody>
+						<tr>
+							<th>Book Title</th>
+							<th>Author</th>
+							<th align='center'>Published</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
-	)
+						{allBooks.map(a => (
+							<tr key={a.title}>
+								<td>{a.title}</td>
+								<td>{a.author.name}</td>
+								<td align='center'>{a.published}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		)
 	return {
 		jsx,
 		setFilter,
@@ -110,7 +123,6 @@ export const useBookList = (title, strictFilter) => {
 		title
 	}
 }
-
 
 /////////////////////////////////////   A U T H E N T I C A T I O N
 

@@ -47,6 +47,7 @@ const App = () => {
 				show={page === 'add'}
 				setMessage={message.newMessage}
 				setPage={setPage}
+				me={auth.me}
 			/>
 			<Recommended show={page === 'recommended'} user={auth.me} />
 			<LoginForm
