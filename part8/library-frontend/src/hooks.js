@@ -35,7 +35,6 @@ export const useBookList = (title, strictFilter) => {
 	const [books, setBooks] = useState([])
 	const variables =
 		strictFilter !== undefined ? { genre: strictFilter } : { genre: filter }
-
 	const [getBooks, { loading, called, error, data, refetch }] = useLazyQuery(
 		GET_BOOKS,
 		{
@@ -111,6 +110,7 @@ export const useBookList = (title, strictFilter) => {
 		title
 	}
 }
+
 
 /////////////////////////////////////   A U T H E N T I C A T I O N
 

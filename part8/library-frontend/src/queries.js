@@ -31,7 +31,7 @@ export const GET_BOOKS = gql`
 `
 
 export const ALL_AUTHORS = gql`
-	query {
+	query AllAuthors {
 		allAuthors {
 			name
 			born
@@ -42,7 +42,7 @@ export const ALL_AUTHORS = gql`
 `
 
 export const ME = gql`
-	query {
+	query Me {
 		me {
 			username
 			favouriteGenre
