@@ -162,7 +162,7 @@ const resolvers = {
 			})
 			try {
 				const savedUser = await newUser.save()
-				console.log('SAVED:', savedUser)
+				console.log('SAVED:', savedUser.username)
 				return savedUser
 			} catch (error) {
 				console.log(error.message)
