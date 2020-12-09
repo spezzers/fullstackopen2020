@@ -10,20 +10,6 @@ const NewBook = props => {
 	const [genres, setGenres] = useState([])
 
 	const [addBook] = useMutation(ADD_BOOK, {
-
-		//-------------------------------------------------------
-		// This does the job but has unecessary network activity
-		
-		// refetchQueries: genres.map(g => {
-			// 	return ({
-				// 		query: GET_BOOKS,
-		// 		variables: {genre: g}
-		// 	})
-		// }),
-		//-------------------------------------------------------
-
-
-		// ------------------------   Better way == update cache
 		onError: error => {
 			props.setMessage(error.message)
 			console.log(error.message)
@@ -31,7 +17,6 @@ const NewBook = props => {
 		update: (store, response) => {
 			const newData = response.data.addBook
 			const allBooksInStore = store.readQuery({ query: GET_BOOKS })
-			console.log('Response data', newData)
 			const queries = genres.map(g => {
 				return {
 					query: GET_BOOKS,
@@ -42,9 +27,6 @@ const NewBook = props => {
 				const getDataInStore = store.readQuery(q)
 				const dataInStore = getDataInStore ? getDataInStore.getBooks : null
 				if (dataInStore) {
-					console.log(`getBooks({genre: ${q.variables.genre}})`, dataInStore)
-					console.log(q.query, q.variables)
-
 					store.writeQuery({
 						query: q.query,
 						variables: q.variables,
