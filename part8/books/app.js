@@ -9,11 +9,14 @@ const {
 	ApolloServer,
 	gql,
 	UserInputError,
-	AuthenticationError
+	AuthenticationError,
+	PubSub
 } = require('apollo-server')
 
+const pubsub = new PubSub()
 const JWT_SECRET = config.JWT_SECRET
 
+///////////////////////////////////////////   TYPE DEFINITIONS
 const typeDefs = gql`
 	type User {
 		username: String!
@@ -55,10 +58,13 @@ const typeDefs = gql`
 		createUser(username: String!, favouriteGenre: String!): User
 		login(username: String!, password: String!): Token
 	}
+	type Subscription {
+		bookAdded: Book!
+	}
 `
-
+///////////////////////////////////////////////////   RESOLVERS
 const resolvers = {
-	Query: {
+	Query: { //---------------------------------------------- Query
 		bookCount: () => Book.collection.countDocuments(),
 		authorCount: () => Author.collection.countDocuments(),
 		allBooks: async (root, args) => {
@@ -77,14 +83,14 @@ const resolvers = {
 			}
 		}
 	},
-	Author: {
+	Author: { //------------------------------------------- Author
 		bookCount: async root => {
 			const result = await Book.find({ author: root.id })
 			return result.length
 		}
 	},
 
-	Mutation: {
+	Mutation: { //-------------------------------------- Mutations
 		addBook: async (root, args, context) => {
 			if (!context.currentUser) {
 				throw new AuthenticationError('permission denied')
@@ -126,6 +132,7 @@ const resolvers = {
 
 			try {
 				const result = await newBook.save()
+				pubsub.publish('BOOK_ADDED', {bookAdded: result })
 				return result
 			} catch (error) {
 				throw new UserInputError(error.message)
@@ -192,6 +199,11 @@ const resolvers = {
 				console.log(error.message)
 				return error
 			}
+		}
+	},
+	Subscription: {
+		bookAdded: {
+			subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
 		}
 	}
 }

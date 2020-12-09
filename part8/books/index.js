@@ -23,8 +23,9 @@ mongoose
 		console.log('error connecting to MongoDB:', error.message)
 	})
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
 	if (process.env.NODE_ENV !== 'test') {
 		console.log(`Server ready at ${url}`)
+		console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 	}
 })
