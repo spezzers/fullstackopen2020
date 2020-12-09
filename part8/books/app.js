@@ -65,7 +65,10 @@ const typeDefs = gql`
 ///////////////////////////////////////////////////   RESOLVERS
 const resolvers = {
 	Query: { //---------------------------------------------- Query
-		bookCount: () => Book.collection.countDocuments(),
+		bookCount: (root, args) => {
+			console.log(root, args)
+			return Book.collection.countDocuments()
+		},
 		authorCount: () => Author.collection.countDocuments(),
 		allBooks: async (root, args) => {
 			let bookList = await Book.find({}).populate('author')
@@ -74,6 +77,7 @@ const resolvers = {
 		getBooks: async (root, args) => {
 			const filter = args.genre ? {genres: args.genre} : {}
 			const bookList = await Book.find(filter).populate('author')
+			console.log(`getBooks(${JSON.stringify(filter)})`)
 			return bookList
 		},
 		allAuthors: async () => await Author.find({}),

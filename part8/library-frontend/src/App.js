@@ -6,9 +6,12 @@ import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommended from './components/Recommended'
 import { BOOK_ADDED, GET_BOOKS } from './queries'
-import { useSubscription } from '@apollo/client'
+import { useSubscription, useApolloClient } from '@apollo/client'
 
-const App = ({ client }) => {
+
+
+const App = () => {
+	const client = useApolloClient()
 	const [page, setPage] = useState('books')
 	const message = useMessage()
 	const auth = useAuthentication(message.newMessage)

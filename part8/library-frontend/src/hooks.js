@@ -31,40 +31,43 @@ export const useMessage = () => {
 ////////////////////////////////////////////////  B O O K   L I S T
 
 export const useBookList = (title, strictFilter) => {
-
-	const [filter, setFilter] = useState(null)
+	const [filter, setFilter] = useState('')
 	const [books, setBooks] = useState([])
 
-	const variables =
-		strictFilter !== undefined
-			? { genre: strictFilter }
-			: filter
-				? { genre: filter }
-				: null
+	const variables = filter ? { genre: filter } : null
 
-	const [getBooks, {
-		loading,
-		called,
-		error,
-		data,
-		refetch
-	}] = useLazyQuery(GET_BOOKS,
-		{
-			variables,
-			onError: error => console.log(error.message),
-			onCompleted: response => setBooks(response.getBooks)
+	const [getBooks, { loading, called, error }] = useLazyQuery(GET_BOOKS, {
+		variables,
+		onError: error => console.log(error.message),
+		onCompleted: response => {
+			console.log(`getBooks(${JSON.stringify(variables ? variables : {})})`)
+			setBooks(response.getBooks)
 		}
-	)
+	})
 
 	useEffect(() => {
-		if (!called) {
+		if (strictFilter === undefined) {
+			if (filter === '') {
+				return setFilter(null)
+			}
+			console.log(`${title}: in effect
+	strictFilter = ${strictFilter}
+	filter = ${filter}`)
+			return getBooks()
+		}
+		else if ( strictFilter !== null ) {
+			if (!filter) {
+				return setFilter(strictFilter)
+			}
 			getBooks()
+			console.log(`${title}: in effect
+	strictFilter = ${strictFilter}
+	filter = ${filter}`)
 		}
-		if (!loading && called) {
-			refetch(variables)
-		}
-	}, [filter, books]) // eslint-disable-line
-
+		
+		
+		
+	}, [filter, strictFilter]) // eslint-disable-line
 
 	if (error) {
 		return (
@@ -75,47 +78,46 @@ export const useBookList = (title, strictFilter) => {
 		)
 	}
 
-	const allBooks = data && data.getBooks ? data.getBooks : []
+	const genres =
+		books.length > 0
+			? books
+					.flatMap(book => book.genres)
+					.reduce((acc, cur) => {
+						if (acc.includes(cur)) {
+							return [...acc]
+						}
+						return acc.concat(cur)
+					}, [])
+			: []
 
-	const genres = allBooks
-		? allBooks
-				.flatMap(book => book.genres)
-				.reduce((acc, cur) => {
-					if (acc.includes(cur)) {
-						return [...acc]
-					}
-					return acc.concat(cur)
-				}, [])
-		: []
-
-	const jsx = loading
-		? <div>Loading...</div>
-		: (
-			<div>
-				<h2>{title}</h2>
-				{
-					filter === null || strictFilter
-						? null
-						: <p>in genre: <strong>{filter}</strong></p>
-				}
-				<table>
-					<tbody>
-						<tr>
-							<th>Book Title</th>
-							<th>Author</th>
-							<th align='center'>Published</th>
+	const jsx = loading ? (
+		<div>Loading...</div>
+	) : (
+		<div>
+			<h2>{title}</h2>
+			{filter === null || strictFilter ? null : (
+				<p>
+					in genre: <strong>{filter}</strong>
+				</p>
+			)}
+			<table>
+				<tbody>
+					<tr>
+						<th>Book Title</th>
+						<th>Author</th>
+						<th align='center'>Published</th>
+					</tr>
+					{books.map(a => (
+						<tr key={a.title}>
+							<td>{a.title}</td>
+							<td>{a.author.name}</td>
+							<td align='center'>{a.published}</td>
 						</tr>
-						{allBooks.map(a => (
-							<tr key={a.title}>
-								<td>{a.title}</td>
-								<td>{a.author.name}</td>
-								<td align='center'>{a.published}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-		)
+					))}
+				</tbody>
+			</table>
+		</div>
+	)
 	return {
 		jsx,
 		setFilter,
