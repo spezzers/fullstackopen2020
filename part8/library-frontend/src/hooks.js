@@ -32,17 +32,12 @@ export const useMessage = () => {
 
 export const useBookList = (title, strictFilter) => {
 	const [filter, setFilter] = useState('')
-	const [books, setBooks] = useState([])
 
 	const variables = filter ? { genre: filter } : null
 
-	const [getBooks, { loading, called, error }] = useLazyQuery(GET_BOOKS, {
+	const [getBooks, { loading, error, data }] = useLazyQuery(GET_BOOKS, {
 		variables,
-		onError: error => console.log(error.message),
-		onCompleted: response => {
-			console.log(`getBooks(${JSON.stringify(variables ? variables : {})})`)
-			setBooks(response.getBooks)
-		}
+		onError: error => console.log(error.message)
 	})
 
 	useEffect(() => {
@@ -50,24 +45,14 @@ export const useBookList = (title, strictFilter) => {
 			if (filter === '') {
 				return setFilter(null)
 			}
-			console.log(`${title}: in effect
-	strictFilter = ${strictFilter}
-	filter = ${filter}`)
 			return getBooks()
-		}
-		else if ( strictFilter !== null ) {
+		} else if (strictFilter !== null) {
 			if (!filter) {
 				return setFilter(strictFilter)
 			}
 			getBooks()
-			console.log(`${title}: in effect
-	strictFilter = ${strictFilter}
-	filter = ${filter}`)
 		}
-		
-		
-		
-	}, [filter, strictFilter]) // eslint-disable-line
+	}, [filter, strictFilter, data]) // eslint-disable-line
 
 	if (error) {
 		return (
@@ -77,6 +62,8 @@ export const useBookList = (title, strictFilter) => {
 			</div>
 		)
 	}
+
+	const books = data && data.getBooks ? data.getBooks : []
 
 	const genres =
 		books.length > 0

@@ -11,11 +11,11 @@ import { useSubscription, useApolloClient } from '@apollo/client'
 
 
 const App = () => {
-	const client = useApolloClient()
 	const [page, setPage] = useState('books')
 	const message = useMessage()
 	const auth = useAuthentication(message.newMessage)
-
+	const client = useApolloClient()
+	
 	const updateCacheWith = addedBook => {
 		const includedIn = (set, object) => set.map(b => b.id).includes(object.id)
 		const dataInStore = client.readQuery({ query: GET_BOOKS })
