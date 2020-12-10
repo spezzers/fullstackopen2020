@@ -5,6 +5,7 @@ const Author = require('./models/Author')
 const Book = require('./models/Book')
 const User = require('./models/User')
 const jwt = require('jsonwebtoken')
+
 const {
 	ApolloServer,
 	gql,
@@ -212,6 +213,14 @@ const resolvers = {
 	}
 }
 
+const logger = {
+    requestDidStart() {
+		if (process.NODE_ENV)
+        console.log('Request started')
+    }
+}
+
+
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
@@ -222,7 +231,10 @@ const server = new ApolloServer({
 			const currentUser = await User.findById(decodedToken.id)
 			return { currentUser }
 		}
-	}
+	},
+	plugins: [
+		logger
+	]
 })
 
 module.exports = {
