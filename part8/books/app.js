@@ -32,6 +32,7 @@ const typeDefs = gql`
 		born: String
 		id: ID!
 		bookCount: Int
+		booksWritten: [ID]
 	}
 	type Book {
 		title: String!
@@ -68,7 +69,7 @@ const resolvers = {
 	Query: {
 		//---------------------------------------------- Query
 		bookCount: (root, args) => {
-			// console.log(root, args)
+			console.log(root, args)
 			return Book.collection.countDocuments()
 		},
 		authorCount: () => Author.collection.countDocuments(),
@@ -83,7 +84,7 @@ const resolvers = {
 			// console.log(`getBooks(${JSON.stringify(filter)})`)
 			return bookList
 		},
-		allAuthors: async () => await Author.find({}).populate('booksWritten'),
+		allAuthors: async () => await Author.find({}).populate('Book'),
 		me: async (root, args, context) => {
 			if (context.currentUser) {
 				return context.currentUser
@@ -93,8 +94,7 @@ const resolvers = {
 	Author: {
 		//------------------------------------------- Author
 		bookCount: async root => {
-			const result = await Book.find({ author: root.id })
-			return result.length
+			return root.booksWritten.length
 		}
 	},
 
@@ -148,10 +148,12 @@ const resolvers = {
 					id: newBookId,
 					author: author
 				})
-				
+
 				const savedBook = await newBook.save()
 				console.log('SAVED BOOK', savedBook)
+
 				// ?? pubsub a conditional AUTHOR_ADDED or AUTHOR_UPDATED ??
+				
 				pubsub.publish('BOOK_ADDED', { bookAdded: savedBook })
 				return savedBook
 			} catch (error) {

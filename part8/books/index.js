@@ -19,7 +19,7 @@ mongoose
 	.then(() => {
 		if (process.env.NODE_ENV !== 'test') {
 			console.log('connected to MongoDB')
-			// mongoose.set('debug', true) // console.log for mongoose
+			mongoose.set('debug', true) // console.log for mongoose
 		}
 	})
 	.catch(error => {

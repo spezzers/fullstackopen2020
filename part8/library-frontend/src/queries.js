@@ -39,6 +39,7 @@ export const ALL_AUTHORS = gql`
 			born
 			id
 			bookCount
+			booksWritten
 		}
 	}
 `
