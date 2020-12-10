@@ -4,7 +4,9 @@ const { server } = require('./app')
 
 
 if (process.env.NODE_ENV !== 'test') {
-	console.log('connecting to', config.MONGODB_URI)
+	console.log(`
+====  NODE_ENV: ${process.env.NODE_ENV}  ====
+connecting to ${config.MONGODB_URI}`)
 }
 
 mongoose
@@ -17,14 +19,16 @@ mongoose
 	.then(() => {
 		if (process.env.NODE_ENV !== 'test') {
 			console.log('connected to MongoDB')
+			mongoose.set('debug', true) // console.log for mongoose
 		}
 	})
 	.catch(error => {
 		console.log('error connecting to MongoDB:', error.message)
 	})
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
 	if (process.env.NODE_ENV !== 'test') {
 		console.log(`Server ready at ${url}`)
+		console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 	}
 })

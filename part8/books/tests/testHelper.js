@@ -5,25 +5,42 @@ const initAuthors = [
 	{
 		name: 'Robert Martin',
 		_id: '5fbe3a875ba9df51c0e5c4db',
+		booksWritten: [
+			'5fbe3b5dac072968621c5d66',
+			'5fbe3a875ba9df51c0e5c4db',
+		],
 		born: 1952
 	},
 	{
 		name: 'Martin Fowler',
 		_id: '5fbe3a875ba9df51c0e5c4dc',
+		booksWritten: [
+			'5fbe3b75c4b5e30cf07cba42'
+		],
 		born: 1963
 	},
 	{
 		name: 'Fyodor Dostoevsky',
 		_id: '5fbe3ba74c0434849e302349',
+		booksWritten: [
+			'5fbe3b8e33ad035f2af7279c',
+			'5fbe3b9368586badfbc89696'
+		],
 		born: 1821
 	},
 	{
 		name: 'Joshua Kerievsky', // birthyear not known
-		_id: '5fbe3bbbbea099a433f5d552'
+		_id: '5fbe3bbbbea099a433f5d552',
+		booksWritten: [
+			'5fbe3b7b9511228f5797c360'
+		],
 	},
 	{
 		name: 'Sandi Metz', // birthyear not known
-		_id: '5fbe3bc2a1a695ade712766d'
+		_id: '5fbe3bc2a1a695ade712766d',
+		booksWritten: [
+			'5fbe3b81ed7c9a70d0c7e92f'
+		],
 	}
 ]
 
@@ -81,9 +98,9 @@ const initBooks = [
 
 const initUsers = [
 	{
-		username: 'RootUser',
+		username: 'user',
 		password: 'wordpass',
-		favouriteGenre: 'code'
+		favouriteGenre: 'testing'
 	}
 ]
 

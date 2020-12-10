@@ -1,19 +1,23 @@
 const config = require('./utils/config')
 const bcrypt = require('bcrypt')
-const { v1: uuid } = require('uuid')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
 const User = require('./models/User')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
+
 const {
 	ApolloServer,
 	gql,
 	UserInputError,
-	AuthenticationError
+	AuthenticationError,
+	PubSub
 } = require('apollo-server')
 
+const pubsub = new PubSub()
 const JWT_SECRET = config.JWT_SECRET
 
+///////////////////////////////////////////   TYPE DEFINITIONS
 const typeDefs = gql`
 	type User {
 		username: String!
@@ -28,6 +32,7 @@ const typeDefs = gql`
 		born: String
 		id: ID!
 		bookCount: Int
+		booksWritten: [ID]
 	}
 	type Book {
 		title: String!
@@ -55,78 +60,102 @@ const typeDefs = gql`
 		createUser(username: String!, favouriteGenre: String!): User
 		login(username: String!, password: String!): Token
 	}
+	type Subscription {
+		bookAdded: Book!
+	}
 `
-
+///////////////////////////////////////////////////   RESOLVERS
 const resolvers = {
 	Query: {
-		bookCount: () => Book.collection.countDocuments(),
+		//---------------------------------------------- Query
+		bookCount: (root, args) => {
+			console.log(root, args)
+			return Book.collection.countDocuments()
+		},
 		authorCount: () => Author.collection.countDocuments(),
 		allBooks: async (root, args) => {
 			let bookList = await Book.find({}).populate('author')
 			return bookList
 		},
 		getBooks: async (root, args) => {
-			const filter = args.genre ? {genres: args.genre} : {}
+			const filter = args.genre ? { genres: args.genre } : {}
 			const bookList = await Book.find(filter).populate('author')
+			// console.log(`#### ${bookList.map(b => b.author.booksWritten)}`)
+			// console.log(`getBooks(${JSON.stringify(filter)})`)
 			return bookList
 		},
-		allAuthors: async () => await Author.find({}),
+		allAuthors: async () => await Author.find({}).populate('Book'),
 		me: async (root, args, context) => {
-			if(context.currentUser) {
+			if (context.currentUser) {
 				return context.currentUser
 			}
 		}
 	},
 	Author: {
+		//------------------------------------------- Author
 		bookCount: async root => {
-			const result = await Book.find({ author: root.id })
-			return result.length
+			return root.booksWritten.length
 		}
 	},
 
 	Mutation: {
+		//-------------------------------------- Mutations
 		addBook: async (root, args, context) => {
 			if (!context.currentUser) {
 				throw new AuthenticationError('permission denied')
 			}
-			console.log(
-				JSON.stringify(
-					{
-						Mutation: {
-							addBook: args
-						}
-					},
-					null,
-					2
-				)
-			)
+
 			const books = await Book.find({})
+
 			if (books.find(b => b.title === args.title)) {
 				throw new UserInputError('This title already exists', {
 					invalidArgs: args.title
 				})
 			}
+
 			const existingAuthor = await Author.findOne({ name: args.author })
 
-			const newAuthor = new Author({
-				name: args.author,
-				id: uuid()
-			})
-			let newBookAuthor
+			console.log(
+				existingAuthor
+					? `Author '${args.author}' is in the database`
+					: 'Create new author'
+			)
 
-			existingAuthor
-				? (newBookAuthor = existingAuthor)
-				: (newBookAuthor = await newAuthor.save())
-
-			const newBook = new Book({
-				...args,
-				id: uuid(),
-				author: newBookAuthor
-			})
-
+			const newBookId = mongoose.Types.ObjectId()
+			
+			const handleAuthor = async () => {
+				if (existingAuthor) {
+					const updatedAuthor = await Author.findByIdAndUpdate(existingAuthor.id, {
+						...existingAuthor,
+						booksWritten: [...existingAuthor._doc.booksWritten, newBookId]
+					})
+					return updatedAuthor
+				}
+				const newAuthor = new Author({
+					name: args.author,
+					booksWritten: [newBookId]
+				})
+				const savedNewAuthor = await newAuthor.save()
+				console.log('NEW AUTHOR', savedNewAuthor)
+				return savedNewAuthor
+			}
+			
 			try {
-				const result = await newBook.save()
-				return result
+				const author = await handleAuthor()
+				console.log('AUTHOR', author)
+				const newBook = new Book({
+					...args,
+					id: newBookId,
+					author: author
+				})
+
+				const savedBook = await newBook.save()
+				console.log('SAVED BOOK', savedBook)
+
+				// ?? pubsub a conditional AUTHOR_ADDED or AUTHOR_UPDATED ??
+				
+				pubsub.publish('BOOK_ADDED', { bookAdded: savedBook })
+				return savedBook
 			} catch (error) {
 				throw new UserInputError(error.message)
 			}
@@ -192,6 +221,11 @@ const resolvers = {
 				console.log(error.message)
 				return error
 			}
+		}
+	},
+	Subscription: {
+		bookAdded: {
+			subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
 		}
 	}
 }

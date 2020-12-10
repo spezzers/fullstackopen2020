@@ -14,11 +14,11 @@ const Books = props => {
 			{books.jsx}
 			<div>
 				<button onClick={() => books.setFilter(null)}>all genres</button>
-				{books.genres.map(g => (
+				{books.genres ? books.genres.map(g => (
 					<button key={g} onClick={() => books.setFilter(g)}>
 						{g}
 					</button>
-				))}
+				)) : null}
 			</div>
 		</div>
 	)
