@@ -11,6 +11,12 @@ const schema = new mongoose.Schema({
     type: Number,
     min: 1500
   },
+  booksWritten: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Book'
+    }
+  ]
 })
 
 module.exports = mongoose.model('Author', schema)

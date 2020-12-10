@@ -56,7 +56,12 @@ describe('Initialise test data', () => {
 		const authors = await Author.find({})
 		expect(authors.length).toBe(helper.initAuthors.length)
 	})
+	test('Add user account', async () => {
+		helper
+	})
 })
+
+
 
 
 afterAll(() => {
