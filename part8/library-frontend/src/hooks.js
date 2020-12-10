@@ -41,16 +41,18 @@ export const useBookList = (title, strictFilter) => {
 	})
 
 	useEffect(() => {
-		if (strictFilter === undefined) {
-			if (filter === '') {
-				return setFilter(null)
+		if (!loading) {
+			if (strictFilter === undefined) {
+				if (filter === '') {
+					return setFilter(null)
+				}
+				return getBooks()
+			} else if (strictFilter !== null) {
+				if (!filter) {
+					return setFilter(strictFilter)
+				}
+				getBooks()
 			}
-			return getBooks()
-		} else if (strictFilter !== null) {
-			if (!filter) {
-				return setFilter(strictFilter)
-			}
-			getBooks()
 		}
 	}, [filter, strictFilter, data]) // eslint-disable-line
 
