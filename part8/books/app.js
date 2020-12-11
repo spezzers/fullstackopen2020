@@ -69,7 +69,6 @@ const resolvers = {
 	Query: {
 		//---------------------------------------------- Query
 		bookCount: (root, args) => {
-			console.log(root, args)
 			return Book.collection.countDocuments()
 		},
 		authorCount: () => Author.collection.countDocuments(),
@@ -80,8 +79,6 @@ const resolvers = {
 		getBooks: async (root, args) => {
 			const filter = args.genre ? { genres: args.genre } : {}
 			const bookList = await Book.find(filter).populate('author')
-			// console.log(`#### ${bookList.map(b => b.author.booksWritten)}`)
-			// console.log(`getBooks(${JSON.stringify(filter)})`)
 			return bookList
 		},
 		allAuthors: async () => await Author.find({}).populate('Book'),
@@ -115,12 +112,6 @@ const resolvers = {
 
 			const existingAuthor = await Author.findOne({ name: args.author })
 
-			console.log(
-				existingAuthor
-					? `Author '${args.author}' is in the database`
-					: 'Create new author'
-			)
-
 			const newBookId = mongoose.Types.ObjectId()
 			
 			const handleAuthor = async () => {
@@ -136,13 +127,11 @@ const resolvers = {
 					booksWritten: [newBookId]
 				})
 				const savedNewAuthor = await newAuthor.save()
-				console.log('NEW AUTHOR', savedNewAuthor)
 				return savedNewAuthor
 			}
 			
 			try {
 				const author = await handleAuthor()
-				console.log('AUTHOR', author)
 				const newBook = new Book({
 					...args,
 					id: newBookId,
@@ -150,9 +139,7 @@ const resolvers = {
 				})
 
 				const savedBook = await newBook.save()
-				console.log('SAVED BOOK', savedBook)
 
-				// ?? pubsub a conditional AUTHOR_ADDED or AUTHOR_UPDATED ??
 				
 				pubsub.publish('BOOK_ADDED', { bookAdded: savedBook })
 				return savedBook
@@ -191,7 +178,6 @@ const resolvers = {
 			})
 			try {
 				const savedUser = await newUser.save()
-				console.log('SAVED:', savedUser.username)
 				return savedUser
 			} catch (error) {
 				console.log(error.message)
@@ -215,7 +201,6 @@ const resolvers = {
 			}
 			try {
 				const token = { value: jwt.sign(userForToken, JWT_SECRET) }
-				console.log(`'${args.username}' has logged in`)
 				return token
 			} catch (error) {
 				console.log(error.message)

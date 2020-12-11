@@ -37,11 +37,9 @@ describe('Initialise test data', () => {
 		const authorPromises = authorObjects.map(a => a.save())
 		// Books
 		const bookObjects = helper.initBooks.map(b => {
-			// console.log(b.author)
 			return new Book(b)
 		})
 		const bookPromises = bookObjects.map(b => {
-			console.log(b)
 			return b.save()
 		})
 		// All promises

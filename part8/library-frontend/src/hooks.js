@@ -120,7 +120,7 @@ export const useBookList = (title, strictFilter) => {
 export const useAuthentication = setMessage => {
 	const [token, setToken] = useState(null)
 	const client = useApolloClient()
-	const { loading, error, data, refetch } = useQuery(ME) //eslint-disable-line
+	const { error, data, refetch } = useQuery(ME) //eslint-disable-line
 	const me = data ? data.me : null
 
 	const [login] = useMutation(LOGIN, {
