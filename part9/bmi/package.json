@@ -1,0 +1,17 @@
+{
+  "name": "bmi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bmiCalculator.ts",
+  "scripts": {
+    "start": "ts-node -- bmiCalculator.ts",
+    "ts-node": "ts-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
