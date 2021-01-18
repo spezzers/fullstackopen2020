@@ -39,8 +39,18 @@ const calculateExercise = (trainingRecord: hours[]): {
     };
 };
 
+
+const parseExerciseArgs = (): number[] => {
+	if (process.argv.length < 4) throw new Error('No arguments provided')
+	return process.argv.slice(3).map(n => {
+		if (isNaN(Number(n))) throw new Error('Arguments must be numbers')
+		return Number(n)
+	})
+}
+
 try {
-    console.log(calculateExercise([3, 0, 2, 4.5, 0, 3, 1]));
+	const [...exerciseArgs] = parseExerciseArgs()
+    console.log(calculateExercise([...exerciseArgs]));
 } catch (e) {
     console.log('Something went wrong, error message: ', e.message);
 }
