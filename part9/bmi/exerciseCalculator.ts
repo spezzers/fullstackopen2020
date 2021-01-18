@@ -1,5 +1,4 @@
 type hours = number;
-type rating = 1 | 2 | 3;
 
 const calculateExercise = (trainingRecord: hours[]): {
     periodLength: number;
@@ -7,18 +6,36 @@ const calculateExercise = (trainingRecord: hours[]): {
     target: hours;
     average: hours;
     success: boolean;
-	rating: rating;
+	rating: number;
 	ratingDescription: string
 } => {
+	const target = 2
+	const periodLength = trainingRecord.length
+	const trainingDays = trainingRecord.filter(h => h > 0).length
+	const average = trainingRecord.reduce((acc, cur) => acc + cur) / periodLength
+	let rating, ratingDescription
+	
+	if (average >= target) {
+		rating = 3;
+		ratingDescription =  'Awesome work, keep it up!'
+	}
+	else if (average >= target * 0.8) {
+		rating = 2;
+		ratingDescription =  'Not too bad but could be better.'
+	}
+	else {
+		rating = 1;
+		ratingDescription =  'Get moving, slacker!'
+	}
 
     return {
-        periodLength: 1,
-        trainingDays: 1,
-        target: 1,
-        average: 1,
-        success: true,
-		rating: 1,
-		ratingDescription: 'awesome'
+        periodLength,
+        trainingDays,
+        success: average >= target,
+		rating,
+		ratingDescription,
+        target,
+        average
     };
 };
 
