@@ -9,8 +9,8 @@ const calculateExercise = (trainingRecord: hours[]): {
 	rating: number;
 	ratingDescription: string
 } => {
-	const target = 2
-	const periodLength = trainingRecord.length
+	const target = trainingRecord[0]
+	const periodLength = trainingRecord.length - 1
 	const trainingDays = trainingRecord.filter(h => h > 0).length
 	const average = trainingRecord.reduce((acc, cur) => acc + cur) / periodLength
 	let rating, ratingDescription
@@ -21,7 +21,7 @@ const calculateExercise = (trainingRecord: hours[]): {
 	}
 	else if (average >= target * 0.8) {
 		rating = 2;
-		ratingDescription =  'Not too bad but could be better.'
+		ratingDescription =  'Not too bad, but could be better.'
 	}
 	else {
 		rating = 1;
@@ -41,8 +41,8 @@ const calculateExercise = (trainingRecord: hours[]): {
 
 
 const parseExerciseArgs = (): number[] => {
-	if (process.argv.length < 4) throw new Error('No arguments provided')
-	return process.argv.slice(3).map(n => {
+	if (process.argv.length < 4) throw new Error('Not enough arguments provided')
+	return process.argv.slice(2).map(n => {
 		if (isNaN(Number(n))) throw new Error('Arguments must be numbers')
 		return Number(n)
 	})
