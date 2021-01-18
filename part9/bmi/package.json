@@ -5,6 +5,7 @@
 	"main": "bmiCalculator.ts",
 	"scripts": {
 		"start": "ts-node -- bmiCalculator.ts",
+		"calculateExercises": "ts-node -- exerciseCalculator.ts",
 		"ts-node": "ts-node",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -13,5 +14,10 @@
 	"devDependencies": {
 		"ts-node": "^9.1.1",
 		"typescript": "^4.1.3"
+	},
+	"prettier": {
+		"semi": true,
+		"tabWidth": 4,
+		"singleQuote": true
 	}
 }
