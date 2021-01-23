@@ -1,8 +1,8 @@
-type BMI = number;
+// type BMI = number;
 type kg = number;
 type cm = number;
 
-const calculateBMI = (height: cm, mass: kg): string => {
+export const calculateBMI = (height: cm, mass: kg): string => {
     const BMI = mass / (height / 100) ** 2;
     switch (true) {
         case BMI >= 40:
@@ -40,11 +40,11 @@ const parseArgs = (args: string[]): { height: cm; mass: kg } => {
     }
 };
 
-const height: cm = Number(process.argv[2]);
 
 try {
     const { height, mass } = parseArgs(process.argv);
     console.log(calculateBMI(height, mass));
+    
 } catch (e) {
     console.log('Something went wrong, error message: ', e.message);
 }
