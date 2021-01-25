@@ -39,11 +39,12 @@ const parseArgs = (args: string[]): { height: cm; mass: kg } => {
     }
 };
 
-
-try {
-    const { height, mass } = parseArgs(process.argv);
-    console.log(calculateBMI(height, mass));
-    
-} catch (err) {
-    console.log('Something went wrong, error message: ', err);
+if (process.env.NODE_ENV === 'cli') {
+    try {
+        const { height, mass } = parseArgs(process.argv);
+        console.log(calculateBMI(height, mass));
+        
+    } catch (err) {
+        console.log('Something went wrong, error message: ', err);
+    }
 }

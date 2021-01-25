@@ -1,6 +1,7 @@
 type hours = number;
 
-const calculateExercise = (trainingRecord: hours[]): {
+
+export const calculateExercise = (trainingRecord: hours[]): {
     periodLength: number;
     trainingDays: number;
     target: hours;
@@ -47,10 +48,11 @@ const parseExerciseArgs = (): number[] => {
 		return Number(n);
 	});
 };
-
-try {
-	const [...exerciseArgs] = parseExerciseArgs();
-    console.log(calculateExercise([...exerciseArgs]));
-} catch (e) {
-    console.log('Something went wrong, error message: ', e);
+if (process.env.NODE_ENV === 'cli') {
+	try {
+		const [...exerciseArgs] = parseExerciseArgs();
+		console.log(calculateExercise([...exerciseArgs]));
+	} catch (e) {
+		console.log('Something went wrong, error message: ', e);
+	}
 }
