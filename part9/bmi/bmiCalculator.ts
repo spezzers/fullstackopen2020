@@ -1,4 +1,3 @@
-// type BMI = number;
 type kg = number;
 type cm = number;
 
@@ -27,8 +26,8 @@ export const calculateBMI = (height: cm, mass: kg): string => {
 };
 
 const parseArgs = (args: string[]): { height: cm; mass: kg } => {
-    if (args.length < 4) throw new Error('Not enough arguments');
-    if (args.length > 4) throw new Error('Too many arguments');
+    if (args.length < 4) throw 'Not enough arguments';
+    if (args.length > 4) throw 'Too many arguments';
 
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
         return {
@@ -36,7 +35,7 @@ const parseArgs = (args: string[]): { height: cm; mass: kg } => {
             mass: Number(args[3]),
         };
     } else {
-        throw new Error('Provided values were not numbers');
+        throw 'Provided values were not numbers';
     }
 };
 
@@ -45,6 +44,6 @@ try {
     const { height, mass } = parseArgs(process.argv);
     console.log(calculateBMI(height, mass));
     
-} catch (e) {
-    console.log('Something went wrong, error message: ', e.message);
+} catch (err) {
+    console.log('Something went wrong, error message: ', err);
 }
