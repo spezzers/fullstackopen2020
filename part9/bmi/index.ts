@@ -1,8 +1,8 @@
 import express = require('express');
-import {calculateBMI} from './bmiCalculator';
-import {calculateExercise} from './exerciseCalculator'
+import { calculateBMI } from './bmiCalculator';
+import { calculateExercise } from './exerciseCalculator';
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
 const PORT = 3002;
 
@@ -20,17 +20,17 @@ app.get('/hello', (_re, res) => {
 });
 
 app.get('/bmi', (req, res) => {
-    const result = (): {height: number, weight: number, bmi: string} => {
+    const result = (): { height: number, weight: number, bmi: string } => {
         const height = Number(req.query.height);
         const weight = Number(req.query.weight);
         const bmi = calculateBMI(height, weight);
         if (!height || !weight || isNaN(height) || isNaN(weight)) {
-            throw {error: 'malformatted parameters'};
+            throw { error: 'malformatted parameters' };
         }
-        return {height, weight, bmi};
+        return { height, weight, bmi };
     };
     try {
-        res.send( result() );
+        res.send(result());
     } catch (error) {
         res.status(400).send(error);
     }
@@ -45,16 +45,28 @@ type ExerciseResult = {
     ratingDescription: string,
     target: number,
     average: number
-}
-
+};
 app.post('/exercise', (req, res) => {
     const result = (): ExerciseResult => {
-        const daily_exercises: number[] = req.body.daily_exercises
-        const target: number = req.body.target
-        return calculateExercise([target, ...daily_exercises])
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+        const daily_exercises: number[] = req.body.daily_exercises;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+        const target: number = req.body.target;
+        if (!target || !daily_exercises) {
+            throw { error: 'missing parameters' };
+        }
+        if (daily_exercises.map(x => typeof x === 'number').includes(false)) {
+            throw { error: 'malformatted parameters' };
+        }
+        return calculateExercise([target, ...daily_exercises]);
+    };
+    try {
+        res.json(result());
+    } catch (err) {
+        console.log(err);
+        res.json(err);
     }
-    res.json(result())
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server running locally at http://localhost:${PORT}`);
