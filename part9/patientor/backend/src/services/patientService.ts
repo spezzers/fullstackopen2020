@@ -1,13 +1,6 @@
 import patients = require('../../data/patients.json');
+import {Patient} from '../types';
 
-type Patient = {
-	id: string,
-	name: string,
-	dateOfBirth: string,
-	ssn: string,
-	gender: string,
-	occupation: string
-};
 
 export const getPatients = (): Patient[] => {
     return patients;
