@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var app = express_1.default();
 app.use(express_1.default.json());
-var PORT = 3000;
+var PORT = 3001;
 var devEnv = process.env.NODE_ENV === 'development';
 app.get('/ping', function (_req, res) {
     res.send('patientor pong');
