@@ -2,10 +2,10 @@
   "name": "patientor-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .ts"
