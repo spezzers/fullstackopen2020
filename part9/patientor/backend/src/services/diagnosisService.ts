@@ -1,6 +1,6 @@
 import diagnoses = require('../../data/diagnoses.json');
-import {Diagnosis} from '../types';
+import { Diagnosis } from '../types';
 
 export const getDiagnoses = (): Diagnosis[] => {
-	return diagnoses;
+    return diagnoses;
 };
