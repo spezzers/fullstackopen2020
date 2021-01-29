@@ -15,3 +15,9 @@ export interface Diagnosis {
 }
 
 export type NewPatient = Omit<PatientSensitiveInfo, 'id'>;
+
+export enum Gender {
+    male = 'male',
+    female = 'female',
+    other = 'other'
+}

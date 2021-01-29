@@ -16,7 +16,10 @@ import { NewPatient, Patient, PatientSensitiveInfo } from '../types';
     };
 
     const addNewPatient = (newPatientObject: NewPatient): Patient => {
-        return {...newPatientObject, id: `${Math.floor(Math.random() * 1000000000000000 )}`};
+        const newPatient: PatientSensitiveInfo = {...newPatientObject, id: `${Math.floor(Math.random() * 1000000000000000 )}`};
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const {ssn, ...newSensitivePatient} = newPatient;
+        return {...newSensitivePatient};
     };
 
 export default {getPatients, getPatientsSensitiveInfo, addNewPatient};

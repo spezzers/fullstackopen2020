@@ -13,9 +13,9 @@ router.post('/',(req, res) => {
             const newPatient: NewPatient = toNewPatient(req.body);
             const addedPatient = patientService.addNewPatient(newPatient);
             res.json(addedPatient);
-        } catch (error) {
-            console.log(error);
-            res.send(400);
+        } catch (err) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+            res.status(400).send(err.message);
         }
     }
 );

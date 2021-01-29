@@ -1,23 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatient } from './types';
+import { NewPatient, Gender } from './types';
 
 ////////    Not sure if I should be disabling this rule:   /////////
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 export const toNewPatient = (object: any): NewPatient => {
+    console.log(object);
     const newPatient: NewPatient = {
         dateOfBirth: parseDateOfBirth(object.dateOfBirth),
         gender: parseGender(object.gender),
         name: parsename(object.name),
         occupation: parseOccupation(object.occupation),
-        ssn: parseSsn(object.ssn)
+        ssn: parseSsn(object.ssn),
     };
     return newPatient;
 };
 
 const isString = (text: any): text is string => {
     return typeof text === 'string' || text instanceof String;
+};
+const isGender = (text: any): text is Gender => {
+    return Object.values(Gender).includes(text);
 };
 
 const parseDateOfBirth = (dateOfBirth: any): string => {
@@ -27,16 +31,12 @@ const parseDateOfBirth = (dateOfBirth: any): string => {
     return dateOfBirth;
 };
 
-
-// --------------------------------  This needs to be ENUM  ---
 const parseGender = (gender: any): string => {
-    if (!gender || !isString(gender)) {
+    if (!gender || !isGender(gender)) {
         throw new Error(`incorrect or missing gender`);
     }
     return gender;
 };
-//--------------------------------------------------------------
-
 
 const parsename = (name: any): string => {
     if (!name || !isString(name)) {
