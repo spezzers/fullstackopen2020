@@ -6,7 +6,6 @@ import { NewPatient, Gender } from './types';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 export const toNewPatient = (object: any): NewPatient => {
-    console.log(object);
     const newPatient: NewPatient = {
         dateOfBirth: parseDateOfBirth(object.dateOfBirth),
         gender: parseGender(object.gender),
