@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 const Total: React.FC<{amount: number}> = ({amount}) => {
 	return (
 		<div>
-			<p>
-				Number of exercises{' '}
+			<h2>
+				Total Number of exercises:{' '}
 				{amount}
-			</p>
+			</h2>
 		</div>
-	)
-}
+	);
+};
 
-export default Total
+export default Total;
